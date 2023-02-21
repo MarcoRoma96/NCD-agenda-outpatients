@@ -1,0 +1,37 @@
+{
+    "a": {
+        "careUnit": "teal",
+        "duration": 14,
+        "cost": 4
+    },
+    "b": {
+        "careUnit": "bronze",
+        "duration": 9,
+        "cost": 2
+    },
+    "c": {
+        "careUnit": "teal",
+        "duration": 12,
+        "cost": 1
+    },
+    "d": {
+        "careUnit": "bronze",
+        "duration": 15,
+        "cost": 1
+    },
+    "e": {
+        "careUnit": "bronze",
+        "duration": 14,
+        "cost": 4
+    },
+    "f": {
+        "careUnit": "coral",
+        "duration": 11,
+        "cost": 2
+    },
+    "g": {
+        "careUnit": "bronze",
+        "duration": 9,
+        "cost": 2
+    }
+}

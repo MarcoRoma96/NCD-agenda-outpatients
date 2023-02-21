@@ -49,6 +49,7 @@ with the following simple commands you can modify the instance in the `input` fo
 	```
 	$ python new_patient.py
 	```
+	
 - **Remove a patient**, you can either remove a random patient, a specific patient passing his name as an argument, or all the patients
 	```
 	$ python del_patient.py
@@ -72,12 +73,14 @@ We provide a generator of instances. To obtain a new instance you just have to r
 	```
 	$ python generate_instance.py <H> <U> <P>
 	```
+
 where `<H>` is the desired planning horizon, `<U>` the number of care units and `<P>` the number of patients. The new instance will be automatically creaated inside the `input` directory.
 
 If you simply need to run the logic program on the input instance instead of long experiments, you can use the `just_mashp.py` script:
 	```
 	$ python just_mashp.py
 	```
+
 The `mashp_execute.py` execute the generation of a new instance and runs the scheduler in one go, so it requires the same parameters of the `generate_instance.py`.
 
 ## Settings recap

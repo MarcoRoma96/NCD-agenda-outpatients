@@ -1,0 +1,35 @@
+{
+    "_model_labels":[
+        "monolithic",
+        "sbt"
+    ],
+    "model":"monolithic",
+
+    "split_patients":"yes",
+
+    "_monolithic_timing_mode_labels":[
+        "tg"
+    ],
+    "monolithic_timing_mode" : "tg",
+    
+    "_sp_obj_labels":[
+        "opt"
+    ],
+    "sp_obj":"opt",
+
+    "first_iter_tl":6000000000000,
+    "iter_tl_incr":3000000000000,
+
+    "_nogood_labels":[
+        "greedy"
+    ],
+    "nogood":"greedy",
+
+    "_opt-strategy_labels":[
+        "bb,hier",
+        "usc,hier"
+    ],
+    "opt-strategy":"bb,hier",
+
+    "parallelize_sp":"no"
+}

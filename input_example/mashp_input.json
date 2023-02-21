@@ -1,0 +1,1583 @@
+{
+    "datecode": "Mon-20-Feb-2023-16-47-59",
+    "horizon": 20,
+    "resources": [
+        "teal",
+        "bronze",
+        "coral"
+    ],
+    "capacity": {
+        "1": {
+            "teal": 56,
+            "bronze": 48,
+            "coral": 53
+        },
+        "2": {
+            "teal": 59,
+            "bronze": 43,
+            "coral": 46
+        },
+        "3": {
+            "teal": 56,
+            "bronze": 24,
+            "coral": 60
+        },
+        "4": {
+            "teal": 56,
+            "bronze": 33,
+            "coral": 55
+        },
+        "5": {
+            "teal": 49,
+            "bronze": 51,
+            "coral": 30
+        },
+        "6": {
+            "teal": 59,
+            "bronze": 52,
+            "coral": 53
+        },
+        "7": {
+            "teal": 46,
+            "bronze": 51,
+            "coral": 35
+        },
+        "8": {
+            "teal": 56,
+            "bronze": 48,
+            "coral": 53
+        },
+        "9": {
+            "teal": 59,
+            "bronze": 43,
+            "coral": 46
+        },
+        "10": {
+            "teal": 56,
+            "bronze": 24,
+            "coral": 60
+        },
+        "11": {
+            "teal": 56,
+            "bronze": 33,
+            "coral": 55
+        },
+        "12": {
+            "teal": 49,
+            "bronze": 51,
+            "coral": 30
+        },
+        "13": {
+            "teal": 59,
+            "bronze": 52,
+            "coral": 53
+        },
+        "14": {
+            "teal": 46,
+            "bronze": 51,
+            "coral": 35
+        },
+        "15": {
+            "teal": 56,
+            "bronze": 48,
+            "coral": 53
+        },
+        "16": {
+            "teal": 59,
+            "bronze": 43,
+            "coral": 46
+        },
+        "17": {
+            "teal": 56,
+            "bronze": 24,
+            "coral": 60
+        },
+        "18": {
+            "teal": 56,
+            "bronze": 33,
+            "coral": 55
+        },
+        "19": {
+            "teal": 49,
+            "bronze": 51,
+            "coral": 30
+        },
+        "20": {
+            "teal": 59,
+            "bronze": 52,
+            "coral": 53
+        }
+    },
+    "daily_capacity": {
+        "1": {
+            "teal": {
+                "1": {
+                    "start": 44,
+                    "duration": 25
+                },
+                "2": {
+                    "start": 36,
+                    "duration": 2
+                },
+                "3": {
+                    "start": 24,
+                    "duration": 12
+                },
+                "4": {
+                    "start": 20,
+                    "duration": 17
+                }
+            },
+            "bronze": {
+                "1": {
+                    "start": 37,
+                    "duration": 5
+                },
+                "2": {
+                    "start": 0,
+                    "duration": 15
+                },
+                "3": {
+                    "start": 20,
+                    "duration": 4
+                },
+                "4": {
+                    "start": 4,
+                    "duration": 24
+                }
+            },
+            "coral": {
+                "1": {
+                    "start": 40,
+                    "duration": 5
+                },
+                "2": {
+                    "start": 35,
+                    "duration": 34
+                },
+                "3": {
+                    "start": 3,
+                    "duration": 13
+                },
+                "4": {
+                    "start": 40,
+                    "duration": 1
+                }
+            }
+        },
+        "2": {
+            "teal": {
+                "1": {
+                    "start": 30,
+                    "duration": 1
+                },
+                "2": {
+                    "start": 11,
+                    "duration": 34
+                },
+                "3": {
+                    "start": 11,
+                    "duration": 24
+                }
+            },
+            "bronze": {
+                "1": {
+                    "start": 22,
+                    "duration": 43
+                }
+            },
+            "coral": {
+                "1": {
+                    "start": 34,
+                    "duration": 1
+                },
+                "2": {
+                    "start": 39,
+                    "duration": 45
+                }
+            }
+        },
+        "3": {
+            "teal": {
+                "1": {
+                    "start": 33,
+                    "duration": 56
+                }
+            },
+            "bronze": {
+                "1": {
+                    "start": 38,
+                    "duration": 0
+                },
+                "2": {
+                    "start": 14,
+                    "duration": 4
+                },
+                "3": {
+                    "start": 3,
+                    "duration": 18
+                },
+                "4": {
+                    "start": 32,
+                    "duration": 2
+                }
+            },
+            "coral": {
+                "1": {
+                    "start": 35,
+                    "duration": 51
+                },
+                "2": {
+                    "start": 19,
+                    "duration": 9
+                }
+            }
+        },
+        "4": {
+            "teal": {
+                "1": {
+                    "start": 10,
+                    "duration": 1
+                },
+                "2": {
+                    "start": 39,
+                    "duration": 29
+                },
+                "3": {
+                    "start": 35,
+                    "duration": 21
+                },
+                "4": {
+                    "start": 37,
+                    "duration": 5
+                }
+            },
+            "bronze": {
+                "1": {
+                    "start": 19,
+                    "duration": 33
+                }
+            },
+            "coral": {
+                "1": {
+                    "start": 13,
+                    "duration": 36
+                },
+                "2": {
+                    "start": 22,
+                    "duration": 9
+                },
+                "3": {
+                    "start": 32,
+                    "duration": 10
+                }
+            }
+        },
+        "5": {
+            "teal": {
+                "1": {
+                    "start": 6,
+                    "duration": 49
+                }
+            },
+            "bronze": {
+                "1": {
+                    "start": 26,
+                    "duration": 12
+                },
+                "2": {
+                    "start": 35,
+                    "duration": 9
+                },
+                "3": {
+                    "start": 44,
+                    "duration": 22
+                },
+                "4": {
+                    "start": 1,
+                    "duration": 8
+                }
+            },
+            "coral": {
+                "1": {
+                    "start": 45,
+                    "duration": 9
+                },
+                "2": {
+                    "start": 6,
+                    "duration": 13
+                },
+                "3": {
+                    "start": 15,
+                    "duration": 8
+                }
+            }
+        },
+        "6": {
+            "teal": {
+                "1": {
+                    "start": 31,
+                    "duration": 9
+                },
+                "2": {
+                    "start": 23,
+                    "duration": 11
+                },
+                "3": {
+                    "start": 20,
+                    "duration": 28
+                },
+                "4": {
+                    "start": 26,
+                    "duration": 11
+                }
+            },
+            "bronze": {
+                "1": {
+                    "start": 9,
+                    "duration": 28
+                },
+                "2": {
+                    "start": 8,
+                    "duration": 24
+                }
+            },
+            "coral": {
+                "1": {
+                    "start": 1,
+                    "duration": 9
+                },
+                "2": {
+                    "start": 21,
+                    "duration": 43
+                },
+                "3": {
+                    "start": 9,
+                    "duration": 1
+                }
+            }
+        },
+        "7": {
+            "teal": {
+                "1": {
+                    "start": 45,
+                    "duration": 25
+                },
+                "2": {
+                    "start": 29,
+                    "duration": 21
+                }
+            },
+            "bronze": {
+                "1": {
+                    "start": 27,
+                    "duration": 25
+                },
+                "2": {
+                    "start": 20,
+                    "duration": 5
+                },
+                "3": {
+                    "start": 16,
+                    "duration": 12
+                },
+                "4": {
+                    "start": 6,
+                    "duration": 9
+                }
+            },
+            "coral": {
+                "1": {
+                    "start": 11,
+                    "duration": 3
+                },
+                "2": {
+                    "start": 12,
+                    "duration": 14
+                },
+                "3": {
+                    "start": 39,
+                    "duration": 5
+                },
+                "4": {
+                    "start": 44,
+                    "duration": 13
+                }
+            }
+        },
+        "8": {
+            "teal": {
+                "1": {
+                    "start": 44,
+                    "duration": 25
+                },
+                "2": {
+                    "start": 36,
+                    "duration": 2
+                },
+                "3": {
+                    "start": 24,
+                    "duration": 12
+                },
+                "4": {
+                    "start": 20,
+                    "duration": 17
+                }
+            },
+            "bronze": {
+                "1": {
+                    "start": 37,
+                    "duration": 5
+                },
+                "2": {
+                    "start": 0,
+                    "duration": 15
+                },
+                "3": {
+                    "start": 20,
+                    "duration": 4
+                },
+                "4": {
+                    "start": 4,
+                    "duration": 24
+                }
+            },
+            "coral": {
+                "1": {
+                    "start": 40,
+                    "duration": 5
+                },
+                "2": {
+                    "start": 35,
+                    "duration": 34
+                },
+                "3": {
+                    "start": 3,
+                    "duration": 13
+                },
+                "4": {
+                    "start": 40,
+                    "duration": 1
+                }
+            }
+        },
+        "9": {
+            "teal": {
+                "1": {
+                    "start": 30,
+                    "duration": 1
+                },
+                "2": {
+                    "start": 11,
+                    "duration": 34
+                },
+                "3": {
+                    "start": 11,
+                    "duration": 24
+                }
+            },
+            "bronze": {
+                "1": {
+                    "start": 22,
+                    "duration": 43
+                }
+            },
+            "coral": {
+                "1": {
+                    "start": 34,
+                    "duration": 1
+                },
+                "2": {
+                    "start": 39,
+                    "duration": 45
+                }
+            }
+        },
+        "10": {
+            "teal": {
+                "1": {
+                    "start": 33,
+                    "duration": 56
+                }
+            },
+            "bronze": {
+                "1": {
+                    "start": 38,
+                    "duration": 0
+                },
+                "2": {
+                    "start": 14,
+                    "duration": 4
+                },
+                "3": {
+                    "start": 3,
+                    "duration": 18
+                },
+                "4": {
+                    "start": 32,
+                    "duration": 2
+                }
+            },
+            "coral": {
+                "1": {
+                    "start": 35,
+                    "duration": 51
+                },
+                "2": {
+                    "start": 19,
+                    "duration": 9
+                }
+            }
+        },
+        "11": {
+            "teal": {
+                "1": {
+                    "start": 10,
+                    "duration": 1
+                },
+                "2": {
+                    "start": 39,
+                    "duration": 29
+                },
+                "3": {
+                    "start": 35,
+                    "duration": 21
+                },
+                "4": {
+                    "start": 37,
+                    "duration": 5
+                }
+            },
+            "bronze": {
+                "1": {
+                    "start": 19,
+                    "duration": 33
+                }
+            },
+            "coral": {
+                "1": {
+                    "start": 13,
+                    "duration": 36
+                },
+                "2": {
+                    "start": 22,
+                    "duration": 9
+                },
+                "3": {
+                    "start": 32,
+                    "duration": 10
+                }
+            }
+        },
+        "12": {
+            "teal": {
+                "1": {
+                    "start": 6,
+                    "duration": 49
+                }
+            },
+            "bronze": {
+                "1": {
+                    "start": 26,
+                    "duration": 12
+                },
+                "2": {
+                    "start": 35,
+                    "duration": 9
+                },
+                "3": {
+                    "start": 44,
+                    "duration": 22
+                },
+                "4": {
+                    "start": 1,
+                    "duration": 8
+                }
+            },
+            "coral": {
+                "1": {
+                    "start": 45,
+                    "duration": 9
+                },
+                "2": {
+                    "start": 6,
+                    "duration": 13
+                },
+                "3": {
+                    "start": 15,
+                    "duration": 8
+                }
+            }
+        },
+        "13": {
+            "teal": {
+                "1": {
+                    "start": 31,
+                    "duration": 9
+                },
+                "2": {
+                    "start": 23,
+                    "duration": 11
+                },
+                "3": {
+                    "start": 20,
+                    "duration": 28
+                },
+                "4": {
+                    "start": 26,
+                    "duration": 11
+                }
+            },
+            "bronze": {
+                "1": {
+                    "start": 9,
+                    "duration": 28
+                },
+                "2": {
+                    "start": 8,
+                    "duration": 24
+                }
+            },
+            "coral": {
+                "1": {
+                    "start": 1,
+                    "duration": 9
+                },
+                "2": {
+                    "start": 21,
+                    "duration": 43
+                },
+                "3": {
+                    "start": 9,
+                    "duration": 1
+                }
+            }
+        },
+        "14": {
+            "teal": {
+                "1": {
+                    "start": 45,
+                    "duration": 25
+                },
+                "2": {
+                    "start": 29,
+                    "duration": 21
+                }
+            },
+            "bronze": {
+                "1": {
+                    "start": 27,
+                    "duration": 25
+                },
+                "2": {
+                    "start": 20,
+                    "duration": 5
+                },
+                "3": {
+                    "start": 16,
+                    "duration": 12
+                },
+                "4": {
+                    "start": 6,
+                    "duration": 9
+                }
+            },
+            "coral": {
+                "1": {
+                    "start": 11,
+                    "duration": 3
+                },
+                "2": {
+                    "start": 12,
+                    "duration": 14
+                },
+                "3": {
+                    "start": 39,
+                    "duration": 5
+                },
+                "4": {
+                    "start": 44,
+                    "duration": 13
+                }
+            }
+        },
+        "15": {
+            "teal": {
+                "1": {
+                    "start": 44,
+                    "duration": 25
+                },
+                "2": {
+                    "start": 36,
+                    "duration": 2
+                },
+                "3": {
+                    "start": 24,
+                    "duration": 12
+                },
+                "4": {
+                    "start": 20,
+                    "duration": 17
+                }
+            },
+            "bronze": {
+                "1": {
+                    "start": 37,
+                    "duration": 5
+                },
+                "2": {
+                    "start": 0,
+                    "duration": 15
+                },
+                "3": {
+                    "start": 20,
+                    "duration": 4
+                },
+                "4": {
+                    "start": 4,
+                    "duration": 24
+                }
+            },
+            "coral": {
+                "1": {
+                    "start": 40,
+                    "duration": 5
+                },
+                "2": {
+                    "start": 35,
+                    "duration": 34
+                },
+                "3": {
+                    "start": 3,
+                    "duration": 13
+                },
+                "4": {
+                    "start": 40,
+                    "duration": 1
+                }
+            }
+        },
+        "16": {
+            "teal": {
+                "1": {
+                    "start": 30,
+                    "duration": 1
+                },
+                "2": {
+                    "start": 11,
+                    "duration": 34
+                },
+                "3": {
+                    "start": 11,
+                    "duration": 24
+                }
+            },
+            "bronze": {
+                "1": {
+                    "start": 22,
+                    "duration": 43
+                }
+            },
+            "coral": {
+                "1": {
+                    "start": 34,
+                    "duration": 1
+                },
+                "2": {
+                    "start": 39,
+                    "duration": 45
+                }
+            }
+        },
+        "17": {
+            "teal": {
+                "1": {
+                    "start": 33,
+                    "duration": 56
+                }
+            },
+            "bronze": {
+                "1": {
+                    "start": 38,
+                    "duration": 0
+                },
+                "2": {
+                    "start": 14,
+                    "duration": 4
+                },
+                "3": {
+                    "start": 3,
+                    "duration": 18
+                },
+                "4": {
+                    "start": 32,
+                    "duration": 2
+                }
+            },
+            "coral": {
+                "1": {
+                    "start": 35,
+                    "duration": 51
+                },
+                "2": {
+                    "start": 19,
+                    "duration": 9
+                }
+            }
+        },
+        "18": {
+            "teal": {
+                "1": {
+                    "start": 10,
+                    "duration": 1
+                },
+                "2": {
+                    "start": 39,
+                    "duration": 29
+                },
+                "3": {
+                    "start": 35,
+                    "duration": 21
+                },
+                "4": {
+                    "start": 37,
+                    "duration": 5
+                }
+            },
+            "bronze": {
+                "1": {
+                    "start": 19,
+                    "duration": 33
+                }
+            },
+            "coral": {
+                "1": {
+                    "start": 13,
+                    "duration": 36
+                },
+                "2": {
+                    "start": 22,
+                    "duration": 9
+                },
+                "3": {
+                    "start": 32,
+                    "duration": 10
+                }
+            }
+        },
+        "19": {
+            "teal": {
+                "1": {
+                    "start": 6,
+                    "duration": 49
+                }
+            },
+            "bronze": {
+                "1": {
+                    "start": 26,
+                    "duration": 12
+                },
+                "2": {
+                    "start": 35,
+                    "duration": 9
+                },
+                "3": {
+                    "start": 44,
+                    "duration": 22
+                },
+                "4": {
+                    "start": 1,
+                    "duration": 8
+                }
+            },
+            "coral": {
+                "1": {
+                    "start": 45,
+                    "duration": 9
+                },
+                "2": {
+                    "start": 6,
+                    "duration": 13
+                },
+                "3": {
+                    "start": 15,
+                    "duration": 8
+                }
+            }
+        },
+        "20": {
+            "teal": {
+                "1": {
+                    "start": 31,
+                    "duration": 9
+                },
+                "2": {
+                    "start": 23,
+                    "duration": 11
+                },
+                "3": {
+                    "start": 20,
+                    "duration": 28
+                },
+                "4": {
+                    "start": 26,
+                    "duration": 11
+                }
+            },
+            "bronze": {
+                "1": {
+                    "start": 9,
+                    "duration": 28
+                },
+                "2": {
+                    "start": 8,
+                    "duration": 24
+                }
+            },
+            "coral": {
+                "1": {
+                    "start": 1,
+                    "duration": 9
+                },
+                "2": {
+                    "start": 21,
+                    "duration": 43
+                },
+                "3": {
+                    "start": 9,
+                    "duration": 1
+                }
+            }
+        }
+    },
+    "services": {
+        "a": {
+            "careUnit": "teal",
+            "duration": 14,
+            "cost": 4
+        },
+        "b": {
+            "careUnit": "bronze",
+            "duration": 9,
+            "cost": 2
+        },
+        "c": {
+            "careUnit": "teal",
+            "duration": 12,
+            "cost": 1
+        },
+        "d": {
+            "careUnit": "bronze",
+            "duration": 15,
+            "cost": 1
+        },
+        "e": {
+            "careUnit": "bronze",
+            "duration": 14,
+            "cost": 4
+        },
+        "f": {
+            "careUnit": "coral",
+            "duration": 11,
+            "cost": 2
+        },
+        "g": {
+            "careUnit": "bronze",
+            "duration": 9,
+            "cost": 2
+        }
+    },
+    "interdiction": {
+        "a": {
+            "a": 0,
+            "b": 0,
+            "c": 0,
+            "d": 3,
+            "e": 0,
+            "f": 0,
+            "g": 0
+        },
+        "b": {
+            "a": 0,
+            "b": 0,
+            "c": 0,
+            "d": 2,
+            "e": 0,
+            "f": 0,
+            "g": 0
+        },
+        "c": {
+            "a": 8,
+            "b": 1,
+            "c": 0,
+            "d": 0,
+            "e": 0,
+            "f": 3,
+            "g": 5
+        },
+        "d": {
+            "a": 0,
+            "b": 0,
+            "c": 0,
+            "d": 0,
+            "e": 6,
+            "f": 0,
+            "g": 3
+        },
+        "e": {
+            "a": 0,
+            "b": 0,
+            "c": 0,
+            "d": 2,
+            "e": 0,
+            "f": 0,
+            "g": 0
+        },
+        "f": {
+            "a": 0,
+            "b": 0,
+            "c": 0,
+            "d": 2,
+            "e": 0,
+            "f": 0,
+            "g": 0
+        },
+        "g": {
+            "a": 3,
+            "b": 0,
+            "c": 0,
+            "d": 0,
+            "e": 0,
+            "f": 0,
+            "g": 0
+        }
+    },
+    "necessity": {
+        "a": {
+            "c": [
+                0,
+                8
+            ]
+        },
+        "b": {
+            "e": [
+                1,
+                4
+            ]
+        },
+        "c": {},
+        "d": {},
+        "e": {},
+        "f": {},
+        "g": {
+            "d": [
+                0,
+                5
+            ]
+        }
+    },
+    "abstract_packet": {
+        "pkt0": [
+            "a"
+        ],
+        "pkt1": [
+            "f",
+            "g"
+        ],
+        "pkt2": [
+            "g"
+        ],
+        "pkt3": [
+            "d"
+        ],
+        "pkt4": [
+            "b"
+        ],
+        "pkt5": [
+            "a",
+            "b",
+            "c"
+        ],
+        "pkt6": [
+            "c"
+        ],
+        "pkt7": [
+            "e"
+        ]
+    },
+    "pat_request": {
+        "dontez": {
+            "pi659": {
+                "1": [
+                    [
+                        {
+                            "packet_id": "pkt2",
+                            "start_date": 2,
+                            "freq": 4,
+                            "since": "start_date",
+                            "tolerance": 2,
+                            "existence": [
+                                1,
+                                4
+                            ]
+                        },
+                        {
+                            "packet_id": "pkt3",
+                            "start_date": 10,
+                            "freq": 9,
+                            "since": "start_date",
+                            "tolerance": 5,
+                            "existence": [
+                                5,
+                                13
+                            ]
+                        }
+                    ],
+                    0
+                ],
+                "2": [
+                    [
+                        {
+                            "packet_id": "pkt2",
+                            "start_date": 2,
+                            "freq": 4,
+                            "since": "start_date",
+                            "tolerance": 2,
+                            "existence": [
+                                1,
+                                4
+                            ]
+                        },
+                        {
+                            "packet_id": "pkt3",
+                            "start_date": 10,
+                            "freq": 9,
+                            "since": "start_date",
+                            "tolerance": 5,
+                            "existence": [
+                                5,
+                                13
+                            ]
+                        }
+                    ],
+                    18
+                ]
+            },
+            "priority_weight": 1
+        },
+        "mitcheal": {
+            "pi864": {
+                "1": [
+                    [
+                        {
+                            "packet_id": "pkt2",
+                            "start_date": 3,
+                            "freq": 5,
+                            "since": "start_date",
+                            "tolerance": 2,
+                            "existence": [
+                                1,
+                                5
+                            ]
+                        },
+                        {
+                            "packet_id": "pkt3",
+                            "start_date": 5,
+                            "freq": 1,
+                            "since": "start_date",
+                            "tolerance": 0,
+                            "existence": [
+                                5,
+                                6
+                            ]
+                        }
+                    ],
+                    -11
+                ],
+                "2": [
+                    [
+                        {
+                            "packet_id": "pkt2",
+                            "start_date": 3,
+                            "freq": 5,
+                            "since": "start_date",
+                            "tolerance": 2,
+                            "existence": [
+                                1,
+                                5
+                            ]
+                        },
+                        {
+                            "packet_id": "pkt3",
+                            "start_date": 5,
+                            "freq": 1,
+                            "since": "start_date",
+                            "tolerance": 0,
+                            "existence": [
+                                5,
+                                6
+                            ]
+                        }
+                    ],
+                    0
+                ],
+                "3": [
+                    [
+                        {
+                            "packet_id": "pkt2",
+                            "start_date": 3,
+                            "freq": 5,
+                            "since": "start_date",
+                            "tolerance": 2,
+                            "existence": [
+                                1,
+                                5
+                            ]
+                        },
+                        {
+                            "packet_id": "pkt3",
+                            "start_date": 5,
+                            "freq": 1,
+                            "since": "start_date",
+                            "tolerance": 0,
+                            "existence": [
+                                5,
+                                6
+                            ]
+                        }
+                    ],
+                    11
+                ],
+                "4": [
+                    [
+                        {
+                            "packet_id": "pkt2",
+                            "start_date": 3,
+                            "freq": 5,
+                            "since": "start_date",
+                            "tolerance": 2,
+                            "existence": [
+                                1,
+                                5
+                            ]
+                        },
+                        {
+                            "packet_id": "pkt3",
+                            "start_date": 5,
+                            "freq": 1,
+                            "since": "start_date",
+                            "tolerance": 0,
+                            "existence": [
+                                5,
+                                6
+                            ]
+                        }
+                    ],
+                    22
+                ]
+            },
+            "priority_weight": 2
+        },
+        "shunta": {
+            "pi290": {
+                "1": [
+                    [
+                        {
+                            "packet_id": "pkt4",
+                            "start_date": 6,
+                            "freq": 13,
+                            "since": "start_date",
+                            "tolerance": 7,
+                            "existence": [
+                                1,
+                                13
+                            ]
+                        },
+                        {
+                            "packet_id": "pkt7",
+                            "start_date": 2,
+                            "freq": 7,
+                            "since": "start_date",
+                            "tolerance": 3,
+                            "existence": [
+                                1,
+                                19
+                            ]
+                        }
+                    ],
+                    -13
+                ],
+                "2": [
+                    [
+                        {
+                            "packet_id": "pkt4",
+                            "start_date": 6,
+                            "freq": 13,
+                            "since": "start_date",
+                            "tolerance": 7,
+                            "existence": [
+                                1,
+                                13
+                            ]
+                        },
+                        {
+                            "packet_id": "pkt7",
+                            "start_date": 2,
+                            "freq": 7,
+                            "since": "start_date",
+                            "tolerance": 3,
+                            "existence": [
+                                1,
+                                19
+                            ]
+                        }
+                    ],
+                    11
+                ]
+            },
+            "pi798": {
+                "1": [
+                    [
+                        {
+                            "packet_id": "pkt1",
+                            "start_date": 3,
+                            "freq": 5,
+                            "since": "start_date",
+                            "tolerance": 2,
+                            "existence": [
+                                1,
+                                5
+                            ]
+                        },
+                        {
+                            "packet_id": "pkt3",
+                            "start_date": 4,
+                            "freq": 7,
+                            "since": "start_date",
+                            "tolerance": 3,
+                            "existence": [
+                                1,
+                                14
+                            ]
+                        }
+                    ],
+                    -31
+                ],
+                "2": [
+                    [
+                        {
+                            "packet_id": "pkt1",
+                            "start_date": 3,
+                            "freq": 5,
+                            "since": "start_date",
+                            "tolerance": 2,
+                            "existence": [
+                                1,
+                                5
+                            ]
+                        },
+                        {
+                            "packet_id": "pkt3",
+                            "start_date": 4,
+                            "freq": 7,
+                            "since": "start_date",
+                            "tolerance": 3,
+                            "existence": [
+                                1,
+                                14
+                            ]
+                        }
+                    ],
+                    -12
+                ],
+                "3": [
+                    [
+                        {
+                            "packet_id": "pkt1",
+                            "start_date": 3,
+                            "freq": 5,
+                            "since": "start_date",
+                            "tolerance": 2,
+                            "existence": [
+                                1,
+                                5
+                            ]
+                        },
+                        {
+                            "packet_id": "pkt3",
+                            "start_date": 4,
+                            "freq": 7,
+                            "since": "start_date",
+                            "tolerance": 3,
+                            "existence": [
+                                1,
+                                14
+                            ]
+                        }
+                    ],
+                    7
+                ]
+            },
+            "priority_weight": 2
+        },
+        "truman": {
+            "pi610": {
+                "1": [
+                    [
+                        {
+                            "packet_id": "pkt1",
+                            "start_date": 10,
+                            "freq": 5,
+                            "since": "start_date",
+                            "tolerance": 2,
+                            "existence": [
+                                8,
+                                12
+                            ]
+                        },
+                        {
+                            "packet_id": "pkt3",
+                            "start_date": 8,
+                            "freq": 15,
+                            "since": "start_date",
+                            "tolerance": 7,
+                            "existence": [
+                                1,
+                                15
+                            ]
+                        },
+                        {
+                            "packet_id": "pkt6",
+                            "start_date": 7,
+                            "freq": 13,
+                            "since": "start_date",
+                            "tolerance": 6,
+                            "existence": [
+                                1,
+                                13
+                            ]
+                        }
+                    ],
+                    -5
+                ],
+                "2": [
+                    [
+                        {
+                            "packet_id": "pkt1",
+                            "start_date": 10,
+                            "freq": 5,
+                            "since": "start_date",
+                            "tolerance": 2,
+                            "existence": [
+                                8,
+                                12
+                            ]
+                        },
+                        {
+                            "packet_id": "pkt3",
+                            "start_date": 8,
+                            "freq": 15,
+                            "since": "start_date",
+                            "tolerance": 7,
+                            "existence": [
+                                1,
+                                15
+                            ]
+                        },
+                        {
+                            "packet_id": "pkt6",
+                            "start_date": 7,
+                            "freq": 13,
+                            "since": "start_date",
+                            "tolerance": 6,
+                            "existence": [
+                                1,
+                                13
+                            ]
+                        }
+                    ],
+                    15
+                ]
+            },
+            "pi272": {
+                "1": [
+                    [
+                        {
+                            "packet_id": "pkt0",
+                            "start_date": 5,
+                            "freq": 9,
+                            "since": "start_date",
+                            "tolerance": 4,
+                            "existence": [
+                                1,
+                                9
+                            ]
+                        },
+                        {
+                            "packet_id": "pkt6",
+                            "start_date": 8,
+                            "freq": 10,
+                            "since": "start_date",
+                            "tolerance": 7,
+                            "existence": [
+                                1,
+                                10
+                            ]
+                        },
+                        {
+                            "packet_id": "pkt7",
+                            "start_date": 10,
+                            "freq": 15,
+                            "since": "start_date",
+                            "tolerance": 7,
+                            "existence": [
+                                3,
+                                17
+                            ]
+                        }
+                    ],
+                    -10
+                ],
+                "2": [
+                    [
+                        {
+                            "packet_id": "pkt0",
+                            "start_date": 5,
+                            "freq": 9,
+                            "since": "start_date",
+                            "tolerance": 4,
+                            "existence": [
+                                1,
+                                9
+                            ]
+                        },
+                        {
+                            "packet_id": "pkt6",
+                            "start_date": 8,
+                            "freq": 10,
+                            "since": "start_date",
+                            "tolerance": 7,
+                            "existence": [
+                                1,
+                                10
+                            ]
+                        },
+                        {
+                            "packet_id": "pkt7",
+                            "start_date": 10,
+                            "freq": 15,
+                            "since": "start_date",
+                            "tolerance": 7,
+                            "existence": [
+                                3,
+                                17
+                            ]
+                        }
+                    ],
+                    12
+                ]
+            },
+            "priority_weight": 3
+        }
+    }
+}
