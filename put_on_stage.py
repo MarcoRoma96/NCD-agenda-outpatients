@@ -1,0 +1,25 @@
+# -*- coding: utf-8 -*-
+import shutil
+import sys
+import os
+
+if len(sys.argv) != 2:
+    print("Usage:\n\n   $ python put_on_stage.py <env_dir>\n\n \
+where <env_dir> is a directory containing the basic healthcare service environment \
+and the json file named 'abstract_protocols.json' that provides the information about the protocols\n\n")
+    exit(-1)
+
+files=[f for f in os.listdir(sys.argv[1]) if 'input_environment' in f or f=='abstract_protocols.json' or 'res_period_pattern.json' in f]
+for f in files:
+    if 'input_environment' in f:
+        #copio il file dalla cartella di salvataggio a dove verra' usato come input aggiungendo pazienti
+        shutil.copy(os.path.join(sys.argv[1], f), os.path.join(os.path.dirname(__file__), "input", "mashp_input."+f.split('.')[-1]))
+    if f=='abstract_protocols.json':
+        #copio il file dalla cartella di salvataggio a dove verra' usato per assegnare i protocolli
+        shutil.copy(os.path.join(sys.argv[1], f), os.path.join(os.path.dirname(__file__), "input", f))
+    if f=='res_period_pattern.json':
+        #copio il file dalla cartella di salvataggio a dove verra' usato per aggiungere giornate in futuro
+        shutil.copy(os.path.join(sys.argv[1], f), os.path.join(os.path.dirname(__file__), "input", f))
+    if f=='daily_res_period_pattern.json':
+        #copio il file dalla cartella di salvataggio a dove verra' usato per aggiungere giornate in futuro
+        shutil.copy(os.path.join(sys.argv[1], f), os.path.join(os.path.dirname(__file__), "input", f))
