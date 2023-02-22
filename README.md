@@ -46,6 +46,13 @@ In all the above mentioned approaches we use a hierarchical objective function, 
 - Clingo  (tested with clingo version 5.4.0)
 
 ## Generating, testing and manipulating instances
+
+First of all, whenever you clone this repository or copy this folder in a different location, you should run the command:
+	
+	$ python refresh_mashp_code.py
+
+this will update the path variables with the correct value of your machine.
+
 In order to reproduce the results obtained for some relevant instances tested for research purposes, we provide the folder `Test_instances_CILC-JLC-Cappanera2022`. The folder contains 2 subfolders called part1 and part2, that are for all intents and purposes examples of the output of tests performed using this code. Part1 contains tests that perform a schedule over a 30 days horizon, while part2 contains the same instances (except those with 40 patients), but with a 60 days planning horizon.
 The easiest way to reproduce the tests over these instances is to run:
 ```
