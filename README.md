@@ -71,23 +71,21 @@ Since the same script is used for both shifting and widening the time window you
 
 We provide a generator of instances. To obtain a new instance you just have to run:
 
-	```
 	$ python generate_instance.py <H> <U> <P>
-	```
 
 where `<H>` is the desired planning horizon, `<U>` the number of care units and `<P>` the number of patients. The new instance will be automatically creaated inside the `input` directory.
 
 If you simply need to run the logic program on the input instance instead of long experiments, you can use the `just_mashp.py` script:
-	```
+
 	$ python just_mashp.py
-	```
+	
 in case you are using the monolithic or decomposition by time approach. 
 The `mashp_execute.py` executes the generation of a new instance and runs the scheduler in one go, so it requires the same parameters of the `generate_instance.py`.
 
 If you are using a decomposition by patient priority approach, use `just_mashp_split_by_priority.py`, instead:
- 	```
+ 
 	$ python just_mashp_split_by_priority.py
-	```
+
 It decomposes the instance into 3 separate files and performes the desired methodology.
 
 ## Settings recap
