@@ -4,7 +4,21 @@ The objective is to tackle the Multi Appointment Scheduling Problem in Healthcar
 The project aims at the comparison of different methods and implementations to tackle the problem, and find the best integration of them in terms of efficacy and efficiency.
 
 ## Problem description
-
+A large number of people, mostrly older, is affected by so called Non-Communicable Diseases (NCDs). Often they are chronic patients with comorbidities cared for at home.
+This outpatients must get tests, treatments or consultancy at specialied care units, according to a given frequency set by a clinical pathway.
+The NCDs Agenda problem consist of scheduling the required services of a set of patients according to their clnical pathways for a certain planning horizon. 
+The decision to take involve:
+- the assignment of a feasible date
+- the assignment of a feasible time
+for each service of a care pathway.
+This decision is subject to different constraints:
+- Some services should be scheduled together on the same day, we call ths group of services a *packet*
+- Frequency of a packet defined by the care pathway
+- Interdiction between services, that means that a secondary service cannot be scheduled too soon after a primary one
+- Necessity between services, that means a secondary service cannot be scheduled too soon after nor too long a primary one
+- Non-preemption of the Care Unit operators
+- Each operator can serve one patient at a time
+- Each patient can be served by one operator at a time
 
 ## Methods
 Different methods are implemented so that they can be tested and the results compared:
