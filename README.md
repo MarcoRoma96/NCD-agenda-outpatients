@@ -80,8 +80,14 @@ If you simply need to run the logic program on the input instance instead of lon
 	```
 	$ python just_mashp.py
 	```
+in case you are using the monolithic or decomposition by time approach. 
+The `mashp_execute.py` executes the generation of a new instance and runs the scheduler in one go, so it requires the same parameters of the `generate_instance.py`.
 
-The `mashp_execute.py` execute the generation of a new instance and runs the scheduler in one go, so it requires the same parameters of the `generate_instance.py`.
+If you are using a decomposition by patient priority approach, use `just_mashp_split_by_priority.py`, instead:
+ 	```
+	$ python just_mashp_split_by_priority.py
+	```
+It decomposes the instance into 3 separate files and performes the desired methodology.
 
 ## Settings recap
 | 	Parameter		|	Accepted value	|	Explanation	|

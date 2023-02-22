@@ -26,17 +26,18 @@ def natural_sort(l):
 
 def fixed_partial(SUBSOL_l):
     """
-    Modifica il meccanismo in un modello greedy, dove di iterazione in iterazione viene restituita la parte ammissibile
-    che va fissata e la parte rifiutata che non dovrà essere reinserita nella stessa giornata.
+    Modify the mechanism into a greedy model, where from iteration to iteration 
+    the admissible part is returned which is to be fixed and the rejected part 
+    which is not to be reinserted on the same day.
     """
 
     sat_list   = []
     unsat_list = []
     day_sp_sol_dict={}
     for file, day in SUBSOL_l:
-        #lettura predicati della soluzione
+        ## Read the solution predicates from the solution
         _, _, _, sol_list   = output_to_ASP(file, target_pred='sat_pkt(')
-        #smisto i pacchetti soddisfatti e non in 2 liste
+        # Separate satisfied and unsatisfied packets
         sat_list   = []
         unsat_list = []
         for p in sol_list:
@@ -45,8 +46,7 @@ def fixed_partial(SUBSOL_l):
             elif 'unsat_pkt(' in p:
                 unsat_list.append(p)
 
-        #per ciascun giorno raccolgo la lista dei pacchetti soddisfatti e di quelli non soddisfatti
-        # dove ogni elemento e' uno dei parametri interni del predicato 
+        # Collect the satisfied and unsatisfied packets for the day
         sat_pkts_of_day=[]
         for fact in sat_list:
             t = re.split('\(|,|\)', fact)
@@ -58,23 +58,23 @@ def fixed_partial(SUBSOL_l):
             t = [el for el in t if el!='']
             unsat_pkts_of_day.append(t[1:-1])
         
-        #devo restituire chi e' soddisfatto che può essere fissato in ottica greedy e chi non e' soddisfatto
+        #return those who are satisfied who can be fixed in greedy and those who are not satisfied
         day_sp_sol_dict[day]={'sat':sat_pkts_of_day, 'unsat':unsat_pkts_of_day}
     
-    #devo confrontare la soluzione del master per definire chi confermare e chi no
-    day_constraint_dict=naive_cut(SUBSOL_l)         #naive_cut restituisce il set di pazienti dei giorni passati come parametro (qui tutti!)
+    #compare the master's solution to define who to confirm and who not to confirm
+    day_constraint_dict=naive_cut(SUBSOL_l)
     fix={}
-    #raccolgo le occorrenze dei pacchetti di cui e' gia' fissata tutta la necessita'
+    #rI accept the need for packages that are already fixed
     nec_sat_l=grep_ASP(path.join(TARGET_DIR, 'readable_sol.lp'), 'necessity_tot_satisfied_fix(')
     nec_sat_l = [[tpl[1][0]] + tpl[1][1].replace('(','').replace(')','').split(',') for tpl in nec_sat_l]
-    #creo due gruppi: sat = parte del Master Plan approvato dai SP, unsat = parte di rifiutati
+    #I create two groups: sat = SP-approved part of the Master Plan, unsat = rejected part
     for day in day_sp_sol_dict:
         day_fix={'sat':[], 'unsat':[]}
         for pk in day_constraint_dict[day]:
             if any(upk == pk[:4] for upk in day_sp_sol_dict[day]['unsat']):
                 day_fix['unsat'].append(pk)
             else:
-                #controllo che le necessità del pacchetto siano tutte rispettate prima di fissarlo
+                #checking that the requirements of the package are all met before fixing it
                 if pk[:-1] in nec_sat_l:
                     day_fix['sat'].append(pk)
                 #else: temporarily not fixed
@@ -146,7 +146,7 @@ FUNC_CUT=select_func_cut[settings['nogood']]
 def collect_info(func=None, search_file=None):
     if search_file == None:
         search_file=glob.glob(path.join(TARGET_DIR, 'daily_agenda*.lp'))
-    #per ogni file soluzione dei diversi SP, cerco le sol inammissibili
+    #for each solution file of the different SPs, I look for ineligible sols
     search_file = [f for f in search_file if not re.search('_p.\.lp', f)]
     if settings['nogood'] == 'greedy':
         files_l=natural_sort(search_file)
@@ -157,7 +157,6 @@ def collect_info(func=None, search_file=None):
         UNSAT_l=[]
         for daily_agenda in natural_sort(search_file):
             with open(daily_agenda, 'r') as da:
-                #SAT=False
                 lines=da.readlines()
                 lines.reverse()
             for line in lines: 
@@ -165,11 +164,9 @@ def collect_info(func=None, search_file=None):
                     break
                 
                 if ('SATISFIABLE' in line or 'OPTIMUM FOUND' in line) and not 'UNSATISFIABLE' in line:
-                    #SAT=True
-                #    break
                     pass
                 
-                if 'UNSATISFIABLE' in line or 'unsat_pkt(' in line: #se non e' ammissibile o ci sono pacchetti non soddisfatti la aggiungo
+                if 'UNSATISFIABLE' in line or 'unsat_pkt(' in line: #if it is not admissible or there are unfulfilled packages I will add it
                     UNSAT_l.append((daily_agenda, int(re.split('([0-9]+)', daily_agenda.split("daily_agenda")[-1])[1])))
                     break
                 

@@ -1,19 +1,18 @@
 #const day=1.
 
 
-% Indistintamente dal modello, se passo vaolori fix o not_sched deve tenere fissati quelli della soluzione precedente
-:- sat_pkt(Pat, Pkt_ID), not_schedulable(Pat, (Pkt_ID, Occ), day). %non serve perche' gia' il master non assegna
+% Regardless of the model, if fix or not_sched values are passed, those of the previous solution must be kept fixed.
+:- sat_pkt(Pat, Pkt_ID), not_schedulable(Pat, (Pkt_ID, Occ), day).  % Not necessary because the master does not assign it already
 :- sat_pkt(Pat, Pkt_ID), not_schedulable(Pat, (Pkt_ID, Occ)).
 
 :- not sat_pkt(Pat, Pkt_ID), fix_schedule(Pat, (Pkt_ID, Occ), day),
     necessity_tot_satisfied_fix(Pat, (Pkt_ID, Occ)).
 
 %DEF
-    %%% -- CONTIENE PRESTAZIONE:    predicato utile per alleggerire la notazione, determina se un pacchetto (istanza) 
-    %                               contiene una certa prestazione
+%%% -- CONTAINS SERVICE: useful predicate to lighten notation, determines whether a packet (instance) contains a certain service
 contains_service(Pat, (Prot, Iter, Pkt), Srv) :- packet_type(Pat, Prot, Iter, Pkt, Type), service_in_packet(Type, Srv).
 
-    %%% -- service is the basic element to be assigned to a time slot
+    %%% -- SERVICE is the basic element to be assigned to a time slot
 service(Pat, Srv) :- schedule(Pat, (Pkt_ID, _), day), contains_service(Pat, Pkt_ID, Srv).
 
 %%%%%% -- Shifted start of a care unit: create a fake service that precedes all the others assigned to that care unit
@@ -34,11 +33,11 @@ time(0..Tmax) :- Tmax=#max{T : T=S+D, capacity(day,_,_,S,D)}.
 %DEF
     %%% -- Precedes: A service precedes the other if the end of the former is not after the start of the latter
 precedes(P1, S1, P2, S2) :- start_time(P1, S1, Start1), start_time(P2, S2, Start2), 
-                            service(S1, _, D1, _), not care_unit(P1), not capacity(_,P1,S1,_,_), %vale così se non è il delay fake
+                            service(S1, _, D1, _), not care_unit(P1), not capacity(_,P1,S1,_,_), %if NOT fake block for delay
                             Start1 + D1 <= Start2.
 
 precedes(CU, CUop, P, S) :- start_time(CU, CUop, Start1), start_time(P, S, Start2), 
-                            service(CUop, CU, D1, _),  %vale così se è il delay fake
+                            service(CUop, CU, D1, _),  %if fake block for delay
                             Start1 + D1 <= Start2.
 
 %Constraints
@@ -48,7 +47,7 @@ precedes(CU, CUop, P, S) :- start_time(CU, CUop, Start1), start_time(P, S, Start
    %service(Pat, Srv1), service(Pat, Srv2), 
    provides(_, _, Pat, Srv1), provides(_, _, Pat, Srv2), 
    not care_unit(Pat), not capacity(_,Pat,Srv1,_,_), not capacity(_,Pat,Srv2,_,_).
-    %non vale per il nome della Risorsa per il delay! e.g. red,1 e red,2 NON SI PRECEDONO
+    %NOT for fake block! e.g. red,1 e red,2 do not precede each other
 
     %%% NOTE: can be changed! --    The same Unit operator (machine) is in use for only one 
     %                               service of a patient, not for + services or pats 

@@ -29,4 +29,4 @@ for file in file_list:
     update_pwd(file)
     print(file)
 
-print('\ncompletato.\n')
+print('\Completed.\n')

@@ -15,13 +15,12 @@ from shutil import copyfile
 THIS_DIR = os.path.dirname(__file__)
 TARGET_DIR = os.path.join(THIS_DIR, "target")
 
-#leggo i settings dal file json
 settings={}
 with open(os.path.join(THIS_DIR, 'src', 'settings.json')) as settings_file:
     settings=json.load(settings_file)
 
-def handler(signum, frame): #?
-    pass #?
+def handler(signum, frame):
+    pass
 
 def timer(pid, timeout):
     print(str(timeout)+" secondi da ora...")
@@ -35,10 +34,7 @@ def timer(pid, timeout):
     time.sleep(timeout)
     print("TEMPO SCADUTO!")
     print(pid)
-    #raise KeyboardInterrupt
-    os.kill(int(pid), signal.SIGINT)#
-            #signal.SIGINT) linux, signal.CTRL_C_EVENT in Windows
-    #### a causa del bug di clingo non voglio siano lanciti i SP
+    os.kill(int(pid), signal.SIGINT)
     time.sleep(1.2)
     pkill = subprocess.Popen(['pkill', 'clingo-dl'])
     pkill.wait()
@@ -51,21 +47,17 @@ def runner(timeout):
     else: 
         print("Split patient parameter miswritten")
         exit()
-    process = subprocess.Popen(cmd, shell=False)   #diff: True?
-    #print("AVVIATO JUST_MASHP con PID: {}".format(process.pid))
+    process = subprocess.Popen(cmd, shell=False)
     timer_process=multiprocessing.Process(target=timer, args=[process.pid, timeout])
     timer_process.start()
     process.wait()
     if timer_process.is_alive():
-        #print("Terminato prima del timeout")
-        timer_process.kill() #.terminate()?
+        timer_process.kill()
     timer_process.join()
-    #os.kill(process.pid, signal.SIGINT)#
-            #signal.CTRL_C_EVENT)
     print("terminazione ({})".format(datetime.datetime.now()))
 
 if __name__=="__main__":
-    signal.signal(signal.SIGINT, handler)   #commentare in linux, SIGINT
+    signal.signal(signal.SIGINT, handler)
     path=os.path.join(THIS_DIR, 'test')
     if not os.path.isdir(path):
             try:
@@ -85,10 +77,10 @@ if __name__=="__main__":
     
     with open(os.path.join(THIS_DIR, 'test_timeout.json')) as to_file:
         timeout_l=json.load(to_file)['timeout']
-    #timeout_l   =   [3600]  #[1200, 2400, 3600]
-    dim_fin     =   [30,60] #[60, 120, 150]
-    res         =   5       #20
-    n_pats      =   [10, 20, 40]#[120, 140, 160]
+    #timeout_l   =   [3600]         #[1200, 2400, 3600]
+    dim_fin     =   [30,60]         #[60, 120, 150]
+    res         =   5               #20
+    n_pats      =   [10, 20, 40]    #[120, 140, 160]
 
     if len(sys.argv)==1:
         print("no test mode selected, either: -new, -clean <folder>, -tested <folder>, -tested_clean <folder>\n")
@@ -106,7 +98,6 @@ if __name__=="__main__":
         elif len(args)==2 and '-clean' in sys.argv: 
             input_file=glob.glob(os.path.join(args[1], 'input_environment*.lp'))
             res=int(re.split('nr|\)', input_file[0])[-2])
-            #print("NUOVA RES: {}".format(res))
             cmd=['python', os.path.join(THIS_DIR, 'put_on_stage.py'), args[1]]
             genera_istanza_process=subprocess.Popen(cmd)
             genera_istanza_process.wait()
@@ -139,7 +130,6 @@ if __name__=="__main__":
                 if n>1:
                     print("MODIFICA NUMERO DI PATIENTS IN CORSO...")
                     for np in range(pats-old_np):
-                        #print(pats-old_np)
                         cmd=['python', os.path.join(THIS_DIR, 'new_patient.py')]
                         genera_istanza_process=subprocess.Popen(cmd)
                         genera_istanza_process.wait()
@@ -161,13 +151,6 @@ if __name__=="__main__":
                     tmp_time_test_file=os.path.join(THIS_DIR, 'test', 'tmp_time_limit.json')
                     if os.path.isfile(tmp_time_test_file):
                         copyfile(tmp_time_test_file, os.path.join(this_test_dir, 'tmp_time_limit.json'))
-                    #copyfile(os.path.join(THIS_DIR, "target", "readable_sol.lp"),    os.path.join(this_test_dir, "readable_sol-(to{}).lp".format(timeout)))
-                    #copyfile(os.path.join(THIS_DIR, "target", "sol.lp"),             os.path.join(this_test_dir, "sol-(to{}).lp".format(timeout)))
-                    #copyfile(os.path.join(THIS_DIR, "target", "sol_info.lp"),        os.path.join(this_test_dir, "sol_info-(to{}).json".format()))
-                    #for daily_agenda in glob.glob(os.path.join(THIS_DIR, "target", 'daily_agenda*.lp')):
-                    #    file_name_end=re.split('daily_agenda|\.', str(daily_agenda))[-2]
-                    #    copyfile(daily_agenda, os.path.join(this_test_dir, "daily_agenda"+file_name_end+"-(to{}).lp".format(timeout)))
-                    
                     #copyfile(os.path.join(THIS_DIR, "input", "previous_sol.lp"),     os.path.join(this_test_dir, "previous_sol-(to{}).lp".format(timeout)))
             
                 old_np=pats
@@ -227,9 +210,6 @@ if __name__=="__main__":
                 tmp_time_test_file=os.path.join(THIS_DIR, 'test', 'tmp_time_limit.json')
                 if os.path.isfile(tmp_time_test_file):
                     copyfile(tmp_time_test_file, os.path.join(this_test_dir, 'tmp_time_limit.json'))
-                #copyfile(os.path.join(THIS_DIR, "input", "mashp_input.lp"),      os.path.join(this_test_dir, "mashp_input-(to{}).lp".format(timeout)))
-                #copyfile(os.path.join(THIS_DIR, "target", "readable_sol.lp"),    os.path.join(this_test_dir, "readable_sol-(to{}).lp".format(timeout)))
-                #copyfile(os.path.join(THIS_DIR, "target", "sol.lp"),             os.path.join(this_test_dir, "sol-(to{}).lp".format(timeout)))
 
             old_np=pats
 

@@ -320,10 +320,10 @@ def get_info_statistiche(model_type,
             param_l = re.split('\(|,|\).', f)
             pat_list.append(param_l[1])
         
-        # TODO: LEGGERE PRIORITA'
+        # LEGGERE PRIORITA'
         elif predicate_name_dict['priority']+'(' in f:
             param_l = re.split('\(|,|\).', f)
-            prior_pat[param_l[1]]=param_l[2]                    #controlla
+            prior_pat[param_l[1]]=param_l[2]
         
         # salvo le informazioni riguardo le iterazioni
         elif predicate_name_dict['inizio_iterazione_protocollo']+'(' in f:
@@ -516,66 +516,6 @@ def get_info_statistiche(model_type,
     if best_sol_func == get_first_iter_sol_info:
         first_sol=True
     info_statistiche['tempi_solving'] = get_time_info(os.path.dirname(in_file_path), model_type, first_iter=first_sol, sequential_sp=sequential_sp)
-
-
-
-    """
-    #salvo valori delle F.O.                                    #TODO leggere dai file appositi
-    for f in l_read_sol:
-        #if 'max_visite(' in f:
-        #    info_statistiche['max_accessi']=int(re.split('\(|\)\.', f)[1])
-        if 'n_cambi_data(' in f:
-            info_statistiche['n_cambi_data']=int(re.split('\(|\)\.', f)[1])
-        elif 'Optimization:' in f:                                              #TODO: questa non vale più così, FO diverse per pazienti
-            info_statistiche['n_accessi']=int(re.split(' ', f)[-1])
-
-    #leggo i tempi e le info dal file sol-#.lp date da clingo
-    
-    associated_sol_file = in_file.replace('mashp_input', 'sol')                 
-    sol_file_path       = os.path.join(test_dir, associated_sol_file)
-    with open(sol_file_path, 'r') as l_sol:
-        info_statistiche['ottimo_non_schedulati']='no'
-        info_statistiche['interrupted']='no'
-        while True:
-            line=l_sol.readline()
-            if not line:
-                break
-            elif 'INTERRUPTED' in line or 'signal!' in line:
-                info_statistiche['interrupted']='yes'
-            elif 'MemoryError' in line:
-                info_statistiche['MemoryError']=line
-            elif 'Value too large' in line:
-                info_statistiche['too_large']=line
-            elif 'Models' in line:
-                info_statistiche['n_modelli'] = re.split(':', line)[1].strip()
-            elif 'Optimum' in line:
-                info_statistiche['ottimo'] = re.split(':', line)[1].strip()
-            elif 'Bounds' in line:                                              #solo questo non è raccolto
-                bl = re.split('\:', line)
-                bl = [b.strip() for b in bl]
-                bl = bl[1].split()
-                if not '[' in bl[0]:
-                    info_statistiche['ottimo_non_schedulati']='yes'
-            elif 'Time' in line[:4] and not 'CPU Time' in line:
-                times_l = re.split("\:|\(|\)|s ", line)
-                times_l = [t.strip() for t in times_l]
-                print(times_l[6])
-                time=times_l[1]
-                g_time=times_l[6]
-                info_statistiche['time'] = float(time)
-                info_statistiche['1st_model_time'] = float(g_time)
-            elif 'CPU Time' in line:
-                info_statistiche['CPU_time'] = float(re.split(':|s', line)[1].strip())
-            elif 'Durata' in line:
-                if not 'durata_iterazione' in info_statistiche:
-                    info_statistiche['durata_iterazione']={}
-                line_l=re.split(':|=|s', line)
-                ind=line_l[0].replace('Durata', '').strip()
-                if ind=='':
-                    ind='1'
-                info_statistiche['durata_iterazione'][int(ind)]= \
-                    int(line_l[1].strip())*3600 + int(line_l[2].strip())*60 + float(line_l[3].strip()) #porto tutto in secondi
-    """
     info_statistiche['timeout']=int(re.split('\(to|\)',in_file_path)[1])
 
     return info_statistiche
@@ -599,10 +539,7 @@ if __name__ == "__main__":
         print("## VERRA' CONSIDERATO IL MAX TEMPO TRA I SP.          ##")
         print("########################################################")
     time.sleep(5)
-    #if len(sys.argv)!=2:
-    #    print("Usage: $ python test_analysis.py <directory_path>\n")
-    #    exit(-1)
-    test_dir=args.dir_path #sys.argv[1]        #os.getcwd()+"\\test\Test-Sun-16-May-2021-17-18-13\\test-np80-res15-win90-(to2400)"
+    test_dir=args.dir_path
     input_list=find_nested_files(test_dir)
 
     for in_file in input_list:
@@ -624,7 +561,7 @@ if __name__ == "__main__":
             with open(os.path.join(test_dir, in_file[:-3]+'_statistics.json'), 'w') as stat_file:
                 json.dump(info_statistiche, stat_file, indent=4)
 
-            #La Pure Greedy corrisponde al risultato della prima iterazione per la greedy decomposta per variabili
+            
             if not model_type[0] and model_type[1] == 'sbt':
                 pure_greedy_sol_d, _ = find_best_sol(os.path.dirname(in_file_path), model_type, funct=get_first_iter_sol_info)
                 info_statistiche_pure_greedy = get_info_statistiche(model_type,

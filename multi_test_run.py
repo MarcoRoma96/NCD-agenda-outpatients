@@ -24,14 +24,13 @@ if __name__=="__main__":
     mode=[a for a in sys.argv if not a in args][-1]
     signal.signal(signal.SIGINT, handler)
     dirs_l=listdir(args[1])
-    print("Leggo da ", dirs_l)
     count=0
     for i in dirs_l:
         count+=1
         t = time.localtime()
         current_time1 = time.strftime("%H:%M:%S", t)
 
-        print("#### ---- ISTANZA {}/{} ---- ####".format(count,len(dirs_l)))
+        print("#### ---- INSTANCE {}/{} ---- ####".format(count,len(dirs_l)))
         cmd=['python', path.join(THIS_DIR, 'test_run_on_instance.py'), mode, path.join(args[1], str(i))] #TODO: caso -new
         test_process=subprocess.Popen(cmd)
         test_process.wait()

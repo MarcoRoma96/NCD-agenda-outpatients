@@ -9,23 +9,22 @@ sys.path.append(SRC_DIR)
 from mashp_tools import read_ASP, predicate_name_dict
 import json
 
-#PARAMETRI
-### capacità giornaliera minima e massima 
-#   entro cui scegierla per le risorse
-#range_capacita_giornaliera = (24, 60)
+# PARAMETERS
+### Minimum and maximum daily capacity to choose from for resources
+# range_capacita_giornaliera = (24, 60)
 
-# minimo e massimo intervallo di attesa per ripetere il protocollo
-# di nuovo dall'inizio (attenzione alle intolleranze!)
-min_attesa_iter_prot=5
-max_attesa_iter_prot=5
+# Minimum and maximum waiting interval before restarting the protocol from scratch 
+# (be careful with intolerances!)
+min_attesa_iter_prot = 5
+max_attesa_iter_prot = 5
 
-#soglia di oblio, linea d'ombra nel passato oltre cui ciò che
-# si è concluso prima viene rimosso dalla memoria
-soglia_oblio=-100
+# Oblivion threshold, shadow line in the past beyond which what has been concluded before 
+# is removed from memory
+soglia_oblio = -100
 
 
 if __name__ == "__main__":
-
+    # Check command line arguments
     if len(sys.argv)<2 or len(sys.argv)>3:
         print("Usage: $ python set_window.py <forward days> [<horizon>]\n")
         exit(-1)     
@@ -41,7 +40,7 @@ if __name__ == "__main__":
     else:
         l_input = []
 
-    # shift indietro per le capacità e le date di inzio del protocollo
+    # Shift backward for capacities and protocol start dates
     new_input=[]
     no_new_line=False
     res_list=[]
@@ -49,7 +48,7 @@ if __name__ == "__main__":
     pacchetto_istanza={}
     parametri_esistenza_pacchetti={}
     for f in l_input:
-        #estrapolo la lunghezza dell'orizzonte precedente
+        # Extract the length of the previous horizon
         if 'nh=' in f:
             horizon_l=re.split('\=|\.', f)
             old_nh=int(horizon_l[-2])
@@ -58,7 +57,8 @@ if __name__ == "__main__":
                 new_input.append(f)
             else: 
                 new_input.append('#const nh={}.\n'.format(new_nh))
-        # sposto la data delle capacità, e scarto quelle finite nel passato o oltre la dimensione della finestra, se rimpicciolita
+        # Move the capacity date back, and discard those that have ended in the past or beyond 
+        # the window size, if it has been reduced
         elif predicate_name_dict['tot_capacity']+'(' in f:
             param_l = re.split('\(|,|\).', f)
             param_l[1]=int(param_l[1])-ff
@@ -68,22 +68,22 @@ if __name__ == "__main__":
                     past_c=past_c+str(p)+','
                 past_c=past_c+param_l[-2]+'). '
                 new_input.append(past_c)
-            #se è finita nel passato rimarrebbe un \n che genera un vuoto;
-            # lo evito grazie al flag che fa in modo di non inserirlo 
+            # If it has ended in the past, there would be a '\n' which generates a void;
+            # avoid this thanks to the flag that prevents it from being inserted
             else: no_new_line=True
-        #sposto la data di inizio delle iterazioni dei protocolli
+        # Move the protocol iteration start date
         elif predicate_name_dict['inizio_iterazione_protocollo']+'(' in f:
             param_l = re.split('\(|,|\)\.', f)
             param_l[-2]=int(param_l[-2])-ff #shift
-            # riassemblo i pezzi splittati
+            # Reassemble the splitted pieces
             past_c=param_l[0]+'('
             for p in param_l[1:-2]:
                 past_c=past_c+p+','
             past_c=past_c+' '+str(param_l[-2])+').\n'
             new_input.append(past_c)
-            # salvo le informazioni riguardo le iterazioni e le sfrutterò per 
-            # generare le successive mano a mano che faccio il forwarding della 
-            # finestra di scheduling
+            # save information about the iterations to be used 
+            # to generate the next ones while forwarding the 
+            # scheduling window
             stripped_param_l=[str(p).strip() for p in param_l]
             if stripped_param_l[1] in inizio_iterazione_protocollo:
                 if stripped_param_l[2] in inizio_iterazione_protocollo[stripped_param_l[1]]:
@@ -94,7 +94,7 @@ if __name__ == "__main__":
                 inizio_iterazione_protocollo[stripped_param_l[1]]={stripped_param_l[2]:{int(stripped_param_l[3]):int(stripped_param_l[-2])}}
             
         else:
-            #salvo le risorse, servirà per generare nuove capacità
+            # save some data for future operations
             if predicate_name_dict['resource']+'(' in f:
                 res_pred=re.split('\(|;|\).', f)
                 res_list=res_pred[1:-1]
@@ -109,8 +109,7 @@ if __name__ == "__main__":
                         pacchetto_istanza[pk_ist[1]][pk_ist[2]]={int(pk_ist[3]):pk_ist[-2]}
                 else:
                     pacchetto_istanza[pk_ist[1]]={pk_ist[2]:{int(pk_ist[3]):pk_ist[-2]}}
-            # Salvo le informazioni di esistenza dei pacchetti per generarli
-            # nuovi per le successive iterazioni
+            # Save packets existence information to generate new ones for future iterations
             if  predicate_name_dict['tipo_pacchetto']+'('   in f or \
                 predicate_name_dict['data_inizio']+'('      in f or \
                 predicate_name_dict['frequenza']+'('        in f or \
@@ -139,9 +138,9 @@ if __name__ == "__main__":
                 new_input.append(f)
             else: no_new_line=False
     
-    #cerco il punto in cui inserire le nuove capacità
-    # relative alle giornate appena entrate nell'orizzonte
-    #espanse
+    #Find index where to add new capacity
+    # relatively to new days from the end of the old window
+    # overall
     daily_index=0
     for i in range(len(new_input)-1, 0, -1):
         par_l1 = re.split('\(|,|\).', re.split(' ', new_input[i])[0])
@@ -167,30 +166,30 @@ if __name__ == "__main__":
     print(ff, new_nh, old_nh)
     if ff+new_nh-old_nh>=0:
         print('Horizon end shift = '+str(ff+new_nh-old_nh))
-        ### Forma generica, quando non c'é pattern di ripetizione es. settimanale
+        ### generic, when no repetitivity pattern exists
        # capacity_matrix={}
        # for d in range(old_nh-ff,new_nh):
        #     tmp={}
        #     for r in res_list:
        #         tmp[r]=random.randint(range_capacita_giornaliera[0], range_capacita_giornaliera[1])
        #     capacity_matrix[d+1]=tmp
-        #In tal caso devo aggiornare con i nuovi giorni presi dal repetition pattern
+        #Update day of the repetition pattern
         rep_pattern_d=[]
         with open(os.path.join(THIS_DIR, 'input', 'res_period_pattern.json')) as rep_file:
             rep_pattern_d=json.load(rep_file)
-        #lo stesso per la parte espansa giornaliera
+        #same for daily repetition patetrn
         daily_rep_pattern_d=[]
         with open(os.path.join(THIS_DIR, 'input', 'daily_res_period_pattern.json')) as daily_rep_file:
             daily_rep_pattern_d=json.load(daily_rep_file)
 
-        #Aggiorno gli indici per i 2 file json. L'indice deve essere identico perché sia corretto
+        #update index for both 2 json files. Index must be the same for both
         capacity_matrix={}
         daily_capacity_matrix={}
         if rep_pattern_d['index'] == daily_rep_pattern_d['index'] and len(rep_pattern_d['repetition_pattern']) == len(daily_rep_pattern_d['daily_repetition_pattern']):
             last_day = rep_pattern_d['index']
             new_index=(last_day % len(rep_pattern_d['repetition_pattern']))
             for d in range(old_nh-ff,new_nh):
-                if d >= 0: #in caso di finestre senza overlap non voglio i valori delle date che ho saltato tra le due iterazioni che sarebbero negativi
+                if d >= 0: #in case of no overlapping windows, no skipped dates between iterations must be saved, since they are negative values
                     new_index=(new_index % len(rep_pattern_d['repetition_pattern'])) +1
                     tmp={}
                     daily_tmp={}
@@ -205,14 +204,14 @@ if __name__ == "__main__":
             print("FORWARDING FAILED: The repetition pattern do not coincide, or the index is different between aggregated and daily files.")
             exit(-1)
 
-        #aggiorno l'indice del giorno a cui sono arrivato sul file json
+        #Update the index of the day reached in the json file
         with open(os.path.join(THIS_DIR, 'input', 'res_period_pattern.json'), 'w') as rep_file:
             json.dump(rep_pattern_d, rep_file)
         with open(os.path.join(THIS_DIR, 'input', 'daily_res_period_pattern.json'), 'w') as daily_rep_file:
             json.dump(daily_rep_pattern_d, daily_rep_file)
 
-        #inserisco i nuovi giorni con le capacità
-        # espanse PRIMA (sennò index cambia!)
+        # Insert the new days with their capacities 
+        # expanded FIRST (otherwise the index will change!)
         for d in daily_capacity_matrix.keys():
             for r in res_list:
                 for u, s_d in daily_capacity_matrix[d][r].items():
@@ -220,7 +219,7 @@ if __name__ == "__main__":
                     daily_index+=1
                 new_input.insert(daily_index, '\n')
                 daily_index+=1
-        #e aggregate
+        # aggregate
         for d in capacity_matrix.keys():
             for r in res_list:
                 new_input.insert(index, "capacity({},{},{}). ".format(d,r,capacity_matrix[d][r]))
@@ -229,7 +228,7 @@ if __name__ == "__main__":
             index+=1
 
     else:
-        #devo calare il numero della giornata se sto restringendo la finestra
+        # Must lower the number of the day if I am narrowing the window
         print('Horizon end shrinkage = '+str(ff+new_nh-old_nh))
         rep_pattern_d=[]
         with open(os.path.join(THIS_DIR, 'input', 'res_period_pattern.json')) as rep_file:
@@ -246,10 +245,10 @@ if __name__ == "__main__":
             json.dump(daily_rep_pattern_d, daily_rep_file)
 
 
-# I protocolli di input sono pensati per poter essere modificati a piacimento;
-# questo significa che l'orizzonte potrebbe essere diverso da quello astratto
-# perciò ottengo l'orizzonte dell'istanza (la durata) intesa come massimo valore
-# delle esistenze dei pacchetti di un protocollo in una certa iterazione 
+    # The input protocols are designed to be customizable;
+    # this means that the horizon may be different from the abstract one
+    # so I obtain the instance horizon (the duration) as the maximum value
+    # of the existences of the packets of a protocol in a certain iteration
     horizons_prot_istanze={}
     for pat, prot_d in parametri_esistenza_pacchetti.items():
         horizons_prot_istanze[pat]={}
@@ -264,8 +263,7 @@ if __name__ == "__main__":
                 horizons_prot_istanze[pat][pi][it]=max(ex_l)
 
 
-    #aggiungo nuove iterazioni di protocolli laddove risultano terminati
-    # prima della fine dell'orizzonte
+    #add new iterations of protocols where they end before the horizon
     for pat, prot_d in inizio_iterazione_protocollo.items():
         for pi,it_d in prot_d.items():
             max_iter=max([k for k in it_d])
@@ -281,17 +279,17 @@ if __name__ == "__main__":
                     max_attesa_iter_prot)
 
 
-    #cerco l'indice della lista a cui cominciano gli "inizio_iterazione_protocollo"
-    # ovvero il punto in cui inserirli aggiornati
+    #find the index in the list where the "inizio_iterazione_protocollo" starts 
+    # i.e. the point where to insert the updated ones 
     inizio_iterazione_protocollo_index=0
     for fact in new_input:
         if predicate_name_dict['inizio_iterazione_protocollo']+'(' in fact:
             inizio_iterazione_protocollo_index = new_input.index(fact)
             break
 
-    #rimuovo tutti gli "inizio_iterazione_protocollo" vecchi
+    #remove all old "inizio_iterazione_protocollo"
     new_input=[f for f in new_input if not predicate_name_dict['inizio_iterazione_protocollo']+'(' in f]
-    # inserisco i valori aggiornati
+    # insert the updated values
     insert_index=inizio_iterazione_protocollo_index
     for pat, prot_d in inizio_iterazione_protocollo.items():
         for pi, it_d in prot_d.items():
@@ -300,22 +298,19 @@ if __name__ == "__main__":
                 insert_index+=1
 
 
-    #dei pacchetto_istanza devo aggiornare il numero di iterazioni
-    #Lo faccio prima sul dizionario che ho costruito, poi elimino
-    # le vecchie e inserisco le nuove.
-    # Il numero di iterazioni lo estrapolo da inizio_iterazione_protocollo
-    # che ho appena aggiornato sopra
-    #cerco l'indice della lista a cui cominciano gli "inizio_iterazione_protocollo"
-    # ovvero il punto in cui inserirli aggiornati
+    #Update the number of iterations in the pacchetto_istanza fact
+    #First, update the dictionary, then remove the old ones and insert the new ones.
+    # The number of iterations is obtained from inizio_iterazione_protocollo, which was just updated above.
+    #Find the index of the list where "inizio_iterazione_protocollo" starts, i.e., the point where updated ones should be inserted.
     pacchetto_istanza_index=0
     for fact in new_input:
         if predicate_name_dict['pacchetto_istanza']+'(' in fact:
             pacchetto_istanza_index = new_input.index(fact)
             break
 
-    #rimuovo tutti i "pacchetto_istanza" vecchi
+    #Remove all old "pacchetto_istanza" facts
     new_input=[f for f in new_input if not predicate_name_dict['pacchetto_istanza']+'(' in f]
-    # inserisco i valori aggiornati
+    # Insert the updated values
     insert_index=pacchetto_istanza_index
     for pat, prot_d in inizio_iterazione_protocollo.items():
         for pi, it_d in prot_d.items():
@@ -324,10 +319,10 @@ if __name__ == "__main__":
                 insert_index+=1
 
 
-    #con la scelta di identificare i parametri esisenziali per ciascuna istanza,
-    # quindi con la possibilità di distinguere tra pacchetti "omologhi" di più 
-    # iterazioni, bisogna creare un fatto per ciascuna iterazione oltre che per 
-    # ogni occorrenza del pacchetto del protocollo di un paziente
+    # When identifying the essential parameters for each instance, 
+    # which enables distinguishing between "homologous" packages 
+    # with multiple iterations, a fact must be created for each iteration 
+    # in addition to each occurrence of the patient's protocol package.
     pacchetto_esist_index=0
     for fact in new_input:
         if      predicate_name_dict['tipo_pacchetto']+'('   in fact or \
@@ -340,7 +335,7 @@ if __name__ == "__main__":
             pacchetto_esist_index = new_input.index(fact)
             break
 
-    #rimuovo tutti i parametri esistenziali vecchi
+    # Remove all old essential parameters
     new_input=[f for f in new_input if not (
                 predicate_name_dict['tipo_pacchetto']+'('   in f or \
                 predicate_name_dict['data_inizio']+'('      in f or \
@@ -349,7 +344,7 @@ if __name__ == "__main__":
                 predicate_name_dict['tolleranza']+'('       in f or \
                 predicate_name_dict['esistenza']+'('        in f or \
                 predicate_name_dict['n_occorrenze']+'('     in f)]
-    # inserisco i valori aggiornati
+    # Insert the updated values
     insert_index=pacchetto_esist_index
     for pat, prot_d in inizio_iterazione_protocollo.items():
         for pi, it_d in prot_d.items():
@@ -362,15 +357,13 @@ if __name__ == "__main__":
                             new_input.insert(insert_index,"{}({},{},{},{},{}).\n".format(param, pat, pi, it, pk, val))
                         insert_index+=1
 
-    # Garbage collector: eliminare quelle istanze (iterazioni) di protocolli
-    # che hanno oltrepassato la soglia di oblio nel passato.
-    # Vengono eliminati tutti quei protocolli che sono terminati prima
-    # della soglia di oblio
+    # Garbage collector: delete those instances (iterations) of protocols that have passed the threshold of oblivion in the past.
+    # All those protocols that have terminated before the oblivion threshold 
     for pat, prot_d in horizons_prot_istanze.items():
         for pi, it_d in prot_d.items():
             for it, durata in it_d.items():
                 if inizio_iterazione_protocollo[pat][pi][it]+durata < soglia_oblio:
-                    #faccio un purge di tutti i fatti relativi a protocolli obsoleti
+                    #purge all facts about obsolete protocols
                     new_input=[f for f in new_input if not ('({},{},{}'.format(pat,pi,it) in f or '({}, {}, {}'.format(pat,pi,it) in f)]
 
     with open(os.path.join(THIS_DIR, 'input', 'mashp_input.lp'), 'w') as in_file:

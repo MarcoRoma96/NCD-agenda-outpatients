@@ -73,12 +73,10 @@ if __name__ == "__main__":
     for n_test, test_d in enumerate(folder_modelli_l):
         for n_ist,k in enumerate(folder_modelli_l[0]):
             inst_dir = test_d[k]
-            #print(n_test,inst_dir)
             sample_inst_l = [os.path.join(inst_dir,f) for f in os.listdir(inst_dir) if os.path.isdir(os.path.join(inst_dir,f)) and 'test' in f or 'Test' in f]
             for sample_dir in sample_inst_l:
                 json_stat=[os.path.join(sample_dir,f) for f in os.listdir(sample_dir) if os.path.isfile(os.path.join(sample_dir,f)) and 'mashp_input-' in f and 'statistics.json' in f and not 'GREEDY' in f]
                 if json_stat:
-                    #print(json_stat)
                     stat_d = {}
                     with open(json_stat[0]) as stat_file:
                         stat_d = json.load(stat_file)
@@ -86,13 +84,6 @@ if __name__ == "__main__":
                     #estraggo dalle statistiche il numero di pazienti, l'orizzonte e il valore della FO quanti schedulati sul totale
                     n_paz       = stat_d["numero_pazienti"]
                     horizon     = stat_d["dimensione_finestra"]
-    #                schedulati  = stat_d["n_schedulati"]
-    #                non_sched   = stat_d["n_non_schedulati"]
-    #                tot_rich    = stat_d["totale_occorrenze"]
-    #                n_prest     = stat_d["totale_prestazioni"]
-    #                n_cambi_data= safe_get_data("n_cambi_data",stat_d)
-    #                n_accessi   = safe_get_data("n_accessi",stat_d)
-
                     
                     row_key = "scen{}-np{}-h{}".format(n_ist+1, n_paz, horizon)
                     stat_d['scen_id'] = row_key
@@ -100,54 +91,12 @@ if __name__ == "__main__":
                     table_l.append(nested_dicts_to_2d(stat_d))
                     
 
-    #                elementi_l = [schedulati, non_sched, tot_rich, n_prest, inst_dir]
-
                     if not row_key in rows:
                         rows[row_key] = {n_test : elementi_l}
                     else:
                         rows[row_key][n_test]  =  elementi_l
 
-    #for row in rows.items(): print(row)
-
-
-    #table_l = [[k, v[0][2]] + [v[nm][1] for nm in v] + [v[0][3]] + 
-    #           [(v[nm][idx]) for nm,idx in 
-    #            [j for i in list(list(zip(v.keys(), el)) for el in list([i]*len(v.keys()) for i in range(4,len(elementi_l[:-1])))) for j in i]]
-    #            for k,v in rows.items()]
-
-    #for el in table_l: print(table_l) 
-
-    #df = pd.DataFrame(table_l, 
-    #                    columns=["inst_id", 
-    #                             "tot_pkt"] +
-    #                            ["not_scheduled <model {}>".format(n)   for n in range(len(folder_modelli_l))] + 
-    #                            #["inst_name <model {}>".format(n) for n in range(len(folder_modelli_l))])
-    #                            ["tot_prestaz"])
-    #                            ["n_cambi_data <model {}>".format(n)    for n in range(len(folder_modelli_l))] +
-    #                            ["n_accessi <model {}>".format(n)       for n in range(len(folder_modelli_l))] )
-                                #["inst_dir <model {}>".format(n)        for n in range(len(folder_modelli_l))])
-
     df = pd.DataFrame(table_l)
-    #cols=list(df.columns)
-    #drop_cols = ['dimensione_finestra',
-    #            'numero_risorse',
-    #            'numero_pazienti',
-    #            'numero_prestazioni_per_paziente',
-    #            'richiesta_risorse_per_paziente',
-    #            'saturazione_capacita_per_risorsa',
-    #            'saturazione_capacita_media',
-    #            'rapporto_non_schedulati_per_paziente',
-    #            'rapporto_non_sched_satur_per_res',
-    #            'rapporto_non_sched_satur_media',
-    #            'rapporto_res_soddisfatte_richieste_per_paziente',
-    #            'rapporto_n_prest_soddisfatte_richieste_per_paziente'
-    #            ]
-
-    
-    #drop_cols_l = [c for c in cols if any(dc in c for dc in drop_cols)] + \
-    #             [dc for dc in cols if ('best_sol' in dc and 'time' in dc)] + \
-    #             [dc for dc in cols if 'best_sol_info_sp' in dc]
-    #df=df.drop(columns=drop_cols_l)
 
     df['tipo_modello']= pd.Series(str(s).replace('[','').replace(']', '').replace(' ', '').replace("'", '').replace(',', '-') for s in df['tipo_modello'].to_list())
 

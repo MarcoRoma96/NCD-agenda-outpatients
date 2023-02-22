@@ -38,7 +38,7 @@ if __name__=="__main__":
             print("\n\nUsage:\n\n $ just_mashp.py [-input=<mashp input file>] [-prev_sol=<mashp previous sol. file>] [--time-limit=<int in seconds>]")
             exit(1)
 
-    #leggo i settings dal file json
+    #get settings from file
     settings={}
     with open(os.path.join(THIS_DIR, 'src', 'settings.json')) as settings_file:
         settings=json.load(settings_file)
@@ -68,7 +68,7 @@ if __name__=="__main__":
     ##################################################################
     ###   DISTINGUISH SPLIT BY TIME, OR MONOLITHIC                 ###
     ##################################################################
-    ### IF sbt devo usare il file esterno per i nogood
+    ### IF sbt then use nogood external file
         with open(os.path.join(TARGET_DIR, 'nogood.lp'), 'w') as ng:
             ng.write('')
         old_nogood=0
@@ -76,11 +76,11 @@ if __name__=="__main__":
         n=0
         init_time_limit=settings["first_iter_tl"]
         time_limit_incr=settings["iter_tl_incr"]
-        #%dizionario dei timestamp per controllare i tempi di solving
+        #% create dictionary of timestamps
         timestamp_dict={}
         greedy_fixed=[]
         info_iter_sol_dict={}
-        while((old_nogood<len_nogood and settings['model']=='sbt' and False) or n==0):  #termina quando non ho nuovi nogood aggiunti
+        while((old_nogood<len_nogood and settings['model']=='sbt' and False) or n==0):
             new_tl=init_time_limit+time_limit_incr*n
             if settings['model']=='sbt':
                 with open(os.path.join(THIS_DIR, "src", "time_limit.json"), 'w') as tl_file:
@@ -93,11 +93,9 @@ if __name__=="__main__":
             #default
             input_name_l    = [os.path.join(THIS_DIR, 'input', 'mashp_input.lp')]
             prev_sol_name   =  os.path.join(THIS_DIR, 'input', 'previous_sol.lp')
-            #se non esiste una previous sol. non la richiedo a clingo
+            #check if a previous sol file is passed
             if not os.path.exists(prev_sol_name):
                 prev_sol_name=''
-            
-            #se dei file paths sono dati come input per input e previous sol. devo usare quelli
 
             tl=''
             if len(sys.argv) >= 2:
@@ -123,7 +121,7 @@ if __name__=="__main__":
 
     ###IF sbt...:
             if settings['model']=='sbt':
-                cmd += [os.path.join(TARGET_DIR, 'nogood.lp')]    		####if sbt####
+                cmd += [os.path.join(TARGET_DIR, 'nogood.lp')]
     ###END IF sbt
             if prev_sol_name!='':
                 cmd += [prev_sol_name]
@@ -131,32 +129,30 @@ if __name__=="__main__":
     ####IF sbt OR monolithic
             if settings['model'] in ['sbt', 'monolithic']:
                 now_start = datetime.now()
-    ####END IF sbt OR monolithic...
+    ####END IF sbt OR monolithic
             with open(os.path.join(TARGET_DIR, 'sol.lp'), 'w') as sol:
                 process = subprocess.Popen(cmd, stdout=sol, stderr=sol)
                 process.wait()
 
     ####IF sbt OR monolithic
-            #%prendo il tempo di terminazione di tutti i SP
+            #%Get SP ending time
             if settings['model'] in ['sbt', 'monolithic']:
                 now_stop = datetime.now()
                 if settings['model'] == 'monolithic' and settings['monolithic_timing_mode'] == 'dl':
-                    #%al termine devo scrivere la soluzione nel file 'readable_sol.lp'
-                    #%che lo fa lo script 
                     cmd=['python', os.path.join(THIS_DIR, 'format_master_plan.py')]
                     process = subprocess.Popen(cmd)
                     process.wait()
     #### END IF sbt OR monolithic####
 
-            print("Esecuzione terminata\n")
+            print("Execution completed\n")
             
-            #salvo le info dei risultati, ad ogni iterazione per sbt (append!)        
-            print("salvataggio info ultima sol...\n")
+            # Save the result info at each iteration for sbt (append!)  
+            print("Saving last solution info...\n")
             search_file = glob.glob(os.path.join(TARGET_DIR, 'daily_agenda*.lp'))
             search_file = [f for f in search_file if not re.search('_p.\.lp', f)]
-            #salvo la sol del master
+            # Save the solution of the master problem
             info_dict={'mp' : get_result_values(os.path.join(TARGET_DIR, 'sol.lp'))}
-            #salvo le sol dei SP
+            # Save the solution of the subproblems
             for fsp in search_file:
                 info_dict['sp{}'.format(fsp.split('daily_agenda')[-1].split('.lp')[0])] = get_result_values(fsp)
 
@@ -168,21 +164,18 @@ if __name__=="__main__":
 
     ####IF sbt ...
             if settings['model']=='sbt':
-                #salvo il tempo
+                # Save the timestamp
                 timestamp_dict[n]=(now_start, now_stop)
-                #%a questo punto devo raccogliere le info degli SP per generare i cut da aggiungere al MP:
+                # Collect info of subproblems to generate the cuts to add to the master problem
                 cut_d = collect_info()
 
-                ################################################
-                ####    DISTINGUERE TIPI DI NOGOOD USATI    ####
-                ################################################
-                #MODELLO GREEDY
+                # sGREEDY
                 with open(os.path.join(TARGET_DIR, 'nogood.lp'), 'a') as ng:
                     if settings['nogood'] == 'greedy':
                         if n == 1: ng.write('greedy.\n')
                         index_printed=False
                         for day,l in cut_d.items():
-                            print("fisso soluzioni della data"+' '+str(day)+' '+'-- sat: '+str(len(l['sat'])) + ', unsat: '+str(len(l['unsat'])) )
+                            print("fix solution of the date: "+' '+str(day)+' '+'-- sat: '+str(len(l['sat'])) + ', unsat: '+str(len(l['unsat'])) )
                             for t in l['sat']:
                                 if not t in greedy_fixed:
                                     if not index_printed:
@@ -210,7 +203,7 @@ if __name__=="__main__":
             now_stop = datetime.now()
         ###END IF monolithic
 
-        print("Terminazione in corso...")
+        print("Termination in progress...")
         sol.close()
 
         ###IF monolithic...
@@ -221,7 +214,7 @@ if __name__=="__main__":
 
         ####ELSE IF sbt
         elif settings['model']=='sbt':
-            #al termine, scrivo in coda al file i tempi impiegati
+            #when finished, write the time taken at the end of the file
             with open(os.path.join(TARGET_DIR, 'sol.lp'), 'a') as sol_file:
                 sol_file.write("\n")
                 for i,t in timestamp_dict.items():
@@ -232,15 +225,15 @@ if __name__=="__main__":
         cmd=['python', os.path.join(THIS_DIR, 'format_master_plan.py')]
         process = subprocess.Popen(cmd)
         process.wait()
-        print("Si può trovare l'ultima soluzione in forma leggibile nel file \"target/readable_sol.lp\"\n")
+        print("You can find the last solution in readable form in file \"target/readable_sol.lp\"\n")
         
-        #salvo le info dei risultati, ad ogni iterazione per sbt      
+        #save results info, each iteration for sbt   
         print("salvataggio info ultima sol...\n")
         search_file = glob.glob(os.path.join(TARGET_DIR, 'daily_agenda*.lp'))
         search_file = [f for f in search_file if not re.search('_p.\.lp', f)]
-        #salvo la sol del master
+        #Save Master Plan
         info_dict={'mp' : get_result_values(os.path.join(TARGET_DIR, 'sol.lp'))}
-        #salvo le sol dei SP
+        #Save SP sol
         for fsp in search_file:
             info_dict['sp{}'.format(fsp.split('daily_agenda')[-1].split('.lp')[0])] = get_result_values(fsp)
 
@@ -255,7 +248,7 @@ if __name__=="__main__":
     
 ####IF sbt ... ####  
     if settings['model']=='sbt':
-        #al termine, scrivo in coda al file i tempi impiegati
+        #when finished, write the time taken at the end of the file
         print("NO NEW NOGOOD FOUND\n")
         with open(os.path.join(TARGET_DIR, 'sol.lp'), 'a') as sol_file:
             sol_file.write("\n")
@@ -273,4 +266,4 @@ if __name__=="__main__":
     cmd=['python', os.path.join(THIS_DIR, 'format_master_plan.py')]
     process = subprocess.Popen(cmd)
     process.wait()
-    print("Si può trovare l'ultima soluzione in forma leggibile nel file \"target/readable_sol.lp\"\n")
+    print("You can find the last solution in readable form in file \"target/readable_sol.lp\"\n")

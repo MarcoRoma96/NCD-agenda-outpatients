@@ -12,7 +12,7 @@ if __name__=="__main__":
             print("\nUsage: generate_input.py <horizon>, <n resources>, <n patients>\n\n")
             exit(1)
 
-        print("Generazione istanza in corso...")
+        print("Generating instance...")
 
         if not path.isdir(path.join(THIS_DIR, 'input')):
             in_path=path.join(THIS_DIR, 'input')
@@ -27,13 +27,13 @@ if __name__=="__main__":
             cmd = ['python', path.join(THIS_DIR, 'generate_input.py'), sys.argv[1], sys.argv[2], sys.argv[3]]
             process = subprocess.Popen(cmd, stdout=info_out)
             process.wait()
-        print("Istanza generata con successo\n")
+        print("Instance generated with success\n")
 
-        print("Simulazione schedule precedente...")
-        cmd = ['python', path.join(THIS_DIR, 'genera_precedente.py')]
-        process = subprocess.Popen(cmd)
-        process.wait()
-        print("Completato\n")
+        #print("Simulazione schedule precedente...")
+        #cmd = ['python', path.join(THIS_DIR, 'genera_precedente.py')]
+        #process = subprocess.Popen(cmd)
+        #process.wait()
+        #print("Completato\n")
 
         cmd = ['python', path.join(THIS_DIR, 'just_mashp.py')]
         process = subprocess.Popen(cmd)

@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
 import argparse
+import json
 import sys
-import re
-import random
 import os
 THIS_DIR = os.path.dirname(__file__)
 SRC_DIR = os.path.abspath(os.path.join(THIS_DIR, 'src'))
 sys.path.append(SRC_DIR)
 from mashp_tools import *
 
-FILE_PATH=os.path.join(THIS_DIR, "input", "mashp_input.lp")
+FILE_PATH=os.path.join(THIS_DIR, "input", "mashp_input.json")
 
 def find_index(stringa, lista):
     index=0
@@ -21,41 +20,48 @@ def find_index(stringa, lista):
     return index
 
 
-def del_pat():
-
-    l_input = read_ASP(FILE_PATH)
+def del_pat(names=None):
+    with open(FILE_PATH) as infile:
+        d_input = json.load(infile)
     
-    names=[]
-    for f in l_input:
-        if 'patient(' in f:
-            names.append(re.split('\(|,|\).', f)[1])
-    
-    p_to_be_del=None
-    if len(sys.argv)==2 and not '--all' in sys.argv:
-        p_to_be_del=sys.argv[1]
-    else:
-        p_to_be_del=random.choice(names)
+    pat_l=list(d_input['pat_request'].keys())
+    if not pat_l:
+        print('No patient to remove\n')
+        return []
+    try:
+        if not names or names==None:
+            del d_input['pat_request'][pat_l[0]]
+            print(f"Deleted patient {pat_l[0]}")
+        else:
+            for p in names:
+                try: 
+                    del d_input['pat_request'][p]
+                except:
+                    print(f'Cannot remove patient: {p}, continue...')
+                    continue
+                else:
+                    print(f"Deleted patient {p}")
+        
+        with open(FILE_PATH, 'w') as outfile:
+            json.dump(d_input, outfile, indent=4)
+        format_instance_to_ASP(FILE_PATH)
 
-    l_input=[f for f in l_input if not '({}'.format(p_to_be_del) in f]
+        return list(d_input['pat_request'].keys())
 
-    with open(FILE_PATH, 'w') as output:
-        output.writelines(l_input)
 
-    print("Deleted patient {}".format(p_to_be_del))
-    return names.remove(p_to_be_del)
+    except Exception as e:
+        print(f'Cannot remove any patient:\n {e}')
+        return []
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Generare file di analisi dei risultati nelle cartelle dei test")
+    parser = argparse.ArgumentParser(description="Remove a patient or all the population from the instance")
     parser.add_argument('-a', '--all', action="store_true")
+    parser.add_argument('-n', '--name', action="append")
     args=parser.parse_args()
 
-    residual = del_pat()
+    residual = del_pat(args.name)
     if args.all:
+        print('Removing all the patients')
         while residual:
             residual = del_pat()
-
-
-    
-
-            

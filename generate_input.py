@@ -13,86 +13,86 @@ from mashp_tools import *
 import time
 import shutil
 
-#PARAMETRI
-### Lunghezza periodo di ripetizione pattern
-#   della disponibilità giornaliera di risorse
-#   es. settimanale
+# PARAMETERS
+### Length of the pattern repetition period
+#   of daily resource availability
+#   e.g. weekly
 period_res=7
 
-### capacità giornaliera minima e massima 
-#   entro cui scegierla per le risorse
+### Minimum and maximum daily capacity 
+#   to choose for the resources
 range_capacita_giornaliera = (24, 60)
-###durata (consumo) prest
+### Duration (consumption) of a service
 durata_prest=(6, 15)
-###min - max costo prest
+### Minimum and maximum service cost
 costo_prest=(1, 4)
-### rapporto min e max tra #prestazioni e #risorse
+### Minimum and maximum ratio between #services and #resources
 mul_prest = (1.2, 4)
-###range numero di care unit per stesso tipo di servizio
+### Range of the number of care units for the same service type
 n_units = (1, 4)
-###
+### Maximum start time
 max_time_start=3*durata_prest[1]
 
-### max incompatibilità
+### Maximum interdiction
 max_incomp = 10
-### Probabilità non incompatibilità: 
-# è di 0.5 se uguale a max_incomp
+### Non-incompatibility probability: 
+# it's 0.5 if equal to max_incomp
 p_0_incomp = 6*max_incomp
-### supplemento incompatibilità brevi [1,2,3]: 
-# dare più probabilità a durate brevi di incompatibilità
+### Short incompatibility supplement [1,2,3]: 
+# give more probability to short incompatibility durations
 supp_brevi_incomp = max_incomp
-### max tau_min di necessità
+### Maximum tau_min for necessity
 max_tau_min_nec = 1
-### max tau_max di necessità
+### Maximum tau_max for necessity
 max_tau_max_nec = 10
-### Probabilità non necessità:
-# è di 0.5 se =1, poi cresce di n/(n+1)
+### Non-necessity probability:
+# it's 0.5 if =1, then it grows with n/(n+1)
 p_none_nec = 10
-### min numero paccheti garantiti
+### Minimum guaranteed number of packages
 min_pk = 6
-### rapporto min e max #pacchetti e #risorse
+### Minimum and maximum ratio between #packages and #resources
 mul_pk = (0.5, 2)
-### numero di prestazioni inziali di pacchetto
-#   e relativi pesi di probabilità
+### Number of initial package services
+#   and their probability weights
 prest_choices = {'n':[1,2,3,4,5], 'w':[20,10,4,2,1]}
 
-### Numero di protocolli da provare
+### Number of protocols to try
 n_pi = 1000
-### max pacchetti per protocollo (iniziali)
-# potrebbero essere di più a causa delle necessità
+### Maximum number of packages per protocol (initial)
+# they could be more due to necessities
 max_pk_pi = 2
-### numero tentativi di campionamento prima di considerare
-# costruite tutte le combinazioni di pacchetti diversi
+### Number of sampling attempts before considering
+# all possible combinations of different packages built
 tentativi_pk = 100
-### massimo start ideale di un pacchetto ottenuto come
-# moltiplicatore di questo valore * nh
-mul_start = 2.0/3.0 
-### possibili valori di frequenza e loro pesi
+### Maximum ideal start of a package obtained as
+# multiplier of this value * nh
+mul_start = 2.0 / 3.0
+### Possible frequency values and their weights
 freq_choice = {'f':[1,2,3,4,5,6,7,10,15,20,25,30,40,45,50,60,70,80,90,100,110,120,150,180], 'w':[0,0,0,0,0,0,1,2,3,4,6,8,8,9,8,10,10,8,8,9,9,10,8,10]}
-### probabilità calcolo occorrenze dal precedente 
-# o dallo start, scelti con questi pesi
+### Probability of calculating occurrences from the previous one 
+# or from the start, chosen with these weights
 typ_w = [0,10]
-### tolleranza max
+### Maximum tolerance
 max_tol = 7
-### max numero di occorrenze iniziali (potrebbe variare)
+### Maximum number of initial occurrences (could vary)
 max_occur = 7
 
-### valore di peso in FO di un paziente non scheduled (w > --> paz. + grave) e probabilità
+### Weight value in Obj.F. of an unscheduled patient (w > --> more severe patient) and probability
 pat_prior_w={'pw' : [1,2,3], 'prob' : [3,2,1]}
 
-# numero di possibili protocolli assegnati ad un paziente
-# e relativi pesi per la probabilità
+# Number of possible protocols assigned to a patient
+# and their probability weights
 pi_choices = {'n':[1,2,3,4], 'w':[10,4,2,1]}
 
-# minimo e massimo intervallo di attesa per ripetere il protocollo
-# di nuovo dall'inizio (attenzione alle intolleranze!)
+# min and max waiting interval before repetition of the protocol 
+# (beware of incompatibilities!)
 min_attesa_iter_prot=5
 max_attesa_iter_prot=5
 
 
 def occurrences(s, e, f):       
-    """Funzione per il calcolo delle occorrenze, 
-    dati start s, end e dell'esistenza e la frequenza del pacchetto f
+    """
+    Function to calculate occurrences given start s, end e, and packet frequency f.
     """
 
     ex=e-s+1
@@ -101,19 +101,20 @@ def occurrences(s, e, f):
 
 
 def res_x_day(nh, resource_list):
-    """Funzione per generare la matrice delle capacità per giorno e per tipo di risorsa.
-    Restituisce insieme anche il dizionario della periodicità delle capacità, es. settimanale.
-    Il valore della durata del periodo è settabile come parametro del generatore.
+    """
+    Function to generate a matrix of capacity for each day and type of resource.
+    It also returns a dictionary of capacity periodicity, such as weekly.
+    The duration of the period can be set as a parameter of the generator.
     """
     
-    #creo un pattern di ripetitività, es. settimanale
+    #create a repetition pattern for the resources, e.g. weekly
     repetition_pattern={}
     for d in range(period_res):
         tmp={}
         for r in resource_list:
             tmp[r]=random.randint(range_capacita_giornaliera[0], range_capacita_giornaliera[1])
         repetition_pattern[d+1]=tmp
-    #creo la matrice su nh, ripetendo il pattern
+    #repeat the pattern over nh days, create the matrix
     capacity_matrix={}
     index=0
     for d in range(nh):
@@ -121,9 +122,10 @@ def res_x_day(nh, resource_list):
     return capacity_matrix, {'repetition_pattern':repetition_pattern, 'index':((nh-1) % period_res)+1}
 
 def daily_unit_availability(nh, repetition_pattern):
-    """Funzione per passare dalla matrice delle capacità e dal dizionario di ripetitività aggregati
-    alla loro versione estesa per il problema giornaliero, specificando diverse care unit con specifica
-    capacità (complessivamente pari al valore aggregato), orario di inizio, e ripetizione estesa.
+    """
+    Function to transform the matrix of aggregated capacity and periodicity dictionary
+    to an extended version for the daily problem, specifying several care units with
+    specific capacity (in total equal to the aggregated value), start time, and extended repetition.
     """
 
     extended_repetition_pattern={}
@@ -131,48 +133,61 @@ def daily_unit_availability(nh, repetition_pattern):
         extended_repetition_pattern[day]={}
         for res, Q_tot in dic.items():
             extended_repetition_pattern[day][res]={}
-            #seleziono dei punti di taglio u un range che va da 0 alla capacità massima
-            #quindi spezzo la capacita' complessiva in n parti in quei punti
+            # select cut points in the range from 0 to the maximum capacity
+            # divide the total capacity into n parts at those points
             # Q=10 ##########  --> sample 3,8: ### ##### ##
             smp = [0] + random.sample(range(Q_tot + 1), random.randint(n_units[0], n_units[1])-1) + [Q_tot]
             smp.sort()
             for i in range(1,len(smp)):
-                start=random.randint(0, max_time_start)   ###NON PESATO L'ORARIO DI INIZIO!
+                start=random.randint(0, max_time_start)
                 extended_repetition_pattern[day][res][i] = {'start' : start, 'duration' : smp[i]-smp[i-1]}
-    #creo la matrice su nh, ripetendo il pattern
+    #repeat the pattern over nh days, create the matrix
     daily_capacity_matrix={}
     for d in range(nh):
         daily_capacity_matrix[d+1]=extended_repetition_pattern[(d % period_res) + 1]
     return daily_capacity_matrix, {'daily_repetition_pattern':extended_repetition_pattern, 'index':((nh-1) % period_res)+1}
 
 def prest_dict_gen(resource_list):
-    """Funzione per generare il dizionario delle prestazioni, 
-    per ciascuna il tipo di risorsa consumata, quanto ne consuma e un 
-    valore costo della prestazione
+    """
+    Function to generate a dictionary of performance, specifying the type of resource consumed,
+    the amount consumed, and a cost value of the performance.
     """
 
     prest_gen=Seq_alfabetica()
     prest_dict={}
     for i in range(random.randint(round(mul_prest[0]*len(resource_list)), mul_prest[1]*len(resource_list))):
-        prest_dict[prest_gen.get_next_id()]={'careUnit':random.choice(resource_list), 'duration':random.randint(durata_prest[0],durata_prest[1]), 'cost':random.randint(costo_prest[0],costo_prest[1])} #aggiungere durata di validità?
+        prest_dict[prest_gen.get_next_id()]={'careUnit':random.choice(resource_list), 'duration':random.randint(durata_prest[0],durata_prest[1]), 'cost':random.randint(costo_prest[0],costo_prest[1])}
     return prest_dict
 
 
 def prest_compatibility_gen(prest_dict, nh):
-    """Funzione per ottenere 2 matrici di incompatibilità e necessità
+    """
+    Function to obtain two matrices of interdiction and necessity.
+
+    Args:
+    ----
+    - prest_dict: A dictionary of services.
+    - nh (int): An integer representing the number of days in the planning horizon.
+
+    Returns:
+    -------
+    - A tuple of two dictionaries: (incompatibility, necessity).
+    - incompatibility (Dict[str, Dict[str, int]]): A dictionary of incompatibility between procedures.
+    - necessity (Dict[str, Dict[str, Optional[Tuple[int, int]]]]): A dictionary of necessity between procedures.
     """
 
+    # Create a dictionary of incompatibility between procedures.
     incompatibility={}
     for prest in prest_dict:
         incompatibility[prest]={pr : random.sample(list(range(max_incomp))+[0]*p_0_incomp+[0,0,0,1,2,3]*supp_brevi_incomp, 1)[0] for pr in prest_dict}
-### Ipotesi: diagonale meglio a 0 e mettere vincolo anche sulla stessa giornata, o le occorrenze potrebbero non essere soddisfattibili
-#   es. A incompatibile B e non viceversa --> nel giorno D potrei mettere A e B, purché nella giornata siano svolti in ordine B,A
-#   quindi il vincolo vale solo dalle giornate successive > D
-#   in alternativa dovrei mettere il vincolo >=D, ma in quel caso ci sarebbe conflitto con se stesso di una prestazione, quindi si potrebbe scegliere diagonale =0
-###  
+    # Hypothesis: better to set diagonal to 0 and also put a constraint on the same day, otherwise occurrences may not be satisfiable
+    # e.g. A incompatible with B and not vice versa --> on day D, I could put A and B, as long as they are carried out in the order B, A during the day
+    # therefore, the constraint only applies to days after > D
+    # alternatively, I should set the constraint to >=D, but in that case there would be a conflict with a performance itself, so the diagonal could be set to 0
     for prest in prest_dict:
-        incompatibility[prest][prest]=0  #diagonale a 0, per evitare incompatibilità con se stessi nello stesso giorno, e la correttezza e' data dal protocollo tra le istanze
+        incompatibility[prest][prest]=0  # Set the diagonal to 0 to avoid incompatibility with itself in the same day.
     
+    # Add a constraint to avoid incompatibility between the same procedures on the same day.
     necessity={}
     for prest in prest_dict:
         necessity[prest]={}
@@ -180,9 +195,10 @@ def prest_compatibility_gen(prest_dict, nh):
             init=random.randint(0, max_tau_min_nec)
             finish=random.randint(init+1, max_tau_max_nec)
             necessity[prest][pr]=random.sample([(init,finish)]+[None]*p_none_nec, 1)[0]
+    # Add a constraint to avoid a never-ending chain of necessity between procedures.
     for prest in prest_dict:
         necessity[prest][prest]=None  #diagonale a None, per evitare una necessità a catena infinita
-    #incompatibilità e necessità non possono coesistere, l'incompatibilità è già data dal tau_min
+    # Incompatibility and necessity cannot coexist, as incompatibility is already determined by tau_min.
     for prest in prest_dict:
         for pr in prest_dict:
             if necessity[prest][pr] is not None and incompatibility[prest][pr] is not None:
@@ -190,13 +206,13 @@ def prest_compatibility_gen(prest_dict, nh):
                 if to_del=='testa':
                     necessity[prest][pr]=None
                 else: incompatibility[prest][pr]=0
-            #per evitare cicli infiniti di necessità, c'è bisogno di rompere le catene chiuse e le simmetrie della matrice 
-            # (A necessita B, B necessita C e C necessita ancora A...)
-            # prima elimino le simmetrie dirette
+            # To avoid infinite necessity loops, it is necessary to break closed chains and symmetries in the matrix
+            # (A needs B, B needs C and C still needs A...)
+            # First, direct symmetries are removed.
             if necessity[prest][pr] is not None and necessity[pr][prest] is not None:
                 undo=random.choice([(pr,prest), (prest,pr)])
                 necessity[undo[0]][undo[1]]=None
-    # dopodiché elimino i cicli a 3 salti
+    # Then 3-step loops are removed.
     for pr1 in prest_dict:
         for pr2 in prest_dict:
             if necessity[pr1][pr2] is not None:
@@ -204,7 +220,7 @@ def prest_compatibility_gen(prest_dict, nh):
                     if necessity[pr2][pr3] is not None and necessity[pr3][pr1] is not None:
                         undo=random.choice([(pr1,pr2), (pr2,pr3), (pr3,pr1)])
                         necessity[undo[0]][undo[1]]=None
-    # e infine elimino completamente dipendenze >3 salti
+    # Finally remove >3-step dependences
     for pr1 in prest_dict:
         for pr2 in prest_dict:
             if necessity[pr1][pr2] is not None:
@@ -219,9 +235,9 @@ def prest_compatibility_gen(prest_dict, nh):
 
 
 def packets_gen(prest_dict):
-    """A partire da un dizionario di prestazioni questa funzione un dizionario 
-    di lunghezza random di possibili pacchetti senza doppioni,
-    ogni pacchetto del dizionario è identificato da pkt# dove # è un numero
+    """Starting from a dictionary of services, this function generates a dictionary 
+    of random-length possible packets without duplicates. Each packet in the dictionary 
+    is identified by pkt# where # is a number.
     """
 
     packets=[]
@@ -231,21 +247,19 @@ def packets_gen(prest_dict):
         for pr in packets[-1]:
             if pr in unused:
                 unused.remove(pr)
-    while unused:     #siccome ci sono necessità tra prestazioni, devo garantire che tutte siano usate
+    while unused:     # add unised services to ensure all are used
         packets.append(tuple([prest for prest in random.sample(unused, k=min(random.choices(prest_choices['n'], weights=prest_choices['w'], k=1)[0], len(unused)))]))
         for pr in packets[-1]:
             unused.remove(pr)
         
-    packets=list(dict.fromkeys(packets))  #rimuovo doppioni
+    packets=list(dict.fromkeys(packets))  # Remove duplicate packets
     packets={'pkt'+str(num_id) : packets[num_id] for num_id in range(len(packets))}
     return packets
 
 
 def protocols_gen(packets, nh, prest_dict, incompatibility, necessity):
-    """Funzione di generazione dei protocolli, composti da paccchetti
-    e organizzati all'interno di un dizionario.
-    Richiede le informazioni di pacchetti, orizzonte, prestazioni e loro vincoli
-    di compatibilità
+    """Function for generating protocols, composed of packets and organized within a dictionary.
+    Requires packet information, horizon, services and their compatibility constraints.
     """
 
     protocols={}
@@ -254,21 +268,18 @@ def protocols_gen(packets, nh, prest_dict, incompatibility, necessity):
         choosen = random.sample(list(packets.keys()), min(len(packets),random.randint(1,max_pk_pi)))
         choosen.sort()
         n=0
-        # controllo doppioni di protocolli: se ho scelto un gruppo 
-        # di pacchetti identico a uno già usato, riprova con altri...
-        # se dopo n_tentativi tentativi pesco sempre gli stessi pacchetti 
-        # ho evidentemente esaurito le possobilità prima del tempo
-        # quindi posso fermare la generazione di protocolli (break)
+        # check for duplicate protocols:
+        # if I choose a group of packets identical to one already used,
+        # try again with others... if after n attempts I always pick the same packets
+        # I have evidently exhausted the possibilities before the time, so I can stop generating protocols (break)
         while choosen in choosen_list and n<tentativi_pk:
             n=n+1
             choosen = random.sample(list(packets.keys()), min(len(packets),random.randint(1,max_pk_pi)))
             choosen.sort()
         if n<tentativi_pk:
-            # devo controllare che se un pacchetto prevede
-            # una prestazione che necessita di una seconda,
-            # questa sia contenuta nello stesso o in un'altro 
-            # pacchetto dello stesso protocollo (sennò è insoddisfacibile)
-            tmp_choosen=choosen.copy()   #copia perché choosen dovrà essere modificato
+            # check if a packet requires a service that needs a second service,
+            # this must be contained in the same or another packet of the same protocol (otherwise it is unsatisfactory)
+            tmp_choosen=choosen.copy()   # copy because choosen will be modified
             new_choosen=[]
             count=0
             while new_choosen or count==0:
@@ -278,30 +289,29 @@ def protocols_gen(packets, nh, prest_dict, incompatibility, necessity):
                 count=count+1
                 for pk in tmp_choosen:
                     for pr in packets[pk]:
-                        for nec,t in necessity[pr].items():   #nec = pr. necessaria, t = tupla dei tau di necessità
+                        for nec,t in necessity[pr].items():   # nec = necessary service, t = tuple of necessity taus
                             if t is not None:
                                 found=False
-                                #cerco tra tutti i pacchetti scelti se c'é la prestazione necessaria,
-                                #e se t[0] non è 0, non può valere la necessità contenuta nello stesso pk
+                                # search among all the chosen packets if the necessary service is contained,
+                                # and if t[0] is not 0, the necessity contained in the same pk cannot be valid
                                 for pk1 in choosen:
                                     if nec in packets[pk1] and not (t[0]!=0 and pk==pk1):
                                         found=True
                                         break
                                 if found==False:
-                                    #se non è stata trovata, 
-                                    # aggiungo un pacchetto 
-                                    # che la contiene a quelli
-                                    # già scelti in precedenza
+                                    # if it is not found,
+                                    # add a packet that contains it to those
+                                    # already chosen previously
                                     pk_names=list(packets.keys())
-                                    random.shuffle(pk_names) #shuffle per evitare di prendere sempre gli stessi
+                                    random.shuffle(pk_names) # shuffle to avoid always taking the same ones
                                     for new_pk in pk_names: 
                                         if nec in packets[new_pk] and not (t[0]!=0 and pk==new_pk):
                                             new_choosen.append(new_pk)
                                             choosen.append(new_pk)
                                             break
-                    ### Non garantisce ancora l'ammissibilità del protocollo, ma fin qui mi sono accertato che
-                    ### potenzialmente tutte le necessità possono essere rispettate con un adeguato valore di 
-                    ### esistenza e frequenza, tale da ammettere occorrenze per ciascuna delle necessità
+                    ### This still does not guarantee the admissibility of the protocol, but so far I have ensured that
+                    ### potentially all needs can be met with an appropriate value of
+                    ### existence and frequency, such as to admit occurrences for each of the needs.
             choosen.sort()
             choosen_list.append(choosen)
             protocols['pi'+str(i)]=[]
@@ -311,55 +321,49 @@ def protocols_gen(packets, nh, prest_dict, incompatibility, necessity):
                 start  = random.randint(1,1+round(mul_start*nh))
                 freq   = random.choices(freq_choice['f'], freq_choice['w'], k=1)[0]
                 typ    = random.choices(['prec', 'start_date'],typ_w, k=1)[0]
-                toler  = random.randint(0, max(min(round(freq/2)-1, max_tol), 0))         #se la tolleranza > freq/2 si sovrappongono le occorrenze e si perde l'ordine
+                toler  = random.randint(0, max(min(round(freq/2)-1, max_tol), 0))         #if tolerance > freq/2 occurrences would overlap and order is lost
                 exist  = [max(1,start-toler), min(start+toler+random.randint(0,max_occur)*freq, nh)]
-                # controllo che se la frequenza supera 
-                # la finestra di esistenza o se vale 0, 
-                # significa sempre che c'è 1 sola occorrenza;
-                # posso quindi ridurre la finestra alla tolleranza 
-                # in senso restrittivo, e la frequenza 
-                # alla dimensione dell'esisitenza
+                # check frequency higher than existence 
+                # or if it is equal to 0, 
+                # means that there is only one occurrence. 
+                # Therefore, the window can be reduced to the tolerance restrictively, 
+                # and the frequency to the size of the existence.
                 if freq>exist[1]-exist[0]+1:
                     exist[0]=max(start-toler, exist[0])
                     exist[1]=min(start+toler, exist[1])
                     freq=exist[1]-exist[0]+1
 
-                # Bisogna far stare tutto, anche aventuali
-                # finestre di necessità
-                #  all'interno dell'orizzonte del protocollo
-                # che può essere <= nh:
-                ### shifto indietro le finestra di necessità 
-                # proiettate avanti dal pacchetto in esame
+                # Keep everything, including possible necessity windows, 
+                # within the protocol horizon, which can be <= nh:
+                ### Shift the necessity window back, projected forward by the packet under examination.
                 for prA in packets[pkt]:
                     for pkB in choosen:
                         for prB in packets[pkB]:
-                            # provo a traslare indietro l'esistenza
+                            # Try to move back the existence window
                             if necessity[prA][prB] != None and exist[1]+necessity[prA][prB][1]>nh:
                                 dist_ex = exist[1]-exist[0]
                                 while not exist[0]==1 and exist[1]+necessity[prA][prB][1]<=nh:
                                     exist[0]=exist[0]-1
                                     start=start-1
                                 exist[1]=exist[0] + dist_ex
-                                # se ancora non ho risolto traslando, 
-                                # provo a ridurre l'esisitenza che potrebbe
-                                # essere troppo lunga 
+                                # If moving back doesn't work, try to reduce the existence window that may be too long
                                 if exist[1]+necessity[prA][prB][1]>nh:
                                     while not exist[1]<=start+toler and exist[1]+necessity[prA][prB][1]<=nh:
-                                        exist[1]=exist[1]-freq #procedo a salti di freq, per calere numero di occorrenze
-                                # Se ancora non è ammissibile, butto via il protocollo
+                                        exist[1]=exist[1]-freq  # Proceed in jumps of freq to reduce the number of occurrences.
+                                # If it's still not admissible, discard the protocol
                                 if exist[1]+necessity[prA][prB][1]>nh:
                                     protocollo_inammissibile=True
                 if protocollo_inammissibile: 
                     del protocols['pi'+str(i)]
                     break
 
-                # Controllo approssimativo di compatibilità
-                # spostando la finestra di esistenza
-                # cercando di non sovrapporla
-                # all'intervallo di incompatibilità;
-                ## NOTARE che questi non comportano 
-                # l'immediata eliminazione del protocollo, 
-                # ma si attende certificazione definitiva
+                #Approximate compatibility check
+                #by moving the existence window
+                #trying not to overlap with
+                #the interdiction interval;
+                #NOTICE that this does not
+                #immediately eliminate the protocol,
+                #but definitive certification is awaited
                 for prB in packets[pkt]:
                     for pkA in protocols['pi'+str(i)]:
                         for prA in packets[pkA['packet_id']]:
@@ -375,12 +379,8 @@ def protocols_gen(packets, nh, prest_dict, incompatibility, necessity):
                                         exist[1]=dist_ex+1
                                     exist[0]=exist[1]-dist_ex
                                     start=exist[0]+toler
-                                #if attempts_count==nh-dist_ex+1:
-                                #    print("!!!--- PROTOCOLLO {} POTREBBE ESSERE INSODDISFACIBILE PER INCOMPATIBILITA' TRA: {} pr {} E {} pr {} ---!!!".format('pi'+str(i),protocols['pi'+str(i)].index(pkA), prA, len(protocols['pi'+str(i)]), prB))
-                
-                # dal momento che il tau_min della necessità
-                # si comporta esattamente come l'incompatibilità
-                # dovrò effettuare lo stesso test
+                                
+                # Since the minimum value of the necessity behaves exactly like incompatibility,the same test has to be performed
                 for prB in packets[pkt]:
                     for pkA in protocols['pi'+str(i)]:
                         for prA in packets[pkA['packet_id']]:
@@ -391,6 +391,9 @@ def protocols_gen(packets, nh, prest_dict, incompatibility, necessity):
                                 tBA=0
                                 if necessity[prA][prB]==None: tBA=necessity[prB][prA][0]
                                 if necessity[prB][prA]==None: tAB=necessity[prA][prB][0]
+                                # While exist[0] is not greater than pkA['existence'][1] + tAB and
+                                # pkA['existence'][0] is not greater than exist[1] + tBA and
+                                # attempts_count is less than nh-dist_ex+1, perform the following
                                 while not (exist[0]>pkA['existence'][1]+tAB) and \
                                       not (pkA['existence'][0]>exist[1]+tBA) and \
                                       attempts_count<nh-dist_ex+1:
@@ -401,9 +404,8 @@ def protocols_gen(packets, nh, prest_dict, incompatibility, necessity):
                                     exist[0]=exist[1]-dist_ex
                                     start=exist[0]+toler
                                 
-                # controllando che non sia stato scartato 
-                # il corrente protocollo, aggiungo il nuovo 
-                # pacchetto che ha passato i test
+                # If the current protocol has not been discarded,
+                # add the new packet that passed the tests.
                 if 'pi'+str(i) in protocols.keys():
                     protocols['pi'+str(i)].append( \
                         {
@@ -415,39 +417,35 @@ def protocols_gen(packets, nh, prest_dict, incompatibility, necessity):
                             'existence'  : [exist[0], exist[1]]
                         }
                     )
-                # ogni tanto qualche pacchetto si presenterà
-                # anche in un periodo successivo alla sua esistenza
-                # purche' sempre entro l'orizzonte, 
-                # ma con frequenza o tolleranze diverse da prima
+                # Sometimes a packet will present itself even in a later period than its existence,
+                # as long as it is still within the horizon, 
+                # but with different frequency or tolerances than before
                 random_flag=False
                 while not random_flag:
                     pacchetto_non_accettato=False
                     random_flag=random.choice([True, False])
-                    # creo un nuovo pacchetto successivo 
-                    # solo se l'esistenza non arriva a fine orizzonte
+                    # Create a new packet only if the existence does not reach the end of the horizon
                     if not random_flag and exist[1]<nh-1 and freq<exist[1]-exist[0]+1:
-                        #scelgo una nuova frequenza e controllo che sia sensata
+                        # Choose a new frequency and check if it is meaningful
                         new_freq = round(random.choices([freq/4,freq/3,freq/2,freq+7,freq-7,freq*2,freq*3,freq*4], [1,2,3,2,2,3,2,1], k=1)[0])
                         if new_freq<=0: new_freq=freq+random.randint(3,7)
                         elif new_freq>=nh: new_freq=round(nh/2)+1
                         if new_freq>90: new_freq=round(new_freq/random.randint(3, 10))
-                        #calcolo poi i nuovi parametri di esistenza
+                        # Calculate the new existence parameters
                         start  = start + freq*(occurrences(exist[0], exist[1], freq)-1) + new_freq
                         toler  = random.randint(0, max(min(round(new_freq/2)-1, 7), 0))
                         exist  = [max(exist[1]+1,start-toler), min(max(random.randint(exist[1]+1, nh),start+toler), nh)]
                         if start<exist[0]: start=exist[0]+toler
-                        # impongo che se la frequenza è maggiore dell'esistenza allora valga uguale, 
-                        # che per me ha il significato di 1 sola occorrenza
-                        # allo stesso modo nel caso di singola occorrenza l'esistenza la faccio restringere 
-                        # fino a coincidere con la sovrapposozione di se stessa con l'intervallo di tolleranza
+                        # Impose that if the frequency is greater than the existence then it is equal, 
+                        # which for me has the meaning of a single occurrence in the same way in the case 
+                        # of a single occurrence the existence I make it shrink to coincide with the overlapping 
+                        # of itself with the tolerance interval
                         if new_freq>exist[1]-exist[0]+1:
                             exist[0]=max(start-toler, exist[0])
                             exist[1]=min(start+toler, exist[1])
                             new_freq=exist[1]-exist[0]+1
 
-                        # Bisogna far stare tutto, 
-                        # sia incompatibilità che necessità,
-                        # come sopra                    
+                        # Everything has to fit, both incompatibility and necessity, as above    
                         for prA in packets[pkt]:
                             for pkB in choosen:
                                 for prB in packets[pkB]:
@@ -457,20 +455,20 @@ def protocols_gen(packets, nh, prest_dict, incompatibility, necessity):
                                 if pacchetto_non_accettato: break
                             if pacchetto_non_accettato: break
                         
-                        ### La stessa cosa va fatta per la finestra di necessità
+                        ### Same for necessity
                         if not pacchetto_non_accettato:
                             for prA in packets[pkt]:
                                 for pkB in choosen:
                                     for prB in packets[pkB]:
-                                        # provo a traslare indietro l'esistenza
+                                        # try to move backward existence
                                         if necessity[prA][prB] != None and exist[1]+necessity[prA][prB][1]>nh:
                                             pacchetto_non_accettato=True
                                             break
                                     if pacchetto_non_accettato: break
                                 if pacchetto_non_accettato: break
                         
-                        ##Controllo approssimativo di compatibilità spostando la finestra di esistenza cercando di non sovrapporla
-                        ##all'intervallo di incompatibilità
+                        # approximate compatibility check by shifting the existing date
+                        # without overlapping with the incompatibility range
                         if not pacchetto_non_accettato:
                             for prB in packets[pkt]:
                                 for pkA in protocols['pi'+str(i)]:
@@ -487,12 +485,11 @@ def protocols_gen(packets, nh, prest_dict, incompatibility, necessity):
                                                 if exist[1]>nh:
                                                     exist[1]=dist_ex+1
                                                 exist[0]=exist[1]-dist_ex
-                                            #if attempts_count==nh-dist_ex+1:
-                                            #    print("!!!--- PROTOCOLLO {} POTREBBE ESSERE INSODDISFACIBILE PER INCOMPATIBILITA' TRA: {} pr {} E {} pr {} ---!!!".format('pi'+str(i),protocols['pi'+str(i)].index(pkA), prA, len(protocols['pi'+str(i)]), prB))
-                            
+                                            
                         
-                        #controllo sul valore  di start che potrebbe essere insensato se al di fuori delle finestre
-                        if not pacchetto_non_accettato and start in range(exist[0],exist[1]) and start<nh and start>0: ##lasciare anche il start-toler?
+                        # check if the start date is within the range of existing dates,
+                        # and if so, add the packet information to the protocol list
+                        if not pacchetto_non_accettato and start in range(exist[0],exist[1]) and start<nh and start>0:
                             protocols['pi'+str(i)].append( \
                                 {
                                     'packet_id'  : pkt,
@@ -506,7 +503,7 @@ def protocols_gen(packets, nh, prest_dict, incompatibility, necessity):
                             freq=new_freq
         
                 ####
-                #### - realizzare controllo per ammissibilità all'interno dello stesso protocollo di necessita (DONE) e incompatibilita (DONE sopra)
+                #### - ammissibility check for necessity (DONE) and incompatibility (DONE before)
                 ####
                 for pkA in protocols['pi'+str(i)]:
                     for prA in packets[pkA['packet_id']]:
@@ -515,9 +512,9 @@ def protocols_gen(packets, nh, prest_dict, incompatibility, necessity):
                                 found_satis=False
                                 can_satis_list=[]
                                 for pkB in protocols['pi'+str(i)]:
-                                    #se c'è un pacchetto che contiene la pr necessaria ad A,
-                                    # e se la finestra di necessità si interseca con quella di esistenza
-                                    # di tale pacchetto, allora posso passare oltre
+                                    # if there is a packet containing the necessary pr for A, 
+                                    # and if the necessity window intersects with the existence window 
+                                    # of that packet, then I can move on 
                                     if necA in packets[pkB['packet_id']]:
                                         can_satis_list.append(pkB)
                                         if pkA['existence'][0]+tA[1] > pkB['existence'][0] and \
@@ -525,31 +522,31 @@ def protocols_gen(packets, nh, prest_dict, incompatibility, necessity):
                                             found_satis=True
                                             break
                                 if not found_satis and can_satis_list:
-                                    #se nessuno soddisfa la finestra,
-                                    # ma pacchetti che possono farlo 
-                                    # sono già presenti nel protocollo allora 
-                                    # ne prendo uno a caso e dilato 
-                                    # la finestra di esistenza
+                                    # if no one satisfies the window,
+                                    # but packets that can do it 
+                                    # are already present in the protocol then 
+                                    # I take one at random and expand 
+                                    # the existence window
                                     pkB = random.choice(can_satis_list)
                                     pkB_index = protocols['pi'+str(i)].index(pkB)
-                                    # non so quale duplicato ho preso, quindi devo fare 
-                                    # un rewind e un forward per trovare i pacchetti 
-                                    # estremi dei duplicati di stesso tipo
+                                    # I don't know which duplicate I took, so I have to 
+                                    # rewind and forward to find the packets 
+                                    # extreme of duplicates of the same type
                                     first_pkB_index=pkB_index
                                     last_pkB_index=pkB_index
                                     while first_pkB_index>0 and protocols['pi'+str(i)][first_pkB_index]['packet_id']==protocols['pi'+str(i)][first_pkB_index-1]['packet_id']:
                                         first_pkB_index=first_pkB_index-1
                                     while last_pkB_index<len(protocols['pi'+str(i)])-1 and protocols['pi'+str(i)][last_pkB_index]['packet_id']==protocols['pi'+str(i)][last_pkB_index+1]['packet_id']:
                                         last_pkB_index=last_pkB_index+1
-                                    ##Essendo mutable sto effettivamente modificando dentro a protocols
+                                    ## Being mutable I am actually modifying inside protocols
                                     first_pkB = protocols['pi'+str(i)][first_pkB_index]
                                     last_pkB  = protocols['pi'+str(i)][last_pkB_index]
 
-                                    #ora che conosco il primo e l'ultimo posso impostare la finestra
+                                    # now that I know the first and the last, I can set the window
                                     while first_pkB['existence'][0]>1 and pkA['existence'][0]+tA[1] <= first_pkB['existence'][0]:
-                                    # se il problema è l'inizio troppo avanti rispetto all'estremo max della prima occorrenza           prA    o|------------|x....o#########o....x#########x
-                                    # dilato all'indietro sia finestra che start della seguente che soddisferebbe,                      prB                             o|------------|x
-                                    # di un valore di frequenza, in questo modo intacco solo il numero di occorrenze
+                                    # if the problem is the start too far ahead compared to the max end of the first occurrence         prA    o|------------|x....o#########o....x#########x
+                                    # I dilate both the window and the start of the following one that would satisfy it,                prB                             o|------------|x
+                                    # by a frequency value, in this way I only hit the number of occurrences
                                         first_pkB['existence'][0]=first_pkB['existence'][0]-first_pkB['freq']
                                         first_pkB['start_date']=first_pkB['start_date']-first_pkB['freq']
                                         
@@ -560,21 +557,21 @@ def protocols_gen(packets, nh, prest_dict, incompatibility, necessity):
                                             first_pkB['start_date']=first_pkB['tolerance']
 
                                     while pkA['existence'][1]+tA[0]<nh and pkA['existence'][1]+tA[0] >= last_pkB['existence'][1]:
-                                    # se il problema è il termine troppo indietro rispetto all'inizio della finestra di necessità 
-                                    # dilato in avanti la finestra sempre del seguente che deve soddisfare
-                                    # di un valore di frequenza, in questo modo intacco solo il numero di occorrenze
+                                    # if the problem is the end too far behind wrt necessity window start 
+                                    # extend forward the  window of the following 
+                                    # of a frequency value, so that just th enumber of occurrences is modified
                                         last_pkB['existence'][1]=last_pkB['existence'][1]+last_pkB['freq']
 
-                                        #controllo che non sia andato fuori dall'orizzonte
+                                        #check it is not beyond horion
                                         if last_pkB['existence'][1]>nh:
                                             last_pkB['existence'][1]=nh
                 
 
         else: break
     ##
-    ##-- ora che ho ottenuto i protocolli, con quasi garanzia che siano contenuti nell'orizzonte generale
-    ##-- li rendo indipedenti da questo, applicando una traslazione che porti la prima esistenza a 1
-    ##-- ovvero ogni protocollo inizierà nel tempo relativo 1 (giorno 1) convenzionalmente
+    ##-- now that I have obtained the protocols, with almost a guarantee that they are contained within the general horizon
+    ##-- I make them independent of this by applying a translation that takes the first existence to 1
+    ##-- i.e. each protocol will begin in relative time 1 (day 1) conventionally
     ##
     protocol_horizons={}
     for pi in protocols.keys():
@@ -583,10 +580,10 @@ def protocols_gen(packets, nh, prest_dict, incompatibility, necessity):
             pk['existence'][0]=pk['existence'][0]-min_ex+1
             pk['existence'][1]=pk['existence'][1]-min_ex+1
             pk['start_date'] = pk['start_date']-min_ex+1
-        max_ex = max([pk['existence'][1] for pk in protocols[pi]]) #questo valore determina l'orizzonte relativo del protocollo
+        max_ex = max([pk['existence'][1] for pk in protocols[pi]]) #the end of the last existence represents the end of the protocol
         protocol_horizons[pi]=max_ex
 
-    ### TEST DI SODDISFACIBILITA' in ASP ###
+    ### SATISFIABILITY TEST in ASP ###
     prot_list=list(protocols.items())
     for pi,l in prot_list:
         output_file=open(os.path.join(SRC_DIR,'test_protocolli_input.lp'), 'w')
@@ -596,12 +593,12 @@ def protocols_gen(packets, nh, prest_dict, incompatibility, necessity):
         output_file.write("#const nh="+str(protocol_horizons[pi])+'.\n\n')
         output_file.write(f"{predicate_name_dict['horizon']}(1..nh).\n\n")
 
-        #print dizionario delle prestazioni (risorsa, consumo e costo)
+        #print SERVICES (CU, consumption e cost)
         output_file.write("\n%% SERVICES DICTIONARY (service, careunit, cons, cost)\n")
         for p in prest_dict.keys():
             output_file.write(f"{predicate_name_dict['prest']}" + "({}, {}, {}, {}).\n".format(p, prest_dict[p]['careUnit'], prest_dict[p]['duration'], prest_dict[p]['cost']))
 
-        #print matrici con tempi di compatibilità (Incompatibilità e Necessità)
+        #print compatibility (Incompatibility e Necessity)
         output_file.write("\n%%INTERDICTION MATRIX (s1, s2, tau)\n")
         for pr in incompatibility:
             for k, v in incompatibility[pr].items():
@@ -615,7 +612,7 @@ def protocols_gen(packets, nh, prest_dict, incompatibility, necessity):
                     output_file.write(f"{predicate_name_dict['necessita']}" + "({}, {}, {}). ".format(pr,k,v))
             output_file.write('\n')
 
-        #print pacchetti astratti
+        #print abs packets
         output_file.write("\n%% SERVICES IN ABSTRACT PACKETS\n")
         for pack, t in packets.items():
             if len(t)==1:
@@ -626,14 +623,14 @@ def protocols_gen(packets, nh, prest_dict, incompatibility, necessity):
                     output_file.write(pr+';')
                 output_file.write(t[-1]+')).\n')
 
-        #print pacchetti in protocollo
+        #print protocol packets
         output_file.write("\n%% PACKET INSTANCES, IDENTIFIED BY (PATIENT, PROTOCOL, PACKET IN PROTOCOL)\n")
         if len(l)>1:
             output_file.write(f"{predicate_name_dict['pacchetto_istanza']}" + "((0..{})). ".format(len(l)-1))
         else: output_file.write(f"{predicate_name_dict['pacchetto_istanza']}" + "({}). ".format(len(l)-1))
         output_file.write("\n")
 
-        #print dei loro parametri associati
+        #print packets parameters
         output_file.write("\n%% EXISTENCE PARAMETERS ASSIGNMENT TO THE PACKETS\n")
         for i in range(len(l)):
             output_file.write(f"{predicate_name_dict['tipo_pacchetto']}"    + "({},{}). ".format(i,l[i]['packet_id']))
@@ -666,29 +663,30 @@ def protocols_gen(packets, nh, prest_dict, incompatibility, necessity):
 
 
 def pat_protocol_gen(patients, protocols, protocol_h, nh):
-    """Funzione per ottenere una associazione tra pazienti e protocolli, sotto forma di matrice
-    restituisce una copia dei protocolli PERSONALE, quindi il paziente può modificarla per le sue esigenze
-    NOTA: restituisce una tupla per ciascun protocollo, contenente l'istanza dello stesso, associata al paziente,
-    e il valore numerico del giorno a cui si intende incominciare, o in cui è cominciato nel passato se si tratta di 
-    un valore negativo.
+    """Function to obtain an association between patients and protocols, in the form of a matrix 
+    returns a copy of the protocols PERSONAL, so the patient can modify it for his needs
+    NOTE: returns a tuple for each protocol, containing the protocol instance associated with the patient,
+    and the numeric value of the day on which it is to begin, or on which it began in the past if it is 
+    a negative value.
     """
     
     pat_follows={}
     for pat in patients:
+        # Choose a random sample of protocols for the patient, based on the distribution of pi_choices
+        # pi_choices is a dictionary with keys 'n' and 'w' that represent the number and weight of choices
         pis_pat = random.sample(list(protocols.keys()), min(random.choices(pi_choices['n'], pi_choices['w'], k=1)[0], len(protocols)))
+        # Create a dictionary to store the patient's protocol associations
         pat_follows[pat]={}
         for pi in pis_pat:
-            #determino anche un inizio relativo del protocollo: 
-            # infatti se il protocollo era cominciato in precedenza 
-            # risulterà tagliato all'inizio del tempo 0, oppure
-            # potrebbe dover cominciare dopo l'istante di inizio
-            # Aggiungo come chiave anche il numero dell'iterazione 
-            # del protocollo
+            # Determine the starting time for the protocol
+            # If the protocol had already started, it will be cut at time 0
+            # Otherwise, it may start after the given starting time
+            # Add the iteration number of the protocol as a key
             pat_follows[pat][pi]={1:(protocols[pi].copy(), random.randint(-protocol_h[pi]-20, nh-20))}
             iterazione=1
-            # aggiungo iterazioni di protocollo fino a superare l'orizzonte
-            # l'inizio della nuova iterazione è successivo (con una certa varianza)
-            # rispetto alla fine del precedente
+            # Add iterations of the protocol until it exceeds the given horizon (nh)
+            # The start of a new iteration is after the end of the previous one,
+            # with some variation between minimum and maximum waiting times (min_attesa_iter_prot and max_attesa_iter_prot)
             while pat_follows[pat][pi][iterazione][1]+protocol_h[pi] < nh:
                 iterazione+=1
                 inizio_prot_paz=random.randint(pat_follows[pat][pi][iterazione-1][1]+protocol_h[pi]+min_attesa_iter_prot, pat_follows[pat][pi][iterazione-1][1]+protocol_h[pi]+max_attesa_iter_prot)
@@ -702,10 +700,12 @@ def pat_protocol_gen(patients, protocols, protocol_h, nh):
 
 if __name__=="__main__":
 
-    if len(sys.argv)!=4:
+    # Check if the correct number of arguments is provided
+    if len(sys.argv) != 4:
         print("\nUsage: generate_input.py <horizon>, <n resources>, <n patients>\n\n")
         exit(1)
 
+    # Check if INPUT_DIR directory exists and create it if not
     if not os.path.isdir(INPUT_DIR):
         try:
             os.mkdir(INPUT_DIR)
@@ -714,30 +714,30 @@ if __name__=="__main__":
         else:
             print ("Successfully created the directory %s " % "input")
 
-    ## leggo le liste per le risorse e i nomi dei pazienti da file
-    colors_list=read_list(os.path.join(SRC_DIR, 'colors.txt'))
-    names=read_list(os.path.join(SRC_DIR, 'names.txt'))
+    # Read the lists for resources and patient names from file
+    colors_list = read_list(os.path.join(SRC_DIR, 'colors.txt'))
+    names = read_list(os.path.join(SRC_DIR, 'names.txt'))
 
-    ## parametri passati dall'utente
+    # Get user input parameters
     nh = int(sys.argv[1])
     nr = int(sys.argv[2])
-    npat=int(sys.argv[3])
-    print("Orizzonte temporale: "+str(nh))
-    print("Numero di risorse generate: "+str(nr))
+    npat = int(sys.argv[3])
+    print("Time horizon: "+str(nh))
+    print("Number of generated resources: "+str(nr))
 
-    ## Ottengo la lista delle risorse (color naming)
-    resource_list=random.sample(colors_list, nr)
+    # Get the list of resources (color naming)
+    resource_list = random.sample(colors_list, nr)
 
-    ## Ottengo la matrice delle capacità per giorno e per tipo di risorsa
+    # Get the capacity matrix per day and per resource type
     capacity_matrix, repetition_pattern_d = res_x_day(nh, resource_list)
-    #e ottengo l'equivalente esteso per le singole giornate
+    # And get the extended equivalent for individual days
     daily_capacity_matrix, daily_repetition_pattern_d = daily_unit_availability(nh, repetition_pattern_d['repetition_pattern'])
 
-    ## Ottengo il dizionario delle prestazioni col loro consumo di risorsa
-    prest_dict=prest_dict_gen(resource_list)
-    print("Numero di prestazioni generate: ", len(prest_dict))
+    # Get the dictionary of services with their resource consumption
+    prest_dict = prest_dict_gen(resource_list)
+    print("Number of generated services: ", len(prest_dict))
 
-    # Ottengo le matrici di compatibilità PRESTAZIONE x PRESTAZIONE 
+    # Get the compatibility matrices SERVICE x SERVICE 
     incompatibility, necessity = prest_compatibility_gen(prest_dict, nh)
     
     
@@ -749,46 +749,48 @@ if __name__=="__main__":
     datacode=time.strftime("%a-%d-%b-%Y-%H-%M-%S", time.gmtime())
     env_dir=os.path.join(env_path, 'Input_parts-{}'.format(datacode))
     os.mkdir(env_dir)
-    ## creo un file json che contiene le informazioni delle incompatibilità (serve al forwarding)
+    # Create a json file containing the information about incompatibilities (used for forwarding)
     with open(os.path.join(env_dir, 'incompatibility.json'), 'w') as inc_file:
         json.dump(incompatibility, inc_file)
-    ## creo un file json che contiene la ripetitività della disponibilità es. settimanale (serve al forwarding)
+
+    # Create a json file containing the repetitiveness of availability, e.g. weekly (used for forwarding)
     with open(os.path.join(env_dir, 'res_period_pattern.json'), 'w') as rep_file:
         json.dump(repetition_pattern_d, rep_file)
+    
     with open(os.path.join(env_dir, 'daily_res_period_pattern.json'), 'w') as daily_rep_file:
         json.dump(daily_repetition_pattern_d, daily_rep_file)
 
-    ## Ottengo una lista di possibili gruppi di prestazioni che daranno forma ai pacchetti (astratti)
-    packets=packets_gen(prest_dict)
-    print("Numero di pacchetti generati: ", len(packets))
+    # Get a list of possible service groups that will shape the packets (abstract)
+    packets = packets_gen(prest_dict)
+    print("Number of generated packets: ", len(packets))
 
-    ##Ottengo un dizionario di protocolli a partire dai pacchetti
+    # Get a dictionary of protocols from the packets
     protocols, protocol_horizons=protocols_gen(packets, nh, prest_dict, incompatibility, necessity)
     if len(protocols)==0:
         print("\n\nOh, sorry!\n!!!--- NO PROTOCOL HAS BEEN APPROVED: PLEASE, RETRY ---!!!\n\n")
         exit(-2)
-    ## creo un file json che contiene le informazioni dei protocolli astratti
+    ## create json file to store protocols
     with open(os.path.join(env_dir, 'abstract_protocols.json'), 'w') as ap_file:
         json.dump({'protocols':protocols, 'protocol_horizons':protocol_horizons}, ap_file)
 
-    print("Numero di protocolli generati: ", len(protocols))       
+    print("Number of generated protocols: ", len(protocols))       
 
-    ## Ottengo un certo numero di pazienti
+    ## Create patients
     patients=[name.lower() for name in random.sample(names, npat)]
     patients.sort()
-    print("Numero di pazienti generati: ", len(patients))
+    print("Number of generated patients: ", len(patients))
 
     patient_priority_weight={p : random.choices(pat_prior_w['pw'], pat_prior_w['prob'], k=1)[0] for p in patients}
 
-    ## Ottengo per ciascun paziente l'associazione a 1 o più protocolli
+    ## associatepatients to 1 or more protocols
     pat_follows=pat_protocol_gen(patients, protocols, protocol_horizons, nh)
 
 
-    ############################################################################
-    ############## ----- Formattazione print human readable ----- ##############
-    ############################################################################
+    #############################################################################
+    ##############   -----   Format print human readable   -----   ##############
+    #############################################################################
 
-    ##### Print human-readable matrici di compatibilità     ################################
+    ##### Print human-readable services compatibility       ################################
     print("\n--- INCOMPATIBILITY MATRIX ---")                                       ########
     print('', end='\t')                                                             ########
     for pr in prest_dict:                                                           ########
@@ -810,7 +812,7 @@ if __name__=="__main__":
     #                                                                               ########
     ########################################################################################
 
-    ####### print human-readable dei protocolli astratti    ########################################
+    ####### print human-readable abstract protocols         ########################################
     print("\n--- PROTOCOLLI ASTRATTI ---\n")                                                ########
     for pi in protocols:                                                                    ########
         print("protocollo "+str(pi)+" - H_pi = "+str(protocol_horizons[pi]))                ########
@@ -819,7 +821,7 @@ if __name__=="__main__":
         print("\n")                                                                         ########
     ################################################################################################
 
-    ####### print human-readable dei protocolli istanziati  ########################################################################################
+    ####### print human-readable instantiated protocols     ########################################################################################
     print('\n--- PROTOCOLLI SEGUITI DAI PATIENTS ---')                                                                                      ########
     for pat in pat_follows:                                                                                                                 ########
         print("\n"+str(pat))                                                                                                                ########
@@ -833,7 +835,7 @@ if __name__=="__main__":
     necessity_for_json = {}
     for pr in necessity:
         necessity_for_json[pr] = {kn:list(v) for kn,v in necessity[pr].items() if v is not None}
-    #creazione dizionario per file json delle risorse
+    #create dict for json file of resources
     env_dict_for_output = {}
     env_dict_for_output['datecode']         = datacode
     env_dict_for_output['horizon']          = nh
@@ -847,12 +849,12 @@ if __name__=="__main__":
     with open(os.path.join(env_dir, 'input_environment(nh{}-nr{}).json'.format(nh,nr)), 'w') as output_file: 
         json.dump(env_dict_for_output, output_file, indent=4)
 
-    #porto quello appena creato on stage in input per essere lavorato e usato
+    # Execute a subprocess to put the created file on stage for further processing
     cmd=['python', os.path.join(THIS_DIR, 'put_on_stage.py'), env_dir]
     put_process=subprocess.Popen(cmd)
     put_process.wait()
     
-    #aggiungo la richiesta dei pazienti al file di input json per completare l'istanza
+    # add patients request
     with open(os.path.join(THIS_DIR, 'input', 'mashp_input.json'), 'r') as input_file:
         instance_dict = json.load(input_file)
     pat_request = pat_follows.copy()
@@ -866,7 +868,7 @@ if __name__=="__main__":
     process = subprocess.Popen(cmd)
     process.wait()
 
-    #generazione cartella e files di input per subproblem
+    # Generate a folder and input files for subproblem
     generate_SP_input_files_from_mashp_input(INPUT_DIR)
 
-    print("\n\nTERMINATA GENERAZIONE\n\n")
+    print("\n\nGENERATION COMPLETE\n\n")
