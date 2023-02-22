@@ -12,14 +12,15 @@ The decision to take involve:
 - the assignment of a feasible time
 
 for each service of a care pathway.
+
 This decision is subject to different constraints:
-- Some services should be scheduled together on the same day, we call ths group of services a *packet*
-- Frequency of a packet defined by the care pathway
-- Interdiction between services, that means that a secondary service cannot be scheduled too soon after a primary one
-- Necessity between services, that means a secondary service cannot be scheduled too soon after nor too long a primary one
-- Non-preemption of the Care Unit operators
-- Each operator can serve one patient at a time
-- Each patient can be served by one operator at a time
+- Some services should be scheduled together on the same day, we call this group of services a *packet*
+- **Frequency** of a packet defined by the care pathway
+- **Interdiction** between services, that means that a secondary service cannot be scheduled too soon after a primary one
+- **Necessity** between services, that means a secondary service cannot be scheduled too soon after nor too long a primary one
+- *Non-preemption* of the Care Unit operators
+- Each operator can serve *one patient at a time*
+- Each patient can be served by *one operator at a time*
 
 ## Methods
 Different methods are implemented so that they can be tested and the results compared:
