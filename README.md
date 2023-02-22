@@ -12,6 +12,7 @@ The decision to take involve:
 - the assignment of a feasible time
 
 for each service of a care pathway.
+
 This decision is subject to different constraints:
 - Some services should be scheduled together on the same day, we call ths group of services a *packet*
 - Frequency of a packet defined by the care pathway
