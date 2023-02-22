@@ -70,6 +70,7 @@ with the following simple commands you can modify the instance in the `input` fo
 Since the same script is used for both shifting and widening the time window you can do it in one go.
 
 We provide a generator of instances. To obtain a new instance you just have to run:
+
 	```
 	$ python generate_instance.py <H> <U> <P>
 	```
