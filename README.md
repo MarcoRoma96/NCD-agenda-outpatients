@@ -38,6 +38,12 @@ Different methods are implemented so that they can be tested and the results com
 ### Answer Set Programming
 The logic implementation of the problem is based on the *Answer Set Programming* framework. This is a form of declarative programming based on the stable model (i.e. answer set) semantics of logic programming. The resolution process of the logic progrm involves 2 stages called *grounding* and *solving* phase respectively. In our project we use Clingo, that is a combination of the grounder Gringo and the solver Gringo, developed by the University of Postdam.
 For further information and installation see [the clingo website](https://potassco.org/clingo/)
+The ASP program can be found in the `src` folder:
+- `mashp_monolithic_asp.lp` contains the complete logic program of the NCDs Agenda problem, and is used to perform the monolithic aproach
+- `mashp_sbt.lp` is used when the decomposition by patients priority is performed, instead. It implements the Master Problem logic
+- `mashp_daily_scheduler_asp.lp` implements the Sub Problem rules and constraints, but not the optimiation statement for the objective function
+- `mashp_daily_scheduler_obj_func.lp` completes the previous file by adding the `#maximize` statement that makes the Sub Problem an optimiation problem
+
 
 ### Objective Functions
 In all the above mentioned approaches we use a hierarchical objective function, based on the priority/severity level of the patients (1 the lowest priority, 3 the highest priority). This is true both for Master and Sub problem. Therefore, the Master tries to accomodate the maximum number of highest-priority patients requests, then the mid-priority patients and last the low-priority patients. The Master Plan is taken as input by the Sub Problems that assign a feasible time to the maximum number of services with the same hierarchy based on the patients priority.

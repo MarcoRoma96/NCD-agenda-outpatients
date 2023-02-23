@@ -43,25 +43,38 @@ precedes(CU, CUop, P, S) :- start_time(CU, CUop, Start1), start_time(P, S, Start
 %Constraints
     %%% -- different services of the same patient cannot be deployed at the same time, 
     %      one precedes the other
-:- not precedes(Pat, Srv1, Pat, Srv2), not precedes(Pat, Srv2, Pat, Srv1), Srv1!=Srv2, 
-   %service(Pat, Srv1), service(Pat, Srv2), 
-   provides(_, _, Pat, Srv1), provides(_, _, Pat, Srv2), 
-   not care_unit(Pat), not capacity(_,Pat,Srv1,_,_), not capacity(_,Pat,Srv2,_,_).
+:- not precedes(Pat, Srv1, Pat, Srv2), 
+   not precedes(Pat, Srv2, Pat, Srv1), Srv1!=Srv2, 
+   provides(_, _, Pat, Srv1), 
+   provides(_, _, Pat, Srv2), 
+   not care_unit(Pat), 
+   not capacity(_,Pat,Srv1,_,_), 
+   not capacity(_,Pat,Srv2,_,_).
     %NOT for fake block! e.g. red,1 e red,2 do not precede each other
 
     %%% NOTE: can be changed! --    The same Unit operator (machine) is in use for only one 
     %                               service of a patient, not for + services or pats 
     %                               at the same time    
     %%% case of >1 Unit operators
-:- not precedes(Pat1, Srv1, Pat2, Srv2), not precedes(Pat2, Srv2, Pat1, Srv1), 
-   service(Srv1, CU, _, _), service(Srv2, CU, _, _),
-   provides(CU, CUop, Pat1, Srv1), provides(CU, CUop, Pat2, Srv2), 
-   Pat1!=Pat2, service(Pat1, Srv1), service(Pat2, Srv2).
+:- not precedes(Pat1, Srv1, Pat2, Srv2), 
+   not precedes(Pat2, Srv2, Pat1, Srv1), 
+   service(Srv1, CU, _, _), 
+   service(Srv2, CU, _, _),
+   provides(CU, CUop, Pat1, Srv1), 
+   provides(CU, CUop, Pat2, Srv2), 
+   Pat1!=Pat2, 
+   service(Pat1, Srv1), 
+   service(Pat2, Srv2).
 
-:- not precedes(Pat1, Srv1, Pat2, Srv2), not precedes(Pat2, Srv2, Pat1, Srv1), 
-   service(Srv1, CU, _, _), service(Srv2, CU, _, _), 
-   provides(CU, CUop, Pat1, Srv1), provides(CU, CUop, Pat2, Srv2), 
-   Srv1!=Srv2, service(Pat1, Srv1), service(Pat2, Srv2).
+:- not precedes(Pat1, Srv1, Pat2, Srv2), 
+   not precedes(Pat2, Srv2, Pat1, Srv1), 
+   service(Srv1, CU, _, _), 
+   service(Srv2, CU, _, _), 
+   provides(CU, CUop, Pat1, Srv1), 
+   provides(CU, CUop, Pat2, Srv2), 
+   Srv1!=Srv2, 
+   service(Pat1, Srv1), 
+   service(Pat2, Srv2).
 
     %%% -- Irreflexivity
 :- precedes(Pat1, Srv1, Pat1, Srv1).
@@ -80,14 +93,12 @@ precedes(CU, CUop, P, S) :- start_time(CU, CUop, Start1), start_time(P, S, Start
 %					                             allocated for that care unit U associated to S
 
 :- service(P,S), 
-    service(S,CU,D,_), 
-    provides(CU,CUop,P,S), 
-    start_time(P,S,T),
-    capacity(day, CU, CUop, Delay, Q),
-    T+D > Delay+Q.
+   service(S,CU,D,_), 
+   provides(CU,CUop,P,S), 
+   start_time(P,S,T),
+   capacity(day, CU, CUop, Delay, Q),
+   T+D > Delay+Q.
 
-
-%Unsatisfiable core
 
 %DEFINE
     %%% -- a packet is satisfied if every contained service is provided

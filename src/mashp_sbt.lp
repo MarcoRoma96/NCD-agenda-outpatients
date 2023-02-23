@@ -21,22 +21,22 @@ occurrence_to_schedule(Pat, ((Prot, Iter, Pkt_in_Prot), Occ)) :-
     %%% -- SERVICE CONTAINED:   useful predicate to simplify notation, determines if a package (instance) contains a certain service
 service_in_packet(Pat, (Prot, Iter, Pkt), Pr) :- packet_type(Pat, Prot, Iter, Pkt, Tipo), service_in_packet(Tipo, Pr).
 
-    %%% -- ACCESS:              Days when a patient must go to the hospital for some service,
-%                               for the accesses I exclude those schedules that fall between the horizon 
+    %%% -- TRIPS:              Days when a patient must go to the hospital for some service,
+%                               for the trips I exclude those schedules that fall between the horizon 
 %                               as a tolerance that could be made to coincide with others subsequent ones when reviewed
 trip(Pat,Day) :- patient(Pat), horizon(Day), schedule(Pat,Pkt,Day), min_max_tolerance(Pat,Pkt,_,Max), horizon(Max).
 
     %%% -- IDEAL DATE:          This is the date obtained by adding the frequency value to each occurrence 
 %                               starting from the package start
 ideal_date(Pat, ((Prot, Iter, Pkt), Occ), Day) :- occurrence_to_schedule(Pat, ((Prot, Iter, Pkt), Occ)), packet_frequency(Pat, Prot, Iter, Pkt, Freq), 
-                                                   packet_start(Pat, Prot, Iter, Pkt, S), protocol_iteration_start(Pat, Prot, Iter, Inizio_prot),
-                                                   Day=Inizio_prot+S-1+Freq*(Occ-1).
+                                                    packet_start(Pat, Prot, Iter, Pkt, S), protocol_iteration_start(Pat, Prot, Iter, Inizio_prot),
+                                                    Day=Inizio_prot+S-1+Freq*(Occ-1).
 
     %%% -- TOLERANCE EXTREMES:  Extremes of the tolerance of each occurrence
 min_max_tolerance(Pat, ((Prot, Iter, Pkt), Occ), Min, Max) :- occurrence_to_schedule(Pat, ((Prot, Iter, Pkt), Occ)), packet_tolerance(Pat, Prot, Iter, Pkt, Tol),
-                                                         ideal_date(Pat, ((Prot, Iter, Pkt), Occ), Ideal_date),
-                                                         Min=Ideal_date-Tol, 
-                                                         Max=Ideal_date+Tol.
+                                                    ideal_date(Pat, ((Prot, Iter, Pkt), Occ), Ideal_date),
+                                                    Min=Ideal_date-Tol, 
+                                                    Max=Ideal_date+Tol.
 
     %%% -- TOLERANCE DAYS:      Collect from the previous the single days candidates for scheduling the occurrence
 within_tolerance(Pat, Pkt, (Min..Max)) :- min_max_tolerance(Pat, Pkt, Min, Max).
@@ -61,13 +61,11 @@ schedule_srv(Day,Pat,Srv) :- schedule(Pat, (Pkt_ID, Occ), Day), service_in_packe
                     % the last part of the previous window can be revised at the beginning
                     % of the next execution (overlap).
                     % Therefore, I must set the schedule for those schedules labeled as provisional.
-0{schedule(Pat, Pkt, Day) : horizon(Day),
-     within_tolerance(Pat, Pkt, Day)}1 :-        
-     occurrence_to_schedule(Pat, Pkt),                     
-     ideal_date(Pat, Pkt, IdealD), horizon(IdealD),    
-     not temp_schedule(Pat, Pkt, _).              
-                                                                                            
-                                                                                            
+0{schedule(Pat, Pkt, Day) : horizon(Day), within_tolerance(Pat, Pkt, Day)}1 :-        
+                    occurrence_to_schedule(Pat, Pkt),                     
+                    ideal_date(Pat, Pkt, IdealD), horizon(IdealD),    
+                    not temp_schedule(Pat, Pkt, _).              
+                                                                                                                                                            
 %                   Generate a schedule also for provisional schedules derived from
 %                   the previous execution.
 0{schedule(Pat, Pkt, Day) : horizon(Day),
@@ -86,9 +84,10 @@ schedule_srv(Day,Pat,Srv) :- schedule(Pat, (Pkt_ID, Occ), Day), service_in_packe
 %### DEBUG #######################################################################################################################################
     %count the number of unscheduled occurrences
 not_scheduled(Pat, Pkt) :- occurrence_to_schedule(Pat, Pkt), 
-                                                              not schedule(Pat, Pkt, _),
-                                                              not temp_schedule(Pat, Pkt, _),
-                                                              ideal_date(Pat, Pkt, Day), horizon(Day).
+                            not schedule(Pat, Pkt, _),
+                            not temp_schedule(Pat, Pkt, _),
+                            ideal_date(Pat, Pkt, Day), horizon(Day).
+
 n_not_scheduled(N) :- N=#count{Pat,Pkt : not_scheduled(Pat,Pkt)}.
 
 n_not_scheduled(Pr, N) :- priority(_,Pr), N=#count{Pat,Pkt : not_scheduled(Pat,Pkt), priority(Pat,Pr)}.
@@ -105,24 +104,29 @@ n_not_scheduled(Pr, N) :- priority(_,Pr), N=#count{Pat,Pkt : not_scheduled(Pat,P
     %                           that involve incompatible services is greater than the interdiction tau
 :-  sched_service(Pat, Srv1, Day1), 
     sched_service(Pat, Srv2, Day2),
-    interdiction(Srv1, Srv2, Tau), Day2 - Day1>=0, Tau>0, Day2 <= Day1+Tau. % note >0 without =
-                                                                            % if A incomp B, but not B,A, I allow them to
-                                                                            % be on the same day, but they must be in order B,A
+    interdiction(Srv1, Srv2, Tau), 
+    Day2 - Day1>=0, Tau>0, 
+    Day2 <= Day1+Tau.
 
     %%% -- NECESSITY:           the distance between 2 schedules of the same patient for packages
 %                               that involve necessary consecutive services is respected
 %                               and the second one falls within the correct time window --> take into account 0!
-satisfied_necessity(Pat, (Pkt_ID1, Occ1), Srv1, Srv2) :- service_in_packet(Pat, Pkt_ID1, Srv1),  %%%NOTE: DOES NOT STATE THAT IT HAS COUNTERPARTS FOR ALL THE NECESSITIES OF A SERVICE!
-                                    necessity(Srv1, Srv2, (Tau_min, Tau_max)), schedule(Pat, (Pkt_ID1, Occ1), Day1),
-                                    schedule(Pat, (Pkt_ID2, Occ2), Day2), service_in_packet(Pat, Pkt_ID2, Srv2),
-                                    Day2 >= Day1+Tau_min, Day2 <= Day1+Tau_max.
+satisfied_necessity(Pat, (Pkt_ID1, Occ1), Srv1, Srv2) :-                        %%%NOTE: DOES NOT STATE THAT IT HAS COUNTERPARTS FOR ALL THE NECESSITIES OF A SERVICE!
+                                service_in_packet(Pat, Pkt_ID1, Srv1),  
+                                service_in_packet(Pat, Pkt_ID2, Srv2),
+                                necessity(Srv1, Srv2, (Tau_min, Tau_max)), 
+                                schedule(Pat, (Pkt_ID1, Occ1), Day1),
+                                schedule(Pat, (Pkt_ID2, Occ2), Day2), 
+                                Day2 >= Day1+Tau_min, 
+                                Day2 <= Day1+Tau_max.
+
 %                               When the packet is at the end of the time horizon, it could be that the necessary packet
 %                               is scheduled beyond the horizon, so I'm satisfied
 necessity_beyond_horizon(Pat, Pkt1, Srv1, Srv2) :- 
-                                    occurrence_to_schedule(Pat, Pkt1), 
-                                    service_in_packet(Pat, Pkt_ID1, Srv1),
-                                    necessity(Srv1, Srv2, (Tau_min, Tau_max)), schedule(Pat, Pkt1, Day1),
-                                    Day1+Tau_max>nh, not satisfied_necessity(Pat, Pkt1, Srv1, Srv2).
+                                occurrence_to_schedule(Pat, Pkt1), 
+                                service_in_packet(Pat, Pkt_ID1, Srv1),
+                                necessity(Srv1, Srv2, (Tau_min, Tau_max)), schedule(Pat, Pkt1, Day1),
+                                Day1+Tau_max>nh, not satisfied_necessity(Pat, Pkt1, Srv1, Srv2).
 
 %                               There cannot be a packet whose necessity is not satisfied
 %                               or that cannot be satisfied by a packet outside the horizon
@@ -131,59 +135,61 @@ necessity_beyond_horizon(Pat, Pkt1, Srv1, Srv2) :-
     necessity(Srv1, Srv2, _), 
     not satisfied_necessity(Pat, (Pkt_ID1, Occ1), Srv1, Srv2), 
     not necessity_beyond_horizon(Pat, (Pkt_ID1, Occ1), Srv1, Srv2).
-    
-    %                           WITHIN THE Tau_min NO OCCURRENCE OF THAT PACKET SHOULD BE PRESENT
+
+%                               WITHIN THE Tau_min NO OCCURRENCE OF THAT PACKET SHOULD BE PRESENT
 :-  sched_service(Pat, Srv1, Day1), 
     sched_service(Pat, Srv2, Day2),
     necessity(Srv1, Srv2, (Tau_min, _)), 
     Day2 - Day1>=0, 
     Day2 < Day1+Tau_min.
 
-% OPTIMIZATION
-    %%% DEFINITION: NUMBER OF TRIPS PER PATIENT
+% DEF:                        
+    %%% -- NUMBER OF TRIPS PER PATIENT
 n_pat_trips(Pat,NV) :- patient(Pat), NV = #count{Day : trip(Pat,Day)}.
 
-        % calculate the maximum number of trips
+%                               calculate the maximum number of trips
 max_trips(M) :- M = #max{NV : n_pat_trips(_,NV)}, M!=#inf.
 
-% forbidden/fixed date assignments:
-% In general, regardless of the setting, if I pass not_schedulable/fix_schedule facts
-% I have to forbid/fix the schedule of those packages. Do not fix A that requires B if B is not
+%                                forbidden/fixed date assignments:
+%                                In general, regardless of the setting, if I pass not_schedulable/fix_schedule facts
+%                                I have to forbid/fix the schedule of those packages. Do not fix A that requires B if B is not
 :- schedule(Pat, Pkt, _),   not_schedulable(Pat, Pkt).            %split_pat
 :- schedule(Pat, Pkt, Day), not_schedulable(Pat, Pkt, Day).       %greedy
 :- not schedule(Pat, Pkt, Day), fix_schedule(Pat, Pkt, Day), 
-   necessity_tot_satisfied_fix(Pat, Pkt).                            %both split_pat and greedy
+   necessity_tot_satisfied_fix(Pat, Pkt).                         %both split_pat and greedy
                                                                
-   %%% -- DEF GUARANTEED NECESSITY: in the case of greedy, it is guaranteed only if the requested service has already been fixed in the previous iteration
-% This says which service satisfies the necessity and which one is fixed
+    %%% -- GUARANTEED NECESSITY: in the case of greedy, it is guaranteed only if the requested service has already been 
+    %                            fixed in the previous iteration
+    %                            This says which service satisfies the necessity and which one is fixed
 satisfied_necessity_fix_aux(Pat, (Pkt_ID1, Occ1), Srv1, (Pkt_ID2, Occ2), Srv2) :- 
-                                            schedule(Pat, (Pkt_ID1, Occ1), Day1),
-                                            schedule(Pat, (Pkt_ID2, Occ2), Day2),
-                                            fix_schedule(Pat, (Pkt_ID2, Occ2), Day2),
-                                            service_in_packet(Pat, Pkt_ID1, Srv1),
-                                            service_in_packet(Pat, Pkt_ID2, Srv2),
-                                            necessity(Srv1, Srv2, (Tau_min, Tau_max)),  
-                                            Day2 >= Day1+Tau_min, Day2 <= Day1+Tau_max.
+                                schedule(Pat, (Pkt_ID1, Occ1), Day1),
+                                schedule(Pat, (Pkt_ID2, Occ2), Day2),
+                                fix_schedule(Pat, (Pkt_ID2, Occ2), Day2),
+                                service_in_packet(Pat, Pkt_ID1, Srv1),
+                                service_in_packet(Pat, Pkt_ID2, Srv2),
+                                necessity(Srv1, Srv2, (Tau_min, Tau_max)),  
+                                Day2 >= Day1+Tau_min, 
+                                Day2 <= Day1+Tau_max.
 
 % A necessity is satisfied if a service that satisfies it is fixed and has no further necessities in the chain
 satisfied_necessity_fix(Pat, Pkt1, Srv1, Srv2) :-
-                                            satisfied_necessity_fix_aux(Pat, Pkt1, Srv1, Pkt2, Srv2),
-                                            not necessity(Srv2, _, _).
+                                satisfied_necessity_fix_aux(Pat, Pkt1, Srv1, Pkt2, Srv2),
+                                not necessity(Srv2, _, _).
 
 % A necessity is also satisfied if it can be satisfied beyond the horizon
 satisfied_necessity_fix(Pat, Pkt1, Srv1, Srv2) :-
-                                            necessity_beyond_horizon(Pat, Pkt1, Srv1, Srv2).
+                                necessity_beyond_horizon(Pat, Pkt1, Srv1, Srv2).
 
 % Recursively, satisfies the necessity if the required packages satisfy their necessities
 satisfied_necessity_fix(Pat, Pkt1, Srv1, Srv2) :- 
-                                            satisfied_necessity_fix_aux(Pat, Pkt1, Srv1, Pkt2, Srv2),
-                                            necessity(Srv2, _SrvC, _),
-                                            necessity_tot_satisfied_fix(Pat, Pkt2).
+                                satisfied_necessity_fix_aux(Pat, Pkt1, Srv1, Pkt2, Srv2),
+                                necessity(Srv2, _SrvC, _),
+                                necessity_tot_satisfied_fix(Pat, Pkt2).
 
 % A package satisfies all its necessities if all its services satisfy the necessities
 necessity_tot_satisfied_fix(Pat, (Pkt_ID, Occ)) :- schedule(Pat, (Pkt_ID, Occ), _),
-                satisfied_necessity_fix(Pat, (Pkt_ID, Occ), Srv1, Srv2) : service_in_packet(Pat, Pkt_ID, Srv1), 
-                                                                                necessity(Srv1, Srv2, _).
+    satisfied_necessity_fix(Pat, (Pkt_ID, Occ), Srv1, Srv2) : service_in_packet(Pat, Pkt_ID, Srv1), 
+                                                              necessity(Srv1, Srv2, _).
 %FOUNDAMENTAL:
 #show schedule/3.
 #show not_scheduled/2.
