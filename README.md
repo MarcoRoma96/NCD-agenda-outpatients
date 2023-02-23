@@ -54,19 +54,15 @@ First of all, whenever you clone this repository or copy this folder in a differ
 
 this will update the path variables with the correct value of your machine.
 
-In order to reproduce the results obtained for some relevant instances tested for research purposes, we provide the folder `Test_instances_CILC-JLC-Cappanera2022`. The folder contains 2 subfolders called part1 and part2, that are for all intents and purposes examples of the output of tests performed using this code. Part1 contains tests that perform a schedule over a 30 days horizon, while part2 contains the same instances (except those with 40 patients), but with a 60 days planning horizon.
+In order to reproduce the results obtained for some relevant instances tested for research purposes, we provide the folder `Test_instances_CILC-JLC-Cappanera2022`. The folder contains a subfolder for each scenario, and each instance is tested with 6 combinations of number of patients and horizon. The content of the folder is for all intents and purposes an example of the output of tests performed using this code.
 The easiest way to reproduce the tests over these instances is to run:
 ```
-$ python multi_test_run.py -tested Test_instances_CILC-JLC-Cappanera2022/Test_instances_CILC-JLC-Cappanera2022_part1
-```
-or 
-```
-$ python multi_test_run.py -tested Test_instances_CILC-JLC-Cappanera2022/Test_instances_CILC-JLC-Cappanera2022_part2
+$ python multi_test_run.py -tested Test_instances_CILC-JLC-Cappanera2022
 ```
 
 The timeout of each test can be set in the `test_timeout.json` file. The value must be a list, and if multiple values are provided the test will repeat for each of them.
 
-We provide also a simple example of instance in the folder named `input_example`. It contains all the necessary files to manipulate the instance. All you have to do is to copy this folder and rename it to `input`.
+We provide also a simple example of instance in the folder named `input_example`. It contains all the required files to manipulate the instance. All you have to do is to copy this folder and rename it to `input`.
 with the following simple commands you can modify the instance in the `input` folder in different ways:
 - **Add a new patient** (requires the `abstract_protocols.json` file in the `input` folder)
 	```
