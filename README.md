@@ -88,7 +88,7 @@ With the following simple commands you can modify the instance in the `input` fo
 	$ python set_window.py <N>
 	```
 
-- **Widen/shrink the scheduling window**, setting the desired value of the horizon to be considered
+- **Widen/shrink the scheduling window**, setting the desired value of the horizon to consider
 	```
 	$ python set_window.py 0 <H>
 	```
