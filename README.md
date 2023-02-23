@@ -5,7 +5,7 @@ The project aims at the comparison of different methods and implementations to t
 
 ## Problem description
 A large number of people, mostly older, is affected by so called Non-Communicable Diseases (NCDs). Often they are chronic patients with comorbidities cared for at home.
-This outpatients must get tests, treatments or consultancy at specialied care units, according to a given frequency set by a clinical pathway.
+These outpatients must get tests, treatments or consultancy at specialied care units, according to a given frequency set by a clinical pathway.
 The NCDs Agenda problem consist of scheduling the required services of a set of patients according to their clnical pathways for a certain planning horizon. 
 The decision to take involve:
 - the assignment of a feasible date
