@@ -91,7 +91,6 @@ precedes(CU, CUop, P, S) :- start_time(CU, CUop, Start1), start_time(P, S, Start
     %%% -- CAPACITY CONSTRAINT: (Strengthened) --> The sum of the durations of services that precede a service S 
 %                                                over a chain, plus the duration of S, cannot exceed capacity
 %					                             allocated for that care unit U associated to S
-
 :- service(P,S), 
    service(S,CU,D,_), 
    provides(CU,CUop,P,S), 
