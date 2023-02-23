@@ -36,7 +36,7 @@ Different methods are implemented so that they can be tested and the results com
 ## Implementation
 
 ### Answer Set Programming
-The logic implementation of the problem is based on the *Answer Set Programming* framework. This is a form of declarative programming based on the stable model (i.e. answer set) semantics of logic programming. The resolution process of the logic program involves 2 stages called *grounding* and *solving* phase respectively. In our project we use Clingo, that is a combination of the grounder Gringo and the solver Gringo, developed by the University of Postdam.
+The logic implementation of the problem is based on the *Answer Set Programming* framework. This is a form of declarative programming based on the stable model (i.e. answer set) semantics of logic programming. The resolution process of the logic program involves 2 stages called *grounding* and *solving* phase respectively. In our project we use Clingo, that is a combination of the grounder Gringo and the solver Clasp, developed by the University of Postdam.
 For further information and installation see [the clingo website](https://potassco.org/clingo/)
 The ASP program can be found in the `src` folder:
 - `mashp_monolithic_asp.lp` contains the complete logic program of the NCDs Agenda problem, and is used to perform the monolithic aproach
