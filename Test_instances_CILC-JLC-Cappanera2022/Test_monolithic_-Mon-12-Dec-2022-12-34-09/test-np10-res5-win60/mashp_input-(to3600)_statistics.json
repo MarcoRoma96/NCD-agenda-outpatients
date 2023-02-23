@@ -1,0 +1,147 @@
+{
+    "dimensione_finestra": 60,
+    "numero_risorse": 5,
+    "numero_pazienti": 10,
+    "totale_occorrenze": 106,
+    "totale_prestazioni": 126,
+    "densita_giornaliera_prestazioni": 2.1,
+    "densita_prestazioni_per_paziente": 0.21,
+    "richiesta_risorse_per_paziente": {
+        "cadi": 124,
+        "nari": 96,
+        "pritesh": 96,
+        "starlyn": 32,
+        "berta": 198,
+        "thy": 132,
+        "chritina": 296,
+        "smantha": 56,
+        "nyomi": 80,
+        "tomasa": 46
+    },
+    "numero_prestazioni_per_paziente": {
+        "cadi": 12,
+        "nari": 10,
+        "pritesh": 12,
+        "starlyn": 4,
+        "berta": 22,
+        "thy": 14,
+        "chritina": 30,
+        "smantha": 7,
+        "nyomi": 10,
+        "tomasa": 5
+    },
+    "media_richiesta_risorse_per_paziente": 115.6,
+    "media_numero_prestazioni_per_paziente": 12.6,
+    "durata_media_prestaz": 9.175,
+    "saturazione_capacita_per_risorsa": {
+        "plum": 6.724,
+        "chartreuse": 0.0,
+        "brass": 0.0,
+        "coral": 0.435,
+        "bisque": 0.0
+    },
+    "saturazione_capacita_media": 1.432,
+    "n_schedulati": 106,
+    "n_non_schedulati": 0,
+    "n_pazienti_prior2": 5,
+    "n_occorrenze_prior2": 54,
+    "n_non_schedulati_prior2": 0,
+    "n_schedulati_prior2": 54,
+    "perc_schedulati_prior2": 100.0,
+    "n_pazienti_prior3": 1,
+    "n_occorrenze_prior3": 12,
+    "n_non_schedulati_prior3": 0,
+    "n_schedulati_prior3": 12,
+    "perc_schedulati_prior3": 100.0,
+    "n_pazienti_prior1": 4,
+    "n_occorrenze_prior1": 40,
+    "n_non_schedulati_prior1": 0,
+    "n_schedulati_prior1": 40,
+    "perc_schedulati_prior1": 100.0,
+    "rapporto_res_soddisfatte_richieste_per_paziente": {
+        "cadi": 1.0,
+        "nari": 1.0,
+        "pritesh": 1.0,
+        "starlyn": 1.0,
+        "berta": 1.0,
+        "thy": 1.0,
+        "chritina": 1.0,
+        "smantha": 1.0,
+        "nyomi": 1.0,
+        "tomasa": 1.0
+    },
+    "rapporto_n_prest_soddisfatte_richieste_per_paziente": {
+        "cadi": 1.0,
+        "nari": 1.0,
+        "pritesh": 1.0,
+        "starlyn": 1.0,
+        "berta": 1.0,
+        "thy": 1.0,
+        "chritina": 1.0,
+        "smantha": 1.0,
+        "nyomi": 1.0,
+        "tomasa": 1.0
+    },
+    "rapporto_non_schedulati_per_paziente": {
+        "cadi": 0.0,
+        "nari": 0.0,
+        "pritesh": 0.0,
+        "starlyn": 0.0,
+        "berta": 0.0,
+        "thy": 0.0,
+        "chritina": 0.0,
+        "smantha": 0.0,
+        "nyomi": 0.0,
+        "tomasa": 0.0
+    },
+    "rapporto_medio_non_schedulati_per_paziente": 0.0,
+    "rapporto_non_sched_satur_per_res": {
+        "plum": 0.0,
+        "chartreuse": 0,
+        "brass": 0,
+        "coral": 0.0,
+        "bisque": 0
+    },
+    "rapporto_non_sched_satur_media": 0.0,
+    "rapporto_occorrenze_non_schedulate": 0.0,
+    "tipo_modello": [
+        "",
+        "monolithic"
+    ],
+    "best_sol_info": {
+        "mp": {
+            "interrupted": "no",
+            "CPU_time": 570.15,
+            "time": 570.2,
+            "solve_time": 164.09,
+            "1st_model_time": 6.14,
+            "unsat_time": 0.32,
+            "presolve_time": 406.11,
+            "Calls": "1",
+            "Optimization": "0 0 0",
+            "Optimum": "yes",
+            "Models": "105"
+        }
+    },
+    "min_prior": 1,
+    "tempi_solving": {
+        "tot": {
+            "mp": {
+                "time": 570.2,
+                "solve_time": 164.09,
+                "1st_model_time": 6.14,
+                "unsat_time": 0.32,
+                "presolve_time": 406.11
+            },
+            "sp": {
+                "time": 0.0,
+                "solve_time": 0.0,
+                "1st_model_time": 0.0,
+                "unsat_time": 0.0,
+                "presolve_time": 0.0
+            },
+            "iter": 1
+        }
+    },
+    "timeout": 3600
+}

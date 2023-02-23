@@ -1,0 +1,16 @@
+{
+    "1": {
+        "mp": {
+            "interrupted": "yes",
+            "CPU_time": 841.197,
+            "time": 841.272,
+            "solve_time": 1.05,
+            "1st_model_time": 0.0,
+            "unsat_time": 0.0,
+            "presolve_time": 840.222,
+            "Calls": "1",
+            "Models": "0+",
+            "MemoryError": "    raise MemoryError(msg)\n"
+        }
+    }
+}

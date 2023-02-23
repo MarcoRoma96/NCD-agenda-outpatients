@@ -1,0 +1,147 @@
+{
+    "dimensione_finestra": 30,
+    "numero_risorse": 5,
+    "numero_pazienti": 10,
+    "totale_occorrenze": 135,
+    "totale_prestazioni": 193,
+    "densita_giornaliera_prestazioni": 6.433,
+    "densita_prestazioni_per_paziente": 0.643,
+    "richiesta_risorse_per_paziente": {
+        "carinna": 138,
+        "yael": 53,
+        "shareena": 250,
+        "desmund": 470,
+        "tempestt": 108,
+        "winfred": 344,
+        "glinda": 132,
+        "khaled": 305,
+        "enjolie": 33,
+        "lashanta": 120
+    },
+    "numero_prestazioni_per_paziente": {
+        "carinna": 16,
+        "yael": 6,
+        "shareena": 24,
+        "desmund": 46,
+        "tempestt": 11,
+        "winfred": 31,
+        "glinda": 14,
+        "khaled": 29,
+        "enjolie": 4,
+        "lashanta": 12
+    },
+    "media_richiesta_risorse_per_paziente": 195.3,
+    "media_numero_prestazioni_per_paziente": 19.3,
+    "durata_media_prestaz": 10.119,
+    "saturazione_capacita_per_risorsa": {
+        "cobalt": 1.884,
+        "lime": 17.049,
+        "red": 4.983,
+        "ash": 0.0,
+        "gray": 5.859
+    },
+    "saturazione_capacita_media": 5.955,
+    "n_schedulati": 124,
+    "n_non_schedulati": 11,
+    "n_pazienti_prior2": 4,
+    "n_occorrenze_prior2": 64,
+    "n_non_schedulati_prior2": 2,
+    "n_schedulati_prior2": 62,
+    "perc_schedulati_prior2": 96.89999999999999,
+    "n_pazienti_prior3": 1,
+    "n_occorrenze_prior3": 4,
+    "n_non_schedulati_prior3": 0,
+    "n_schedulati_prior3": 4,
+    "perc_schedulati_prior3": 100.0,
+    "n_pazienti_prior1": 5,
+    "n_occorrenze_prior1": 67,
+    "n_non_schedulati_prior1": 9,
+    "n_schedulati_prior1": 58,
+    "perc_schedulati_prior1": 86.6,
+    "rapporto_res_soddisfatte_richieste_per_paziente": {
+        "carinna": 1.0,
+        "yael": 1.0,
+        "shareena": 0.92,
+        "desmund": 0.872,
+        "tempestt": 1.0,
+        "winfred": 0.712,
+        "glinda": 0.902,
+        "khaled": 1.0,
+        "enjolie": 1.0,
+        "lashanta": 1.0
+    },
+    "rapporto_n_prest_soddisfatte_richieste_per_paziente": {
+        "carinna": 1.0,
+        "yael": 1.0,
+        "shareena": 0.917,
+        "desmund": 0.87,
+        "tempestt": 1.0,
+        "winfred": 0.677,
+        "glinda": 0.929,
+        "khaled": 1.0,
+        "enjolie": 1.0,
+        "lashanta": 1.0
+    },
+    "rapporto_non_schedulati_per_paziente": {
+        "carinna": 0.0,
+        "yael": 0.0,
+        "shareena": 0.056,
+        "desmund": 0.125,
+        "tempestt": 0.0,
+        "winfred": 0.261,
+        "glinda": 0.083,
+        "khaled": 0.0,
+        "enjolie": 0.0,
+        "lashanta": 0.0
+    },
+    "rapporto_medio_non_schedulati_per_paziente": 0.053,
+    "rapporto_non_sched_satur_per_res": {
+        "cobalt": 0.531,
+        "lime": 0.469,
+        "red": 0.201,
+        "ash": 0,
+        "gray": 0.171
+    },
+    "rapporto_non_sched_satur_media": 1.847,
+    "rapporto_occorrenze_non_schedulate": 0.081,
+    "tipo_modello": [
+        "",
+        "monolithic"
+    ],
+    "best_sol_info": {
+        "mp": {
+            "interrupted": "yes",
+            "CPU_time": 3600.255,
+            "time": 3600.571,
+            "solve_time": 3047.58,
+            "1st_model_time": 11.97,
+            "unsat_time": 0.0,
+            "presolve_time": 552.991,
+            "Calls": "1",
+            "Optimization": "0 2 9",
+            "Optimum": "unknown",
+            "Models": "124+"
+        }
+    },
+    "min_prior": 1,
+    "tempi_solving": {
+        "tot": {
+            "mp": {
+                "time": 3600.571,
+                "solve_time": 3047.58,
+                "1st_model_time": 11.97,
+                "unsat_time": 0.0,
+                "presolve_time": 552.991
+            },
+            "sp": {
+                "time": 0.0,
+                "solve_time": 0.0,
+                "1st_model_time": 0.0,
+                "unsat_time": 0.0,
+                "presolve_time": 0.0
+            },
+            "iter": 1
+        }
+    },
+    "timeout": 3600
+}

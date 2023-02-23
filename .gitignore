@@ -7,7 +7,6 @@ prova*
 src/__pycache__/
 __pycache__/
 test/*
-Test_*
 src/mashp1.lp
 src/mashp0.lp
 5_test.py

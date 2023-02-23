@@ -1,0 +1,147 @@
+{
+    "dimensione_finestra": 60,
+    "numero_risorse": 5,
+    "numero_pazienti": 10,
+    "totale_occorrenze": 106,
+    "totale_prestazioni": 106,
+    "densita_giornaliera_prestazioni": 1.767,
+    "densita_prestazioni_per_paziente": 0.177,
+    "richiesta_risorse_per_paziente": {
+        "jaret": 78,
+        "ramirez": 109,
+        "ansel": 83,
+        "canon": 161,
+        "richar": 156,
+        "mathis": 109,
+        "selene": 70,
+        "shameeka": 153,
+        "juante": 144,
+        "javonda": 227
+    },
+    "numero_prestazioni_per_paziente": {
+        "jaret": 6,
+        "ramirez": 9,
+        "ansel": 7,
+        "canon": 13,
+        "richar": 12,
+        "mathis": 9,
+        "selene": 6,
+        "shameeka": 13,
+        "juante": 12,
+        "javonda": 19
+    },
+    "media_richiesta_risorse_per_paziente": 129.0,
+    "media_numero_prestazioni_per_paziente": 10.6,
+    "durata_media_prestaz": 12.17,
+    "saturazione_capacita_per_risorsa": {
+        "yellow": 0.0,
+        "ivory": 1.715,
+        "fuchsia": 5.216,
+        "plum": 1.277,
+        "coffee": 0.0
+    },
+    "saturazione_capacita_media": 1.642,
+    "n_schedulati": 106,
+    "n_non_schedulati": 0,
+    "n_pazienti_prior2": 1,
+    "n_occorrenze_prior2": 9,
+    "n_non_schedulati_prior2": 0,
+    "n_schedulati_prior2": 9,
+    "perc_schedulati_prior2": 100.0,
+    "n_pazienti_prior3": 2,
+    "n_occorrenze_prior3": 19,
+    "n_non_schedulati_prior3": 0,
+    "n_schedulati_prior3": 19,
+    "perc_schedulati_prior3": 100.0,
+    "n_pazienti_prior1": 7,
+    "n_occorrenze_prior1": 78,
+    "n_non_schedulati_prior1": 0,
+    "n_schedulati_prior1": 78,
+    "perc_schedulati_prior1": 100.0,
+    "rapporto_res_soddisfatte_richieste_per_paziente": {
+        "jaret": 1.0,
+        "ramirez": 1.0,
+        "ansel": 1.0,
+        "canon": 1.0,
+        "richar": 1.0,
+        "mathis": 1.0,
+        "selene": 1.0,
+        "shameeka": 1.0,
+        "juante": 1.0,
+        "javonda": 1.0
+    },
+    "rapporto_n_prest_soddisfatte_richieste_per_paziente": {
+        "jaret": 1.0,
+        "ramirez": 1.0,
+        "ansel": 1.0,
+        "canon": 1.0,
+        "richar": 1.0,
+        "mathis": 1.0,
+        "selene": 1.0,
+        "shameeka": 1.0,
+        "juante": 1.0,
+        "javonda": 1.0
+    },
+    "rapporto_non_schedulati_per_paziente": {
+        "jaret": 0.0,
+        "ramirez": 0.0,
+        "ansel": 0.0,
+        "canon": 0.0,
+        "richar": 0.0,
+        "mathis": 0.0,
+        "selene": 0.0,
+        "shameeka": 0.0,
+        "juante": 0.0,
+        "javonda": 0.0
+    },
+    "rapporto_medio_non_schedulati_per_paziente": 0.0,
+    "rapporto_non_sched_satur_per_res": {
+        "yellow": 0,
+        "ivory": 0.0,
+        "fuchsia": 0.0,
+        "plum": 0.0,
+        "coffee": 0
+    },
+    "rapporto_non_sched_satur_media": 0.0,
+    "rapporto_occorrenze_non_schedulate": 0.0,
+    "tipo_modello": [
+        "",
+        "monolithic"
+    ],
+    "best_sol_info": {
+        "mp": {
+            "interrupted": "no",
+            "CPU_time": 410.636,
+            "time": 410.672,
+            "solve_time": 98.91,
+            "1st_model_time": 3.85,
+            "unsat_time": 0.22,
+            "presolve_time": 311.762,
+            "Calls": "1",
+            "Optimization": "0 0 0",
+            "Optimum": "yes",
+            "Models": "107"
+        }
+    },
+    "min_prior": 1,
+    "tempi_solving": {
+        "tot": {
+            "mp": {
+                "time": 410.672,
+                "solve_time": 98.91,
+                "1st_model_time": 3.85,
+                "unsat_time": 0.22,
+                "presolve_time": 311.762
+            },
+            "sp": {
+                "time": 0.0,
+                "solve_time": 0.0,
+                "1st_model_time": 0.0,
+                "unsat_time": 0.0,
+                "presolve_time": 0.0
+            },
+            "iter": 1
+        }
+    },
+    "timeout": 3600
+}

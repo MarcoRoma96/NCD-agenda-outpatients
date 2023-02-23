@@ -1,0 +1,146 @@
+{
+    "dimensione_finestra": 60,
+    "numero_risorse": 5,
+    "numero_pazienti": 10,
+    "totale_occorrenze": 262,
+    "totale_prestazioni": 374,
+    "densita_giornaliera_prestazioni": 6.233,
+    "densita_prestazioni_per_paziente": 0.623,
+    "richiesta_risorse_per_paziente": {
+        "carinna": 255,
+        "yael": 106,
+        "shareena": 480,
+        "desmund": 860,
+        "tempestt": 216,
+        "winfred": 679,
+        "glinda": 264,
+        "khaled": 640,
+        "enjolie": 66,
+        "lashanta": 240
+    },
+    "numero_prestazioni_per_paziente": {
+        "carinna": 29,
+        "yael": 12,
+        "shareena": 46,
+        "desmund": 84,
+        "tempestt": 22,
+        "winfred": 61,
+        "glinda": 28,
+        "khaled": 60,
+        "enjolie": 8,
+        "lashanta": 24
+    },
+    "media_richiesta_risorse_per_paziente": 380.6,
+    "media_numero_prestazioni_per_paziente": 37.4,
+    "durata_media_prestaz": 10.176,
+    "saturazione_capacita_per_risorsa": {
+        "cobalt": 1.906,
+        "lime": 16.529,
+        "red": 4.686,
+        "ash": 0.0,
+        "gray": 6.032
+    },
+    "saturazione_capacita_media": 5.831,
+    "n_schedulati": 0,
+    "n_non_schedulati": 0,
+    "n_pazienti_prior2": 4,
+    "n_occorrenze_prior2": 126,
+    "n_non_schedulati_prior2": 0,
+    "n_schedulati_prior2": 0,
+    "perc_schedulati_prior2": 0.0,
+    "n_pazienti_prior3": 1,
+    "n_occorrenze_prior3": 8,
+    "n_non_schedulati_prior3": 0,
+    "n_schedulati_prior3": 0,
+    "perc_schedulati_prior3": 0.0,
+    "n_pazienti_prior1": 5,
+    "n_occorrenze_prior1": 128,
+    "n_non_schedulati_prior1": 0,
+    "n_schedulati_prior1": 0,
+    "perc_schedulati_prior1": 0.0,
+    "rapporto_res_soddisfatte_richieste_per_paziente": {
+        "carinna": 0.0,
+        "yael": 0.0,
+        "shareena": 0.0,
+        "desmund": 0.0,
+        "tempestt": 0.0,
+        "winfred": 0.0,
+        "glinda": 0.0,
+        "khaled": 0.0,
+        "enjolie": 0.0,
+        "lashanta": 0.0
+    },
+    "rapporto_n_prest_soddisfatte_richieste_per_paziente": {
+        "carinna": 0.0,
+        "yael": 0.0,
+        "shareena": 0.0,
+        "desmund": 0.0,
+        "tempestt": 0.0,
+        "winfred": 0.0,
+        "glinda": 0.0,
+        "khaled": 0.0,
+        "enjolie": 0.0,
+        "lashanta": 0.0
+    },
+    "rapporto_non_schedulati_per_paziente": {
+        "carinna": 0.0,
+        "yael": 0.0,
+        "shareena": 0.0,
+        "desmund": 0.0,
+        "tempestt": 0.0,
+        "winfred": 0.0,
+        "glinda": 0.0,
+        "khaled": 0.0,
+        "enjolie": 0.0,
+        "lashanta": 0.0
+    },
+    "rapporto_medio_non_schedulati_per_paziente": 0.0,
+    "rapporto_non_sched_satur_per_res": {
+        "cobalt": 0.0,
+        "lime": 0.0,
+        "red": 0.0,
+        "ash": 0,
+        "gray": 0.0
+    },
+    "rapporto_non_sched_satur_media": 0.0,
+    "rapporto_occorrenze_non_schedulate": 0.0,
+    "tipo_modello": [
+        "",
+        "monolithic"
+    ],
+    "best_sol_info": {
+        "mp": {
+            "interrupted": "no",
+            "CPU_time": 426.765,
+            "time": 426.804,
+            "solve_time": 0.0,
+            "1st_model_time": 0.0,
+            "unsat_time": 0.0,
+            "presolve_time": 426.804,
+            "Calls": "1",
+            "Models": "0+",
+            "too_large": "RuntimeError: Clasp::Asp::PrgNode::PrgNode(Clasp::uint32, bool)@403: Value too large for defined data type: Id out of range\n"
+        }
+    },
+    "min_prior": 1,
+    "tempi_solving": {
+        "tot": {
+            "mp": {
+                "time": 426.804,
+                "solve_time": 0.0,
+                "1st_model_time": 0.0,
+                "unsat_time": 0.0,
+                "presolve_time": 426.804
+            },
+            "sp": {
+                "time": 0.0,
+                "solve_time": 0.0,
+                "1st_model_time": 0.0,
+                "unsat_time": 0.0,
+                "presolve_time": 0.0
+            },
+            "iter": 1
+        }
+    },
+    "timeout": 3600
+}

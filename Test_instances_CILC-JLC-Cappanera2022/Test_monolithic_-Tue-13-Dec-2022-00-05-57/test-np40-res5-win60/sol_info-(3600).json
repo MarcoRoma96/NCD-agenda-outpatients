@@ -1,0 +1,16 @@
+{
+    "1": {
+        "mp": {
+            "interrupted": "no",
+            "CPU_time": 436.034,
+            "time": 436.113,
+            "solve_time": 0.0,
+            "1st_model_time": 0.0,
+            "unsat_time": 0.0,
+            "presolve_time": 436.113,
+            "Calls": "1",
+            "Models": "0+",
+            "too_large": "RuntimeError: Clasp::Asp::PrgNode::PrgNode(Clasp::uint32, bool)@403: Value too large for defined data type: Id out of range\n"
+        }
+    }
+}

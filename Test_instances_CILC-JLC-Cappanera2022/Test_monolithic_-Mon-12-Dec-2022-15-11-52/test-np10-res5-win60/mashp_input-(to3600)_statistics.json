@@ -1,0 +1,147 @@
+{
+    "dimensione_finestra": 60,
+    "numero_risorse": 5,
+    "numero_pazienti": 10,
+    "totale_occorrenze": 63,
+    "totale_prestazioni": 83,
+    "densita_giornaliera_prestazioni": 1.383,
+    "densita_prestazioni_per_paziente": 0.138,
+    "richiesta_risorse_per_paziente": {
+        "joaquim": 152,
+        "tranquilino": 44,
+        "rosamaria": 73,
+        "meghana": 102,
+        "dimitrios": 55,
+        "austyn": 131,
+        "gessica": 119,
+        "chealsey": 115,
+        "wendi": 44,
+        "kyanne": 46
+    },
+    "numero_prestazioni_per_paziente": {
+        "joaquim": 14,
+        "tranquilino": 4,
+        "rosamaria": 7,
+        "meghana": 10,
+        "dimitrios": 5,
+        "austyn": 13,
+        "gessica": 11,
+        "chealsey": 11,
+        "wendi": 4,
+        "kyanne": 4
+    },
+    "media_richiesta_risorse_per_paziente": 88.1,
+    "media_numero_prestazioni_per_paziente": 8.3,
+    "durata_media_prestaz": 10.614,
+    "saturazione_capacita_per_risorsa": {
+        "heather": 0.623,
+        "bordeaux": 4.844,
+        "fuchsia": 0.0,
+        "charcoal": 1.012,
+        "brass": 0.0
+    },
+    "saturazione_capacita_media": 1.296,
+    "n_schedulati": 63,
+    "n_non_schedulati": 0,
+    "n_pazienti_prior2": 3,
+    "n_occorrenze_prior2": 16,
+    "n_non_schedulati_prior2": 0,
+    "n_schedulati_prior2": 16,
+    "perc_schedulati_prior2": 100.0,
+    "n_pazienti_prior3": 1,
+    "n_occorrenze_prior3": 6,
+    "n_non_schedulati_prior3": 0,
+    "n_schedulati_prior3": 6,
+    "perc_schedulati_prior3": 100.0,
+    "n_pazienti_prior1": 6,
+    "n_occorrenze_prior1": 41,
+    "n_non_schedulati_prior1": 0,
+    "n_schedulati_prior1": 41,
+    "perc_schedulati_prior1": 100.0,
+    "rapporto_res_soddisfatte_richieste_per_paziente": {
+        "joaquim": 1.0,
+        "tranquilino": 1.0,
+        "rosamaria": 1.0,
+        "meghana": 1.0,
+        "dimitrios": 1.0,
+        "austyn": 1.0,
+        "gessica": 1.0,
+        "chealsey": 1.0,
+        "wendi": 1.0,
+        "kyanne": 1.0
+    },
+    "rapporto_n_prest_soddisfatte_richieste_per_paziente": {
+        "joaquim": 1.0,
+        "tranquilino": 1.0,
+        "rosamaria": 1.0,
+        "meghana": 1.0,
+        "dimitrios": 1.0,
+        "austyn": 1.0,
+        "gessica": 1.0,
+        "chealsey": 1.0,
+        "wendi": 1.0,
+        "kyanne": 1.0
+    },
+    "rapporto_non_schedulati_per_paziente": {
+        "joaquim": 0.0,
+        "tranquilino": 0.0,
+        "rosamaria": 0.0,
+        "meghana": 0.0,
+        "dimitrios": 0.0,
+        "austyn": 0.0,
+        "gessica": 0.0,
+        "chealsey": 0.0,
+        "wendi": 0.0,
+        "kyanne": 0.0
+    },
+    "rapporto_medio_non_schedulati_per_paziente": 0.0,
+    "rapporto_non_sched_satur_per_res": {
+        "heather": 0.0,
+        "bordeaux": 0.0,
+        "fuchsia": 0,
+        "charcoal": 0.0,
+        "brass": 0
+    },
+    "rapporto_non_sched_satur_media": 0.0,
+    "rapporto_occorrenze_non_schedulate": 0.0,
+    "tipo_modello": [
+        "",
+        "monolithic"
+    ],
+    "best_sol_info": {
+        "mp": {
+            "interrupted": "no",
+            "CPU_time": 350.925,
+            "time": 351.081,
+            "solve_time": 50.3,
+            "1st_model_time": 3.55,
+            "unsat_time": 0.22,
+            "presolve_time": 300.781,
+            "Calls": "1",
+            "Optimization": "0 0 0",
+            "Optimum": "yes",
+            "Models": "64"
+        }
+    },
+    "min_prior": 1,
+    "tempi_solving": {
+        "tot": {
+            "mp": {
+                "time": 351.081,
+                "solve_time": 50.3,
+                "1st_model_time": 3.55,
+                "unsat_time": 0.22,
+                "presolve_time": 300.781
+            },
+            "sp": {
+                "time": 0.0,
+                "solve_time": 0.0,
+                "1st_model_time": 0.0,
+                "unsat_time": 0.0,
+                "presolve_time": 0.0
+            },
+            "iter": 1
+        }
+    },
+    "timeout": 3600
+}
