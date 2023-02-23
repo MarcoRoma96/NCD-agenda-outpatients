@@ -4,7 +4,7 @@ The objective is to tackle the Multi Appointment Scheduling Problem in Healthcar
 The project aims at the comparison of different methods and implementations to tackle the problem, and find the best integration of them in terms of efficacy and efficiency.
 
 ## Problem description
-A large number of people, mostrly older, is affected by so called Non-Communicable Diseases (NCDs). Often they are chronic patients with comorbidities cared for at home.
+A large number of people, mostly older, is affected by so called Non-Communicable Diseases (NCDs). Often they are chronic patients with comorbidities cared for at home.
 This outpatients must get tests, treatments or consultancy at specialied care units, according to a given frequency set by a clinical pathway.
 The NCDs Agenda problem consist of scheduling the required services of a set of patients according to their clnical pathways for a certain planning horizon. 
 The decision to take involve:
