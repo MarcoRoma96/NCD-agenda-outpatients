@@ -66,6 +66,7 @@ The easiest way to reproduce the tests over these instances is to run:
 $ python multi_test_run.py -tested Test_instances_CILC-JLC-Cappanera2022
 ```
 
+At the end you will find the results in a `test` folder automatically created. 
 The timeout of each test can be set in the `test_timeout.json` file. The value must be a list, and if multiple values are provided the test will repeat for each of them.
 
 We provide also a simple example of instance in the folder named `input_example`. It contains all the required files to manipulate the instance. All you have to do is to copy this folder and rename it to `input`.
