@@ -41,8 +41,8 @@ For further information and installation see [the clingo website](https://potass
 The ASP program can be found in the `src` folder:
 - `mashp_monolithic_asp.lp` contains the complete logic program of the NCDs Agenda problem, and is used to perform the monolithic approach
 - `mashp_sbt.lp` is used when the decomposition by patients priority is performed, instead. It implements the Master Problem logic
-- `mashp_daily_scheduler_asp.lp` implements the Sub Problem rules and constraints, but not the optimiation statement for the objective function
-- `mashp_daily_scheduler_obj_func.lp` completes the previous file by adding the `#maximize` statement that makes the Sub Problem an optimiation problem
+- `mashp_daily_scheduler_asp.lp` implements the Sub Problem rules and constraints, but not the optimization statement for the objective function
+- `mashp_daily_scheduler_obj_func.lp` completes the previous file by adding the `#maximize` statement that makes the Sub Problem an optimization problem
 
 
 ### Objective Functions
