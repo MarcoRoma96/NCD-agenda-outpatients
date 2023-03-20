@@ -472,7 +472,7 @@ def generate_SP_input_files_from_mashp_input(dir_path:str, filename='mashp_input
     fn = os.path.join(dir_path, filename)
     with open(fn, 'r') as fp:
         input_d = json.load(fp)
-    
+
     with open(os.path.join(SP_INPUT_DIR, 'packets.json'), 'w') as pkt_file:
         json.dump(input_d['abstract_packet'], pkt_file, indent=4)
     
@@ -481,6 +481,15 @@ def generate_SP_input_files_from_mashp_input(dir_path:str, filename='mashp_input
 
     with open(os.path.join(SP_INPUT_DIR, 'services.json'), 'w') as srv_file:
         json.dump(input_d['services'], srv_file, indent=4)
+
+    
+    #collect patients priorities
+    priority_d = {}
+    for pat, pat_d in input_d['pat_request'].items():
+        priority_d[pat] = pat_d['priority_weight']
+
+    with open(os.path.join(SP_INPUT_DIR, 'priorities.json'), 'w') as prt_file:
+        json.dump(priority_d, prt_file, indent=4)
 
 
 def in_protocol_packet_to_abstract_packet(pat, prt, itr, pkt, INPUT_DIR):
@@ -498,8 +507,9 @@ def get_abstract_packets_of_patient(pat, prot_dict:dict, INPUT_DIR):
     
     new_prot_dict = {prt : {itr : [in_protocol_packet_to_abstract_packet(pat, prt, itr, pkt, INPUT_DIR) for pkt in prot_dict[prt][itr]] for itr in prot_dict[prt]} for prt in prot_dict}
     pkt_l = []
-    for l in new_prot_dict.values():
-        pkt_l += l
+    for prt_d in new_prot_dict.values():
+        for l in prt_d.values():
+            pkt_l += l
     return pkt_l
 
 

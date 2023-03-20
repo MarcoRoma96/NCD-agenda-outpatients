@@ -3,9 +3,9 @@
         "monolithic",
         "sbt"
     ],
-    "model":"monolithic",
+    "model":"sbt",
 
-    "split_patients":"yes",
+    "split_patients":"no",
 
     "_monolithic_timing_mode_labels":[
         "tg"

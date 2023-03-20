@@ -52,9 +52,9 @@ precedes(CU, CUop, P, S) :- start_time(CU, CUop, Start1), start_time(P, S, Start
    not capacity(_,Pat,Srv2,_,_).
     %NOT for fake block! e.g. red,1 e red,2 do not precede each other
 
-    %%% NOTE: can be changed! --    The same Unit operator (machine) is in use for only one 
-    %                               service of a patient, not for + services or pats 
-    %                               at the same time    
+    %%% -- The same Unit operator (machine) is in use for only one 
+    %      service of a patient, not for + services or pats 
+    %      at the same time    
     %%% case of >1 Unit operators
 :- not precedes(Pat1, Srv1, Pat2, Srv2), 
    not precedes(Pat2, Srv2, Pat1, Srv1), 

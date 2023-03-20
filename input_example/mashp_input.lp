@@ -1,6 +1,6 @@
 %%%***Mon-20-Feb-2023-16-47-59***%%%
 
-#const nh=21.
+#const nh=20.
 
 horizon(1..nh).
 
@@ -27,7 +27,6 @@ capacity(17,teal,56). capacity(17,bronze,24). capacity(17,coral,60).
 capacity(18,teal,56). capacity(18,bronze,33). capacity(18,coral,55). 
 capacity(19,teal,49). capacity(19,bronze,51). capacity(19,coral,30). 
 capacity(20,teal,59). capacity(20,bronze,52). capacity(20,coral,53). 
-capacity(21,teal,46). capacity(21,bronze,51). capacity(21,coral,35). 
 
 %% detail care units (Day, Res, Unit, Start, Duration)
 capacity(1,teal,1,44,25). capacity(1,teal,2,36,2). capacity(1,teal,3,24,12). capacity(1,teal,4,20,17). 
@@ -90,9 +89,6 @@ capacity(19,coral,1,45,9). capacity(19,coral,2,6,13). capacity(19,coral,3,15,8).
 capacity(20,teal,1,31,9). capacity(20,teal,2,23,11). capacity(20,teal,3,20,28). capacity(20,teal,4,26,11). 
 capacity(20,bronze,1,9,28). capacity(20,bronze,2,8,24). 
 capacity(20,coral,1,1,9). capacity(20,coral,2,21,43). capacity(20,coral,3,9,1). 
-capacity(21,teal,1,45,25). capacity(21,teal,2,29,21). 
-capacity(21,bronze,1,27,25). capacity(21,bronze,2,20,5). capacity(21,bronze,3,16,12). capacity(21,bronze,4,6,9). 
-capacity(21,coral,1,11,3). capacity(21,coral,2,12,14). capacity(21,coral,3,39,5). capacity(21,coral,4,44,13). 
 
 %% SERVICES DICTIONARY (service, careunit, cons, cost)
 service(a, teal, 14, 4).
@@ -152,54 +148,38 @@ patient_follows_protocol(truman, pi610).
 patient_follows_protocol(truman, pi272).
 
 %% START DATE OF EACH ITERATION OF THE PROTOCOL
-protocol_iteration_start(dontez, pi659, 1, -23).
-protocol_iteration_start(dontez, pi659, 2, -5).
-protocol_iteration_start(dontez, pi659, 3, 13).
-protocol_iteration_start(mitcheal, pi864, 1, -34).
-protocol_iteration_start(mitcheal, pi864, 2, -23).
-protocol_iteration_start(mitcheal, pi864, 3, -12).
-protocol_iteration_start(mitcheal, pi864, 4, -1).
-protocol_iteration_start(mitcheal, pi864, 5, 10).
-protocol_iteration_start(mitcheal, pi864, 6, 21).
-protocol_iteration_start(shunta, pi290, 1, -36).
-protocol_iteration_start(shunta, pi290, 2, -12).
-protocol_iteration_start(shunta, pi290, 3, 12).
-protocol_iteration_start(shunta, pi798, 1, -54).
-protocol_iteration_start(shunta, pi798, 2, -35).
-protocol_iteration_start(shunta, pi798, 3, -16).
-protocol_iteration_start(shunta, pi798, 4, 3).
-protocol_iteration_start(shunta, pi798, 5, 22).
-protocol_iteration_start(truman, pi610, 1, -28).
-protocol_iteration_start(truman, pi610, 2, -8).
-protocol_iteration_start(truman, pi610, 3, 12).
-protocol_iteration_start(truman, pi272, 1, -33).
-protocol_iteration_start(truman, pi272, 2, -11).
-protocol_iteration_start(truman, pi272, 3, 11).
+protocol_iteration_start(dontez, pi659, 1, 0).
+protocol_iteration_start(dontez, pi659, 2, 18).
+protocol_iteration_start(mitcheal, pi864, 1, -11).
+protocol_iteration_start(mitcheal, pi864, 2, 0).
+protocol_iteration_start(mitcheal, pi864, 3, 11).
+protocol_iteration_start(mitcheal, pi864, 4, 22).
+protocol_iteration_start(shunta, pi290, 1, -13).
+protocol_iteration_start(shunta, pi290, 2, 11).
+protocol_iteration_start(shunta, pi798, 1, -31).
+protocol_iteration_start(shunta, pi798, 2, -12).
+protocol_iteration_start(shunta, pi798, 3, 7).
+protocol_iteration_start(truman, pi610, 1, -5).
+protocol_iteration_start(truman, pi610, 2, 15).
+protocol_iteration_start(truman, pi272, 1, -10).
+protocol_iteration_start(truman, pi272, 2, 12).
 
 %% PACKET INSTANCE, IDENTIFIED BY (PATIENT, PROTOCOL, ITERATION, PACKET IN PROTOCOL)
-packet_instance(dontez, pi659, 1, (0..1)).
-packet_instance(dontez, pi659, 2, (0..1)).
-packet_instance(dontez, pi659, 3, (0..1)).
-packet_instance(mitcheal, pi864, 1, (0..1)).
-packet_instance(mitcheal, pi864, 2, (0..1)).
-packet_instance(mitcheal, pi864, 3, (0..1)).
-packet_instance(mitcheal, pi864, 4, (0..1)).
-packet_instance(mitcheal, pi864, 5, (0..1)).
-packet_instance(mitcheal, pi864, 6, (0..1)).
-packet_instance(shunta, pi290, 1, (0..1)).
-packet_instance(shunta, pi290, 2, (0..1)).
-packet_instance(shunta, pi290, 3, (0..1)).
-packet_instance(shunta, pi798, 1, (0..1)).
-packet_instance(shunta, pi798, 2, (0..1)).
-packet_instance(shunta, pi798, 3, (0..1)).
-packet_instance(shunta, pi798, 4, (0..1)).
-packet_instance(shunta, pi798, 5, (0..1)).
-packet_instance(truman, pi610, 1, (0..2)).
-packet_instance(truman, pi610, 2, (0..2)).
-packet_instance(truman, pi610, 3, (0..2)).
-packet_instance(truman, pi272, 1, (0..2)).
-packet_instance(truman, pi272, 2, (0..2)).
-packet_instance(truman, pi272, 3, (0..2)).
+packet_instance(dontez,pi659,1,(0..1)).
+packet_instance(dontez,pi659,2,(0..1)).
+packet_instance(mitcheal,pi864,1,(0..1)).
+packet_instance(mitcheal,pi864,2,(0..1)).
+packet_instance(mitcheal,pi864,3,(0..1)).
+packet_instance(mitcheal,pi864,4,(0..1)).
+packet_instance(shunta,pi290,1,(0..1)).
+packet_instance(shunta,pi290,2,(0..1)).
+packet_instance(shunta,pi798,1,(0..1)).
+packet_instance(shunta,pi798,2,(0..1)).
+packet_instance(shunta,pi798,3,(0..1)).
+packet_instance(truman,pi610,1,(0..2)).
+packet_instance(truman,pi610,2,(0..2)).
+packet_instance(truman,pi272,1,(0..2)).
+packet_instance(truman,pi272,2,(0..2)).
 
 
 %% EXISTENCE PARAMETERS ASSIGNMENT TO THE PACKETS
@@ -207,8 +187,6 @@ packet_type(dontez,pi659,1,0,pkt2). packet_start(dontez,pi659,1,0,2). packet_fre
 packet_type(dontez,pi659,1,1,pkt3). packet_start(dontez,pi659,1,1,10). packet_frequency(dontez,pi659,1,1,9). freq_wrt(dontez,pi659,1,1,start_date). packet_tolerance(dontez,pi659,1,1,5). packet_exeistence(dontez,pi659,1,1,(5..13)). n_occurrences(dontez,pi659,1,1,1).
 packet_type(dontez,pi659,2,0,pkt2). packet_start(dontez,pi659,2,0,2). packet_frequency(dontez,pi659,2,0,4). freq_wrt(dontez,pi659,2,0,start_date). packet_tolerance(dontez,pi659,2,0,2). packet_exeistence(dontez,pi659,2,0,(1..4)). n_occurrences(dontez,pi659,2,0,1).
 packet_type(dontez,pi659,2,1,pkt3). packet_start(dontez,pi659,2,1,10). packet_frequency(dontez,pi659,2,1,9). freq_wrt(dontez,pi659,2,1,start_date). packet_tolerance(dontez,pi659,2,1,5). packet_exeistence(dontez,pi659,2,1,(5..13)). n_occurrences(dontez,pi659,2,1,1).
-packet_type(dontez,pi659,3,0,pkt2). packet_start(dontez,pi659,3,0,2). packet_frequency(dontez,pi659,3,0,4). freq_wrt(dontez,pi659,3,0,start_date). packet_tolerance(dontez,pi659,3,0,2). packet_exeistence(dontez,pi659,3,0,(1..4)). n_occurrences(dontez,pi659,3,0,1).
-packet_type(dontez,pi659,3,1,pkt3). packet_start(dontez,pi659,3,1,10). packet_frequency(dontez,pi659,3,1,9). freq_wrt(dontez,pi659,3,1,start_date). packet_tolerance(dontez,pi659,3,1,5). packet_exeistence(dontez,pi659,3,1,(5..13)). n_occurrences(dontez,pi659,3,1,1).
 packet_type(mitcheal,pi864,1,0,pkt2). packet_start(mitcheal,pi864,1,0,3). packet_frequency(mitcheal,pi864,1,0,5). freq_wrt(mitcheal,pi864,1,0,start_date). packet_tolerance(mitcheal,pi864,1,0,2). packet_exeistence(mitcheal,pi864,1,0,(1..5)). n_occurrences(mitcheal,pi864,1,0,1).
 packet_type(mitcheal,pi864,1,1,pkt3). packet_start(mitcheal,pi864,1,1,5). packet_frequency(mitcheal,pi864,1,1,1). freq_wrt(mitcheal,pi864,1,1,start_date). packet_tolerance(mitcheal,pi864,1,1,0). packet_exeistence(mitcheal,pi864,1,1,(5..6)). n_occurrences(mitcheal,pi864,1,1,2).
 packet_type(mitcheal,pi864,2,0,pkt2). packet_start(mitcheal,pi864,2,0,3). packet_frequency(mitcheal,pi864,2,0,5). freq_wrt(mitcheal,pi864,2,0,start_date). packet_tolerance(mitcheal,pi864,2,0,2). packet_exeistence(mitcheal,pi864,2,0,(1..5)). n_occurrences(mitcheal,pi864,2,0,1).
@@ -217,41 +195,25 @@ packet_type(mitcheal,pi864,3,0,pkt2). packet_start(mitcheal,pi864,3,0,3). packet
 packet_type(mitcheal,pi864,3,1,pkt3). packet_start(mitcheal,pi864,3,1,5). packet_frequency(mitcheal,pi864,3,1,1). freq_wrt(mitcheal,pi864,3,1,start_date). packet_tolerance(mitcheal,pi864,3,1,0). packet_exeistence(mitcheal,pi864,3,1,(5..6)). n_occurrences(mitcheal,pi864,3,1,2).
 packet_type(mitcheal,pi864,4,0,pkt2). packet_start(mitcheal,pi864,4,0,3). packet_frequency(mitcheal,pi864,4,0,5). freq_wrt(mitcheal,pi864,4,0,start_date). packet_tolerance(mitcheal,pi864,4,0,2). packet_exeistence(mitcheal,pi864,4,0,(1..5)). n_occurrences(mitcheal,pi864,4,0,1).
 packet_type(mitcheal,pi864,4,1,pkt3). packet_start(mitcheal,pi864,4,1,5). packet_frequency(mitcheal,pi864,4,1,1). freq_wrt(mitcheal,pi864,4,1,start_date). packet_tolerance(mitcheal,pi864,4,1,0). packet_exeistence(mitcheal,pi864,4,1,(5..6)). n_occurrences(mitcheal,pi864,4,1,2).
-packet_type(mitcheal,pi864,5,0,pkt2). packet_start(mitcheal,pi864,5,0,3). packet_frequency(mitcheal,pi864,5,0,5). freq_wrt(mitcheal,pi864,5,0,start_date). packet_tolerance(mitcheal,pi864,5,0,2). packet_exeistence(mitcheal,pi864,5,0,(1..5)). n_occurrences(mitcheal,pi864,5,0,1).
-packet_type(mitcheal,pi864,5,1,pkt3). packet_start(mitcheal,pi864,5,1,5). packet_frequency(mitcheal,pi864,5,1,1). freq_wrt(mitcheal,pi864,5,1,start_date). packet_tolerance(mitcheal,pi864,5,1,0). packet_exeistence(mitcheal,pi864,5,1,(5..6)). n_occurrences(mitcheal,pi864,5,1,2).
-packet_type(mitcheal,pi864,6,0,pkt2). packet_start(mitcheal,pi864,6,0,3). packet_frequency(mitcheal,pi864,6,0,5). freq_wrt(mitcheal,pi864,6,0,start_date). packet_tolerance(mitcheal,pi864,6,0,2). packet_exeistence(mitcheal,pi864,6,0,(1..5)). n_occurrences(mitcheal,pi864,6,0,1).
-packet_type(mitcheal,pi864,6,1,pkt3). packet_start(mitcheal,pi864,6,1,5). packet_frequency(mitcheal,pi864,6,1,1). freq_wrt(mitcheal,pi864,6,1,start_date). packet_tolerance(mitcheal,pi864,6,1,0). packet_exeistence(mitcheal,pi864,6,1,(5..6)). n_occurrences(mitcheal,pi864,6,1,2).
 packet_type(shunta,pi290,1,0,pkt4). packet_start(shunta,pi290,1,0,6). packet_frequency(shunta,pi290,1,0,13). freq_wrt(shunta,pi290,1,0,start_date). packet_tolerance(shunta,pi290,1,0,7). packet_exeistence(shunta,pi290,1,0,(1..13)). n_occurrences(shunta,pi290,1,0,1).
 packet_type(shunta,pi290,1,1,pkt7). packet_start(shunta,pi290,1,1,2). packet_frequency(shunta,pi290,1,1,7). freq_wrt(shunta,pi290,1,1,start_date). packet_tolerance(shunta,pi290,1,1,3). packet_exeistence(shunta,pi290,1,1,(1..19)). n_occurrences(shunta,pi290,1,1,3).
 packet_type(shunta,pi290,2,0,pkt4). packet_start(shunta,pi290,2,0,6). packet_frequency(shunta,pi290,2,0,13). freq_wrt(shunta,pi290,2,0,start_date). packet_tolerance(shunta,pi290,2,0,7). packet_exeistence(shunta,pi290,2,0,(1..13)). n_occurrences(shunta,pi290,2,0,1).
 packet_type(shunta,pi290,2,1,pkt7). packet_start(shunta,pi290,2,1,2). packet_frequency(shunta,pi290,2,1,7). freq_wrt(shunta,pi290,2,1,start_date). packet_tolerance(shunta,pi290,2,1,3). packet_exeistence(shunta,pi290,2,1,(1..19)). n_occurrences(shunta,pi290,2,1,3).
-packet_type(shunta,pi290,3,0,pkt4). packet_start(shunta,pi290,3,0,6). packet_frequency(shunta,pi290,3,0,13). freq_wrt(shunta,pi290,3,0,start_date). packet_tolerance(shunta,pi290,3,0,7). packet_exeistence(shunta,pi290,3,0,(1..13)). n_occurrences(shunta,pi290,3,0,1).
-packet_type(shunta,pi290,3,1,pkt7). packet_start(shunta,pi290,3,1,2). packet_frequency(shunta,pi290,3,1,7). freq_wrt(shunta,pi290,3,1,start_date). packet_tolerance(shunta,pi290,3,1,3). packet_exeistence(shunta,pi290,3,1,(1..19)). n_occurrences(shunta,pi290,3,1,3).
 packet_type(shunta,pi798,1,0,pkt1). packet_start(shunta,pi798,1,0,3). packet_frequency(shunta,pi798,1,0,5). freq_wrt(shunta,pi798,1,0,start_date). packet_tolerance(shunta,pi798,1,0,2). packet_exeistence(shunta,pi798,1,0,(1..5)). n_occurrences(shunta,pi798,1,0,1).
 packet_type(shunta,pi798,1,1,pkt3). packet_start(shunta,pi798,1,1,4). packet_frequency(shunta,pi798,1,1,7). freq_wrt(shunta,pi798,1,1,start_date). packet_tolerance(shunta,pi798,1,1,3). packet_exeistence(shunta,pi798,1,1,(1..14)). n_occurrences(shunta,pi798,1,1,2).
 packet_type(shunta,pi798,2,0,pkt1). packet_start(shunta,pi798,2,0,3). packet_frequency(shunta,pi798,2,0,5). freq_wrt(shunta,pi798,2,0,start_date). packet_tolerance(shunta,pi798,2,0,2). packet_exeistence(shunta,pi798,2,0,(1..5)). n_occurrences(shunta,pi798,2,0,1).
 packet_type(shunta,pi798,2,1,pkt3). packet_start(shunta,pi798,2,1,4). packet_frequency(shunta,pi798,2,1,7). freq_wrt(shunta,pi798,2,1,start_date). packet_tolerance(shunta,pi798,2,1,3). packet_exeistence(shunta,pi798,2,1,(1..14)). n_occurrences(shunta,pi798,2,1,2).
 packet_type(shunta,pi798,3,0,pkt1). packet_start(shunta,pi798,3,0,3). packet_frequency(shunta,pi798,3,0,5). freq_wrt(shunta,pi798,3,0,start_date). packet_tolerance(shunta,pi798,3,0,2). packet_exeistence(shunta,pi798,3,0,(1..5)). n_occurrences(shunta,pi798,3,0,1).
 packet_type(shunta,pi798,3,1,pkt3). packet_start(shunta,pi798,3,1,4). packet_frequency(shunta,pi798,3,1,7). freq_wrt(shunta,pi798,3,1,start_date). packet_tolerance(shunta,pi798,3,1,3). packet_exeistence(shunta,pi798,3,1,(1..14)). n_occurrences(shunta,pi798,3,1,2).
-packet_type(shunta,pi798,4,0,pkt1). packet_start(shunta,pi798,4,0,3). packet_frequency(shunta,pi798,4,0,5). freq_wrt(shunta,pi798,4,0,start_date). packet_tolerance(shunta,pi798,4,0,2). packet_exeistence(shunta,pi798,4,0,(1..5)). n_occurrences(shunta,pi798,4,0,1).
-packet_type(shunta,pi798,4,1,pkt3). packet_start(shunta,pi798,4,1,4). packet_frequency(shunta,pi798,4,1,7). freq_wrt(shunta,pi798,4,1,start_date). packet_tolerance(shunta,pi798,4,1,3). packet_exeistence(shunta,pi798,4,1,(1..14)). n_occurrences(shunta,pi798,4,1,2).
-packet_type(shunta,pi798,5,0,pkt1). packet_start(shunta,pi798,5,0,3). packet_frequency(shunta,pi798,5,0,5). freq_wrt(shunta,pi798,5,0,start_date). packet_tolerance(shunta,pi798,5,0,2). packet_exeistence(shunta,pi798,5,0,(1..5)). n_occurrences(shunta,pi798,5,0,1).
-packet_type(shunta,pi798,5,1,pkt3). packet_start(shunta,pi798,5,1,4). packet_frequency(shunta,pi798,5,1,7). freq_wrt(shunta,pi798,5,1,start_date). packet_tolerance(shunta,pi798,5,1,3). packet_exeistence(shunta,pi798,5,1,(1..14)). n_occurrences(shunta,pi798,5,1,2).
 packet_type(truman,pi610,1,0,pkt1). packet_start(truman,pi610,1,0,10). packet_frequency(truman,pi610,1,0,5). freq_wrt(truman,pi610,1,0,start_date). packet_tolerance(truman,pi610,1,0,2). packet_exeistence(truman,pi610,1,0,(8..12)). n_occurrences(truman,pi610,1,0,1).
 packet_type(truman,pi610,1,1,pkt3). packet_start(truman,pi610,1,1,8). packet_frequency(truman,pi610,1,1,15). freq_wrt(truman,pi610,1,1,start_date). packet_tolerance(truman,pi610,1,1,7). packet_exeistence(truman,pi610,1,1,(1..15)). n_occurrences(truman,pi610,1,1,1).
 packet_type(truman,pi610,1,2,pkt6). packet_start(truman,pi610,1,2,7). packet_frequency(truman,pi610,1,2,13). freq_wrt(truman,pi610,1,2,start_date). packet_tolerance(truman,pi610,1,2,6). packet_exeistence(truman,pi610,1,2,(1..13)). n_occurrences(truman,pi610,1,2,1).
 packet_type(truman,pi610,2,0,pkt1). packet_start(truman,pi610,2,0,10). packet_frequency(truman,pi610,2,0,5). freq_wrt(truman,pi610,2,0,start_date). packet_tolerance(truman,pi610,2,0,2). packet_exeistence(truman,pi610,2,0,(8..12)). n_occurrences(truman,pi610,2,0,1).
 packet_type(truman,pi610,2,1,pkt3). packet_start(truman,pi610,2,1,8). packet_frequency(truman,pi610,2,1,15). freq_wrt(truman,pi610,2,1,start_date). packet_tolerance(truman,pi610,2,1,7). packet_exeistence(truman,pi610,2,1,(1..15)). n_occurrences(truman,pi610,2,1,1).
 packet_type(truman,pi610,2,2,pkt6). packet_start(truman,pi610,2,2,7). packet_frequency(truman,pi610,2,2,13). freq_wrt(truman,pi610,2,2,start_date). packet_tolerance(truman,pi610,2,2,6). packet_exeistence(truman,pi610,2,2,(1..13)). n_occurrences(truman,pi610,2,2,1).
-packet_type(truman,pi610,3,0,pkt1). packet_start(truman,pi610,3,0,10). packet_frequency(truman,pi610,3,0,5). freq_wrt(truman,pi610,3,0,start_date). packet_tolerance(truman,pi610,3,0,2). packet_exeistence(truman,pi610,3,0,(8..12)). n_occurrences(truman,pi610,3,0,1).
-packet_type(truman,pi610,3,1,pkt3). packet_start(truman,pi610,3,1,8). packet_frequency(truman,pi610,3,1,15). freq_wrt(truman,pi610,3,1,start_date). packet_tolerance(truman,pi610,3,1,7). packet_exeistence(truman,pi610,3,1,(1..15)). n_occurrences(truman,pi610,3,1,1).
-packet_type(truman,pi610,3,2,pkt6). packet_start(truman,pi610,3,2,7). packet_frequency(truman,pi610,3,2,13). freq_wrt(truman,pi610,3,2,start_date). packet_tolerance(truman,pi610,3,2,6). packet_exeistence(truman,pi610,3,2,(1..13)). n_occurrences(truman,pi610,3,2,1).
 packet_type(truman,pi272,1,0,pkt0). packet_start(truman,pi272,1,0,5). packet_frequency(truman,pi272,1,0,9). freq_wrt(truman,pi272,1,0,start_date). packet_tolerance(truman,pi272,1,0,4). packet_exeistence(truman,pi272,1,0,(1..9)). n_occurrences(truman,pi272,1,0,1).
 packet_type(truman,pi272,1,1,pkt6). packet_start(truman,pi272,1,1,8). packet_frequency(truman,pi272,1,1,10). freq_wrt(truman,pi272,1,1,start_date). packet_tolerance(truman,pi272,1,1,7). packet_exeistence(truman,pi272,1,1,(1..10)). n_occurrences(truman,pi272,1,1,1).
 packet_type(truman,pi272,1,2,pkt7). packet_start(truman,pi272,1,2,10). packet_frequency(truman,pi272,1,2,15). freq_wrt(truman,pi272,1,2,start_date). packet_tolerance(truman,pi272,1,2,7). packet_exeistence(truman,pi272,1,2,(3..17)). n_occurrences(truman,pi272,1,2,1).
 packet_type(truman,pi272,2,0,pkt0). packet_start(truman,pi272,2,0,5). packet_frequency(truman,pi272,2,0,9). freq_wrt(truman,pi272,2,0,start_date). packet_tolerance(truman,pi272,2,0,4). packet_exeistence(truman,pi272,2,0,(1..9)). n_occurrences(truman,pi272,2,0,1).
 packet_type(truman,pi272,2,1,pkt6). packet_start(truman,pi272,2,1,8). packet_frequency(truman,pi272,2,1,10). freq_wrt(truman,pi272,2,1,start_date). packet_tolerance(truman,pi272,2,1,7). packet_exeistence(truman,pi272,2,1,(1..10)). n_occurrences(truman,pi272,2,1,1).
 packet_type(truman,pi272,2,2,pkt7). packet_start(truman,pi272,2,2,10). packet_frequency(truman,pi272,2,2,15). freq_wrt(truman,pi272,2,2,start_date). packet_tolerance(truman,pi272,2,2,7). packet_exeistence(truman,pi272,2,2,(3..17)). n_occurrences(truman,pi272,2,2,1).
-packet_type(truman,pi272,3,0,pkt0). packet_start(truman,pi272,3,0,5). packet_frequency(truman,pi272,3,0,9). freq_wrt(truman,pi272,3,0,start_date). packet_tolerance(truman,pi272,3,0,4). packet_exeistence(truman,pi272,3,0,(1..9)). n_occurrences(truman,pi272,3,0,1).
-packet_type(truman,pi272,3,1,pkt6). packet_start(truman,pi272,3,1,8). packet_frequency(truman,pi272,3,1,10). freq_wrt(truman,pi272,3,1,start_date). packet_tolerance(truman,pi272,3,1,7). packet_exeistence(truman,pi272,3,1,(1..10)). n_occurrences(truman,pi272,3,1,1).
-packet_type(truman,pi272,3,2,pkt7). packet_start(truman,pi272,3,2,10). packet_frequency(truman,pi272,3,2,15). freq_wrt(truman,pi272,3,2,start_date). packet_tolerance(truman,pi272,3,2,7). packet_exeistence(truman,pi272,3,2,(3..17)). n_occurrences(truman,pi272,3,2,1).

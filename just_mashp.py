@@ -169,13 +169,13 @@ if __name__=="__main__":
                 # Collect info of subproblems to generate the cuts to add to the master problem
                 cut_d = collect_info()
 
-                # sGREEDY
+                # GREEDY
                 with open(os.path.join(TARGET_DIR, 'nogood.lp'), 'a') as ng:
                     if settings['nogood'] == 'greedy':
                         if n == 1: ng.write('greedy.\n')
                         index_printed=False
                         for day,l in cut_d.items():
-                            print("fix solution of the date: "+' '+str(day)+' '+'-- sat: '+str(len(l['sat'])) + ', unsat: '+str(len(l['unsat'])) )
+                            print("fixing solution of the date: "+' '+str(day)+' '+'-- sat: '+str(len(l['sat'])) + ', unsat: '+str(len(l['unsat'])) )
                             for t in l['sat']:
                                 if not t in greedy_fixed:
                                     if not index_printed:

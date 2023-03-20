@@ -19,7 +19,9 @@ occurrence_to_schedule(Pat, ((Prot, Iter, Pkt_in_Prot), Occ)) :-
     packet_instance(Pat, Prot, Iter, Pkt_in_Prot), n_occurrences(Pat, Prot, Iter, Pkt_in_Prot, N_occ), Occ=1..N_occ.
 
     %%% -- SERVICE CONTAINED:   useful predicate to simplify notation, determines if a package (instance) contains a certain service
-service_in_packet(Pat, (Prot, Iter, Pkt), Pr) :- packet_type(Pat, Prot, Iter, Pkt, Tipo), service_in_packet(Tipo, Pr).
+service_in_packet(Pat, (Prot, Iter, Pkt), Srv) :- packet_type(Pat, Prot, Iter, Pkt, Type), service_in_packet(Type, Srv).
+service_in_packet(Pat, (Pkt, Occ), Srv) :- service_in_packet(Pat, Pkt, Srv), 
+                                           occurrence_to_schedule(Pat, (Pkt, Occ)).
 
     %%% -- TRIPS:              Days when a patient must go to the hospital for some service,
 %                               for the trips I exclude those schedules that fall between the horizon 
@@ -29,8 +31,8 @@ trip(Pat,Day) :- patient(Pat), horizon(Day), schedule(Pat,Pkt,Day), min_max_tole
     %%% -- IDEAL DATE:          This is the date obtained by adding the frequency value to each occurrence 
 %                               starting from the package start
 ideal_date(Pat, ((Prot, Iter, Pkt), Occ), Day) :- occurrence_to_schedule(Pat, ((Prot, Iter, Pkt), Occ)), packet_frequency(Pat, Prot, Iter, Pkt, Freq), 
-                                                    packet_start(Pat, Prot, Iter, Pkt, S), protocol_iteration_start(Pat, Prot, Iter, Inizio_prot),
-                                                    Day=Inizio_prot+S-1+Freq*(Occ-1).
+                                                   packet_start(Pat, Prot, Iter, Pkt, S), protocol_iteration_start(Pat, Prot, Iter, Inizio_prot),
+                                                   Day=Inizio_prot+S-1+Freq*(Occ-1).
 
     %%% -- TOLERANCE EXTREMES:  Extremes of the tolerance of each occurrence
 min_max_tolerance(Pat, ((Prot, Iter, Pkt), Occ), Min, Max) :- occurrence_to_schedule(Pat, ((Prot, Iter, Pkt), Occ)), packet_tolerance(Pat, Prot, Iter, Pkt, Tol),
@@ -42,14 +44,14 @@ min_max_tolerance(Pat, ((Prot, Iter, Pkt), Occ), Min, Max) :- occurrence_to_sche
 within_tolerance(Pat, Pkt, (Min..Max)) :- min_max_tolerance(Pat, Pkt, Min, Max).
 
     %%% -- SCHEDULED SERVICE:
-sched_service(Pat, Srv, Day) :- schedule(Pat, (Pkt_ID, Occ), Day), service_in_packet(Pat, Pkt_ID, Srv).
+sched_service(Pat, Srv, Day) :- schedule(Pat, Pkt, Day), service_in_packet(Pat, Pkt, Srv).
 
     %%% -- VARIABILITY:         from the predicate that describes min-max I obtain as for the tolerance a predicate for 
     %                           each day of that interval
 variability(Pat, Pkt, Min..Max) :- variability(Pat, Pkt, Min, Max).
 
     %%% -- SCHEDULED SERVICES:  I extract from the schedule which services are expected on a certain day, regardless of the package
-schedule_srv(Day,Pat,Srv) :- schedule(Pat, (Pkt_ID, Occ), Day), service_in_packet(Pat, Pkt_ID, Srv).
+schedule_srv(Day,Pat,Srv) :- schedule(Pat, Pkt, Day), service_in_packet(Pat, Pkt, Srv).
 
 
 % GENERATE
@@ -111,12 +113,12 @@ n_not_scheduled(Pr, N) :- priority(_,Pr), N=#count{Pat,Pkt : not_scheduled(Pat,P
     %%% -- NECESSITY:           the distance between 2 schedules of the same patient for packages
 %                               that involve necessary consecutive services is respected
 %                               and the second one falls within the correct time window --> take into account 0!
-satisfied_necessity(Pat, (Pkt_ID1, Occ1), Srv1, Srv2) :-                        %%%NOTE: DOES NOT STATE THAT IT HAS COUNTERPARTS FOR ALL THE NECESSITIES OF A SERVICE!
-                                service_in_packet(Pat, Pkt_ID1, Srv1),  
-                                service_in_packet(Pat, Pkt_ID2, Srv2),
-                                necessity(Srv1, Srv2, (Tau_min, Tau_max)), 
-                                schedule(Pat, (Pkt_ID1, Occ1), Day1),
-                                schedule(Pat, (Pkt_ID2, Occ2), Day2), 
+satisfied_necessity(Pat, Pkt1, Srv1, Srv2) :-                        %%%NOTE: DOES NOT STATE THAT IT HAS COUNTERPARTS FOR ALL THE NECESSITIES OF A SERVICE!
+                                service_in_packet(Pat, Pkt1, Srv1),
+                                service_in_packet(Pat, Pkt2, Srv2),
+                                necessity(Srv1, Srv2, (Tau_min, Tau_max)),
+                                schedule(Pat, Pkt1, Day1),
+                                schedule(Pat, Pkt2, Day2), 
                                 Day2 >= Day1+Tau_min, 
                                 Day2 <= Day1+Tau_max.
 
@@ -124,17 +126,17 @@ satisfied_necessity(Pat, (Pkt_ID1, Occ1), Srv1, Srv2) :-                        
 %                               is scheduled beyond the horizon, so I'm satisfied
 necessity_beyond_horizon(Pat, Pkt1, Srv1, Srv2) :- 
                                 occurrence_to_schedule(Pat, Pkt1), 
-                                service_in_packet(Pat, Pkt_ID1, Srv1),
+                                service_in_packet(Pat, Pkt1, Srv1),
                                 necessity(Srv1, Srv2, (Tau_min, Tau_max)), schedule(Pat, Pkt1, Day1),
                                 Day1+Tau_max>nh, not satisfied_necessity(Pat, Pkt1, Srv1, Srv2).
 
 %                               There cannot be a packet whose necessity is not satisfied
 %                               or that cannot be satisfied by a packet outside the horizon
-:- schedule(Pat, (Pkt_ID1, Occ1), Day1), 
-    service_in_packet(Pat, Pkt_ID1, Srv1),
+:- schedule(Pat, Pkt1, Day1), 
+    service_in_packet(Pat, Pkt1, Srv1),
     necessity(Srv1, Srv2, _), 
-    not satisfied_necessity(Pat, (Pkt_ID1, Occ1), Srv1, Srv2), 
-    not necessity_beyond_horizon(Pat, (Pkt_ID1, Occ1), Srv1, Srv2).
+    not satisfied_necessity(Pat, Pkt1, Srv1, Srv2), 
+    not necessity_beyond_horizon(Pat, Pkt1, Srv1, Srv2).
 
 %                               WITHIN THE Tau_min NO OCCURRENCE OF THAT PACKET SHOULD BE PRESENT
 :-  sched_service(Pat, Srv1, Day1), 
@@ -161,12 +163,12 @@ max_trips(M) :- M = #max{NV : n_pat_trips(_,NV)}, M!=#inf.
     %%% -- GUARANTEED NECESSITY: in the case of greedy, it is guaranteed only if the requested service has already been 
     %                            fixed in the previous iteration
     %                            This says which service satisfies the necessity and which one is fixed
-satisfied_necessity_fix_aux(Pat, (Pkt_ID1, Occ1), Srv1, (Pkt_ID2, Occ2), Srv2) :- 
-                                schedule(Pat, (Pkt_ID1, Occ1), Day1),
-                                schedule(Pat, (Pkt_ID2, Occ2), Day2),
-                                fix_schedule(Pat, (Pkt_ID2, Occ2), Day2),
-                                service_in_packet(Pat, Pkt_ID1, Srv1),
-                                service_in_packet(Pat, Pkt_ID2, Srv2),
+satisfied_necessity_fix_aux(Pat, Pkt1, Srv1, Pkt2, Srv2) :- 
+                                schedule(Pat, Pkt1, Day1),
+                                schedule(Pat, Pkt2, Day2),
+                                fix_schedule(Pat, Pkt2, Day2),
+                                service_in_packet(Pat, Pkt1, Srv1),
+                                service_in_packet(Pat, Pkt2, Srv2),
                                 necessity(Srv1, Srv2, (Tau_min, Tau_max)),  
                                 Day2 >= Day1+Tau_min, 
                                 Day2 <= Day1+Tau_max.
@@ -187,8 +189,8 @@ satisfied_necessity_fix(Pat, Pkt1, Srv1, Srv2) :-
                                 necessity_tot_satisfied_fix(Pat, Pkt2).
 
 % A package satisfies all its necessities if all its services satisfy the necessities
-necessity_tot_satisfied_fix(Pat, (Pkt_ID, Occ)) :- schedule(Pat, (Pkt_ID, Occ), _),
-    satisfied_necessity_fix(Pat, (Pkt_ID, Occ), Srv1, Srv2) : service_in_packet(Pat, Pkt_ID, Srv1), 
+necessity_tot_satisfied_fix(Pat, Pkt) :- schedule(Pat, Pkt, _),
+    satisfied_necessity_fix(Pat, Pkt, Srv1, Srv2) : service_in_packet(Pat, Pkt, Srv1), 
                                                               necessity(Srv1, Srv2, _).
 %FOUNDAMENTAL:
 #show schedule/3.
@@ -205,11 +207,9 @@ necessity_tot_satisfied_fix(Pat, (Pkt_ID, Occ)) :- schedule(Pat, (Pkt_ID, Occ), 
 %%%% SP part %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %DEF
-    %%% -- CONTAINS SERVICE: useful predicate to lighten notation, determines whether a packet (instance) contains a certain service
-contains_service(Pat, (Prot, It, Pkt), Srv) :- packet_type(Pat, Prot, It, Pkt, Type), service_in_packet(Type, Srv).
 
     %%% -- service is the basic element to be assigned to a time slot
-service(Pat, Srv, Day) :- schedule(Pat, (Pkt_ID, _), Day), contains_service(Pat, Pkt_ID, Srv), horizon(Day).
+service(Pat, Srv, Day) :- schedule(Pat, Pkt, Day), service_in_packet(Pat, Pkt, Srv), horizon(Day).
 
 %%%%%% -- Shifted start of a care unit: create a fake service that precedes all the others assigned to that care unit
 service(Res, CU, Day) :- capacity(Day, Res, CU, Start, _), Start>0.                                %Create
@@ -237,8 +237,7 @@ precedes(Res, CU, Day, P, S, Day) :- start_time(Res, CU, Day, Start1), start_tim
                                 service(CU, Res, Day, D1, _),
                                 Start1 + D1 <= Start2.
 
-
-%Constraints
+%CONSTRAINTS
     %%% -- different services of the same patient cannot be deployed at the same time, 
     %      one precedes the other
 :- not precedes(Pat, Srv1, Day, Pat, Srv2, Day), not precedes(Pat, Srv2, Day, Pat, Srv1, Day), Srv1!=Srv2, 
@@ -310,7 +309,7 @@ import re
 import json
 from datetime import datetime
 
-THIS_DIR_tmp  =   'C:\\Lavori marco\\Universita\\Dottorato\\Studi\\Progetto NCDs Agenda\\outpatientsMASHP - publicJLC'
+THIS_DIR_tmp  =   '/home/marco/Universita/Dottorato/Studi/Progetto NCDs Agenda/SharedJLC/NCD-agenda-outpatients'
 THIS_DIR_name =   'src'
 THIS_DIR      =   os.path.join(THIS_DIR_tmp.split('<')[0], THIS_DIR_name)
 PARENT_DIR    =   os.path.abspath(os.path.join(THIS_DIR, '..'))
@@ -341,7 +340,7 @@ def main_monolitico(prg):
 
     nowM_start = datetime.now()
 
-    #%Run firsr grounding and solving
+    #%Run first grounding and solving
     prg.ground([("base", [])])
     
     nowM_gr_stop = datetime.now()
